@@ -13,7 +13,9 @@ import { MdOutlineWorkspacePremium } from "react-icons/md";
 import { MdAccountCircle } from "react-icons/md";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { HiMiniBellAlert } from "react-icons/hi2";
+import { GiTomato } from "react-icons/gi";
 import React, { useState } from "react";
+
 interface MenuItem {
   key: string;
   title: string;
@@ -135,14 +137,25 @@ const AuthLayout = () => {
       </Col>
       <Col span={20} className="col-right-auth">
         <Row className="header-auth" gutter={[12, 12]}>
-          <Col className="col-left-header-auth">
-            <MdAccountCircle className="icon-header-auth" />
-            <span>Username</span>
-          </Col>
-          <Col className="col-right-header-auth">
-            <AiOutlineGlobal className="icon-header-auth" />
-            <HiMiniBellAlert className="icon-header-auth" />
-          </Col>
+          {activeIndex === "daily" && (
+            <div className="header-auth-pomodoro">
+              <span className="pomodoro">
+                <GiTomato />
+              </span>
+              <span className="time">15 minutes</span>
+            </div>
+          )}
+
+          <div className="header-auth-info">
+            <Col className="col-left-header-auth">
+              <MdAccountCircle className="icon-header-auth" />
+              <span>Username</span>
+            </Col>
+            <Col className="col-right-header-auth">
+              <AiOutlineGlobal className="icon-header-auth" />
+              <HiMiniBellAlert className="icon-header-auth" />
+            </Col>
+          </div>
         </Row>
         <Row className="content-auth">
           <Outlet />
