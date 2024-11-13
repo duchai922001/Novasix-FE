@@ -1,0 +1,26 @@
+@use "../variables" as *;
+.auth-container {
+  width: 500px;
+  height: auto;
+  background: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 20px 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  .footer-auth {
+    text-align: center;
+    .forgot-password {
+      color: $primary-color;
+      font-weight: bold;
+    }
+    .navigate {
+      color: $primary-color;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+}

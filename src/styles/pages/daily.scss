@@ -1,0 +1,46 @@
+@use "../variables" as *;
+.daily-container {
+  width: 100%;
+  .daily-header {
+    .daily-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      .daily-sologan {
+        border: 2px solid $primary-color;
+        border-radius: $border-radius-l;
+        width: fit-content;
+        .sologan-des {
+          .title {
+            font-size: $size-normal;
+            font-weight: bold;
+          }
+          color: $primary-color;
+          padding: 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        }
+        .image-slg {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .daily-title {
+        font-size: $size-normal;
+        background-color: $second-color;
+        padding: 12px;
+        border-radius: $border-radius-l;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+  }
+  .card-container {
+    width: 100%;
+    margin-top: 12px;
+  }
+}

@@ -1,9 +1,8 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
-
+import bg from "@/assets/images/unauth/bg-novasix.png";
 const UnAuthLayout = () => {
   return (
-    <div>
+    <div className="unauth-layout" style={{ backgroundImage: `url(${bg})` }}>
       <Outlet />
     </div>
   );

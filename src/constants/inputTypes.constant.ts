@@ -1,0 +1,16 @@
+export enum InputTypes {
+  TEXT = "text",
+  NUMBER = "number",
+  PASSWORD = "password",
+  EMAIL = "email",
+  TEL = "tel",
+  URL = "url",
+  DATE = "date",
+  TIME = "time",
+  DATETIME = "datetime-local",
+  SELECT = "select",
+  CHECKBOX = "checkbox",
+  RADIO = "radio",
+  FILE = "file",
+  TEXTAREA = "textarea",
+}

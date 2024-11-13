@@ -1,34 +1,17 @@
-:root {
-  --primary-color: #73ec8b;
-  --second-color: #d2ff72;
-  --third-color: #15b392;
-  --fourth-color: #54c392;
-  --logo-main-2: #d03438;
-  --padding-page: 12px;
-  /* title-xxl */
-  --title-xxl-font-size: 36px;
-  --title-xxl-line-height: 48px;
-  /* title-xl */
-  --title-xl-font-size: 24px;
-  --title-xl-line-height: 34px;
-  /* title-l */
-  --title-l-font-size: 22px;
-  --title-l-line-height: 32px;
-  /* title-lg */
-  --title-lg-font-size: 20px;
-  --title-lg-line-height: 30px;
+@use "./variables" as *;
+.full-width {
+  width: 100%;
 }
 
 .title-primary {
-  color: var(--primary-color);
-  font-size: var(--title-xxl-font-size);
-  line-height: var(--title-xxl-line-height);
+  font-size: $title-xxl-font-size;
+  color: $primary-color;
   font-weight: bold;
 }
 
 .title-secondary {
-  color: var(--second-color);
-  font-size: var(--title-l-font-size);
-  line-height: var(--title-l-line-height);
+  color: $second-color;
+  font-size: $title-l-font-size;
+  line-height: $title-l-line-height;
   font-weight: bold;
 }

@@ -1,0 +1,22 @@
+@use "../variables" as *;
+.weekly-view {
+  .todo-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-left: 12px;
+  }
+  .weekly-reflection {
+    margin-left: 12px;
+  }
+  .action-container {
+    display: flex;
+    justify-content: space-around;
+    .action-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

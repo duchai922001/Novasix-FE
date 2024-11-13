@@ -1,0 +1,261 @@
+@use "../variables" as *;
+
+// Common
+.m-title {
+  font-size: 18px;
+  text-transform: uppercase;
+  color: $primary-color;
+  font-weight: bold;
+}
+
+//m-button
+.m-button-normal {
+  width: fit-content;
+  height: $h-basic !important;
+  text-transform: uppercase !important;
+  font-weight: bold;
+  border: 1px solid $primary-color;
+  font-size: 18px;
+}
+//m-input
+.m-input-normal {
+  width: 100%;
+  height: $h-basic !important;
+  border: 1px solid $primary-color;
+  font-size: 18px;
+}
+.m-textarea {
+  font-size: 18px;
+  border: 1px solid $primary-color;
+}
+
+//m-checkbox
+.m-checkbox-normal {
+  width: 100%;
+  .m-checkbox-title {
+    font-size: 18px;
+  }
+}
+
+//m-card
+.m-card-normal {
+  width: 100%;
+  // height: 100%;
+  background-color: var(--white-color);
+  box-shadow: $box-shadow;
+  border-radius: $border-radius-xl;
+  position: relative;
+
+  .header-card {
+    background: linear-gradient(to right, $primary-color, $fourth-color);
+    background-color: $primary-color;
+    padding: 24px 12px;
+    height: fit-content;
+    border-top-left-radius: $border-radius-xl;
+    border-top-right-radius: $border-radius-xl;
+    .header-card-title {
+      color: $white-color;
+      font-weight: bold;
+      font-size: $title-xl-font-size;
+    }
+  }
+  .content-card {
+    min-height: 100px;
+    font-size: 16px;
+    padding: 12px 40px;
+    margin-bottom: 1%;
+  }
+  .action-card {
+    padding: 24px;
+    .action-card-icon {
+      cursor: pointer;
+      position: absolute;
+      bottom: 30%;
+      right: 5%;
+      background-color: $primary-color;
+      color: $white-color;
+      border-radius: 50%;
+      padding: 12px;
+      font-size: 30px !important;
+    }
+  }
+}
+
+//m-mess
+.m-mess-normal {
+  .m-mess-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .m-mess-header-icon {
+      font-size: 30px;
+      color: $primary-color;
+      margin-right: 10px;
+    }
+    .m-mess-header-title {
+      font-size: 18px;
+      color: $primary-color;
+      font-weight: bold;
+    }
+  }
+  .m-mess-content {
+    margin-left: 6%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    .m-mess-content-text {
+      font-size: 16px;
+    }
+  }
+}
+
+//m-date-picker
+.m-datepicker-normal {
+  width: 100%;
+  align-items: center;
+  .date-range {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    border: 1px solid $primary-color;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: $border-radius-l;
+    color: $primary-color;
+  }
+  .datepicker-container {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+//m-todo-normal
+
+.m-todo-normal {
+  width: 100%;
+  .m-todo-danger {
+    background-color: $danger-color;
+  }
+  .m-todo-warning {
+    background-color: $warning-color;
+  }
+  .m-todo-success {
+    background-color: $success-color;
+  }
+  .m-todo-success-bold {
+    background-color: $success-color-200;
+  }
+  .m-todo-contain {
+    padding: 12px;
+    border-radius: $border-radius-l;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    .m-todo-title {
+      font-size: 18px;
+      color: white;
+      font-weight: bold;
+    }
+    .m-todo-icon {
+      .m-todo-icon-arrow {
+        transition: transform 0.3s ease;
+        font-size: $icon-size-l;
+        color: white;
+      }
+
+      .m-todo-icon-arrow.rotated {
+        transform: rotate(90deg);
+      }
+    }
+  }
+  .m-todo-desc-row {
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+
+    &.open {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .m-todo-desc-danger {
+      background-color: $danger-color-100;
+    }
+    .m-todo-desc-warning {
+      background-color: $warning-color-100;
+    }
+    .m-todo-desc-success {
+      background-color: $success-color-100;
+    }
+    .m-todo-desc-success-bold {
+      background-color: $success-color-100;
+    }
+
+    .m-todo-desc {
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: $box-shadow;
+      margin-top: 10px;
+      font-size: 14px;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      animation: fadeIn 0.3s ease forwards;
+    }
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+//m-task
+.m-task-normal {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid $primary-color;
+  border-radius: $border-radius-l;
+  box-shadow: $box-shadow;
+  .m-task-col-left {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 12px;
+    .m-task-importance {
+      background-color: $danger-color;
+    }
+    .m-task-urgency {
+      background-color: $success-color-200;
+    }
+    .m-task-not-importance {
+      background-color: $success-color-100;
+    }
+    .m-task-status {
+      width: fit-content;
+      padding: 6px 12px;
+      border-radius: $border-radius-xl;
+      font-weight: bold;
+      font-size: $size-normal;
+      color: white;
+    }
+    .m-task-title {
+      font-size: $size-normal;
+    }
+    .m-task-pomodoro {
+      font-size: $icon-size-l;
+      color: $primary-color;
+      .m-task-add-icon {
+        cursor: pointer;
+      }
+    }
+  }
+  .m-task-col-right {
+  }
+}
