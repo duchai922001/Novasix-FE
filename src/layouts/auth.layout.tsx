@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
-import logo from "@/assets/images/unauth/Logo.png";
+import logo from "@/assets/images/auth/logo-zendo.png";
 import { RiDashboardFill } from "react-icons/ri";
 import { CiCloudSun } from "react-icons/ci";
 import { FaRegCalendarCheck } from "react-icons/fa";
@@ -112,7 +112,6 @@ const AuthLayout = () => {
       <Col span={4} className="col-left-auth">
         <Row className="header">
           <img src={logo} alt="NovaSix Logo" className="logo-auth" />
-          <span className="title-auth">Zen Do</span>
         </Row>
         <Row style={{ marginTop: "20px" }}>
           {listMenu.slice(0, 4).map((item) => {
