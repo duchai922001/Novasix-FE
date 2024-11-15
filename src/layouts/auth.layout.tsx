@@ -133,7 +133,15 @@ const AuthLayout = () => {
             <p>Need help?</p>
             <p>Upgrade to VIP package</p>
           </div>
-          <button className="btn-premium">Upgrade now</button>
+          <button
+            className="btn-premium"
+            onClick={() => {
+              navigate("/upgrade");
+              setActiveIndex("");
+            }}
+          >
+            Upgrade now
+          </button>
         </Row>
       </Col>
       <Col span={20} className="col-right-auth">

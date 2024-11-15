@@ -8,6 +8,7 @@ import Monthly from "@/views/monthly/monthly.view";
 import Profile from "@/views/profile/profile.view";
 import Setting from "@/views/settings/setting.view";
 import Store from "@/views/store/store.view";
+import Upgrade from "@/views/upgrade/upgrade.view";
 import Weekly from "@/views/weekly/weekly.view";
 import { Route, Routes } from "react-router-dom";
 
@@ -27,6 +28,7 @@ const MainRoutes = () => {
           <Route path="/settings" element={<Setting />} />
           <Route path="/store" element={<Store />} />
           <Route path="/monthly" element={<Monthly />} />
+          <Route path="/upgrade" element={<Upgrade />} />
         </Route>
       </Routes>
     </>
