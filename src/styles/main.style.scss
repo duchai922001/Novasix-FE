@@ -3,4 +3,5 @@
 @use "./layouts/layout";
 @use "./pages/pages";
 @use "./components/components";
-@use "./antd/antd.style.scss";
+@use "./lib/antd.style.scss";
+@use "./lib/react.style.scss";

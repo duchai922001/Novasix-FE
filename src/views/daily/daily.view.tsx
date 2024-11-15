@@ -10,6 +10,7 @@ import { GiTomato } from "react-icons/gi";
 import { IoMdArrowDroprightCircle } from "react-icons/io";
 import MInput from "@/components/basicUI/m-input";
 import MModal from "@/components/basicUI/m-modal";
+import DatePicker from "react-datepicker";
 
 const dataTask = [
   {
@@ -152,7 +153,7 @@ const Daily = () => {
   const onChangeTask = () => {};
   const renderSologan = () => {
     return (
-      <Row>
+      <Row style={{ height: "100%" }}>
         <Col span={18} className="sologan-des">
           <p className="title">
             Your Personal Philophy is the greatest determing factor in how your
@@ -172,14 +173,21 @@ const Daily = () => {
   };
   return (
     <div className="daily-container">
-      <Row className="daily-header">
+      <Row className="daily-header" gutter={[12, 12]}>
         <Col span={14} className="daily-header-left">
           <div className="daily-sologan">{renderSologan()}</div>
           <div className="daily-title">
             Today I am grateful for .............
           </div>
         </Col>
-        <Col span={10}></Col>
+        <Col span={10}>
+          {" "}
+          <DatePicker
+            inline
+            className="custom-datepicker"
+            calendarClassName="custom-calendar"
+          />
+        </Col>
       </Row>
       <Row className="card-container" gutter={[12, 12]}>
         <Col span={12}>

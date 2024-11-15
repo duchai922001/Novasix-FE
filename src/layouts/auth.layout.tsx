@@ -14,7 +14,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { HiMiniBellAlert } from "react-icons/hi2";
 import { GiTomato } from "react-icons/gi";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface MenuItem {
   key: string;
@@ -112,6 +112,19 @@ const AuthLayout = () => {
       </Col>
     );
   };
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "b") {
+        event.preventDefault();
+        setIsCollapsed((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
   const renderIconMenu = (item: MenuItem) => {
     const isActive = activeIndex === item.key;
     return (

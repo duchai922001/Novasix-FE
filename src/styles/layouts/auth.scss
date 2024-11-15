@@ -191,12 +191,13 @@
     }
   }
   .icon-menu {
+    cursor: pointer;
     padding: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     .icon-collapsed {
-      font-size: 35px;
+      font-size: 28px;
       color: white;
     }
     .icon-collapsed.active-icon {

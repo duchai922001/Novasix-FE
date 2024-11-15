@@ -9,10 +9,11 @@
       .daily-sologan {
         border: 2px solid $primary-color;
         border-radius: $border-radius-l;
-        width: fit-content;
+        height: 100%;
         .sologan-des {
+          width: 60%;
           .title {
-            font-size: $size-normal;
+            font-size: 28px;
             font-weight: bold;
           }
           color: $primary-color;
