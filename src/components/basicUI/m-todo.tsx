@@ -65,7 +65,9 @@ const MTodo: React.FC<IMTodoProps> = ({
         </Col>
         <Col span={2} className="m-todo-icon">
           <IoMdArrowDroprightCircle
-            className={`m-todo-icon-arrow ${isDescVisible ? "rotated" : ""}`}
+            className={`white-color m-todo-icon-arrow ${
+              isDescVisible ? "rotated" : ""
+            }`}
           />
         </Col>
       </Row>

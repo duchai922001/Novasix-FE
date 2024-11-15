@@ -11,7 +11,9 @@ interface MCardProps {
   renderAction?: () => ReactNode;
   styleContent?: React.CSSProperties;
   styleAction?: React.CSSProperties;
+  onClickAction?: (type?: ActionType) => void;
 }
+
 const MCard: React.FC<MCardProps> = ({
   title = "Title Header",
   action,
@@ -19,26 +21,42 @@ const MCard: React.FC<MCardProps> = ({
   renderAction,
   styleContent,
   styleAction,
+  onClickAction,
 }) => {
   return (
-    <Row className="m-card-normal">
-      <Col span={24} className="header-card">
-        <span className="header-card-title">{title}</span>
-      </Col>
-      <Col span={24} className="content-card" style={styleContent}>
-        {renderContent && renderContent()}
-      </Col>
-      <Col span={24} className="content-card" style={styleAction}>
-        {renderAction && renderAction()}
-      </Col>
-      <Col span={24} className="action-card">
-        {action === ActionType.EDIT && <CiEdit className="action-card-icon" />}
-        {action === ActionType.DELETE && (
-          <MdDeleteOutline className="action-card-icon" />
-        )}
-        {action === ActionType.ADD && <IoMdAdd className="action-card-icon" />}
-      </Col>
-    </Row>
+    <>
+      <Row className="m-card-normal">
+        <Col span={24} className="header-card">
+          <span className="header-card-title">{title}</span>
+        </Col>
+        <Col span={24} className="content-card" style={styleContent}>
+          {renderContent && renderContent()}
+        </Col>
+        <Col span={24} className="content-card" style={styleAction}>
+          {renderAction && renderAction()}
+        </Col>
+        <Col span={24} className="action-card">
+          {action === ActionType.EDIT && (
+            <CiEdit
+              className="action-card-icon"
+              onClick={() => onClickAction && onClickAction(ActionType.EDIT)}
+            />
+          )}
+          {action === ActionType.DELETE && (
+            <MdDeleteOutline
+              className="action-card-icon"
+              onClick={() => onClickAction && onClickAction(ActionType.DELETE)}
+            />
+          )}
+          {action === ActionType.ADD && (
+            <IoMdAdd
+              className="action-card-icon"
+              onClick={() => onClickAction && onClickAction(ActionType.ADD)}
+            />
+          )}
+        </Col>
+      </Row>
+    </>
   );
 };
 

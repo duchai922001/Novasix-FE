@@ -3,26 +3,44 @@
 // Common
 .m-title {
   font-size: 18px;
-  text-transform: uppercase;
   color: $primary-color;
   font-weight: bold;
+}
+.icon-pomodoro {
+  font-size: 25px;
+  color: $primary-color;
+}
+.white-color {
+  color: white;
+}
+.primary-color {
+  color: $primary-color;
+}
+
+.m-todo-icon-arrow {
+  transition: transform 0.3s ease;
+  font-size: $icon-size-l;
+}
+.m-todo-icon-arrow.rotated {
+  transform: rotate(90deg);
 }
 
 //m-button
 .m-button-normal {
   width: fit-content;
   height: $h-basic !important;
-  text-transform: uppercase !important;
   font-weight: bold;
   border: 1px solid $primary-color;
   font-size: 18px;
+  box-shadow: $box-shadow;
 }
 //m-input
 .m-input-normal {
   width: 100%;
   height: $h-basic !important;
   border: 1px solid $primary-color;
-  font-size: 18px;
+  font-size: 16px;
+  border-radius: $border-radius-l;
 }
 .m-textarea {
   font-size: 18px;
@@ -49,10 +67,10 @@
   .header-card {
     background: linear-gradient(to right, $primary-color, $fourth-color);
     background-color: $primary-color;
-    padding: 24px 12px;
+    padding: 12px;
     height: fit-content;
-    border-top-left-radius: $border-radius-xl;
-    border-top-right-radius: $border-radius-xl;
+    border-radius: $border-radius-xl;
+    box-shadow: $box-shadow;
     .header-card-title {
       color: $white-color;
       font-weight: bold;
@@ -77,6 +95,75 @@
       border-radius: 50%;
       padding: 12px;
       font-size: 30px !important;
+    }
+  }
+}
+.item-option {
+  display: flex;
+  gap: 12px;
+  font-size: 18px;
+}
+
+.pomodoro-row {
+  display: flex;
+  align-items: center;
+  .pomodoro-col {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+.select-pomodoro-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  .select-pomodoro {
+    font-size: 18px;
+    color: $primary-color;
+    font-weight: bold;
+    width: 100%;
+  }
+  .custom-dropdown {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+
+    .dropdown-header {
+      padding: 12px;
+      border: 1px solid $primary-color;
+      border-radius: $border-radius-xl;
+      background: #f9f9f9;
+      color: $primary-color;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dropdown-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      background: #ffffff;
+      border: 1px solid $primary-color;
+      border-radius: $border-radius-l;
+      box-shadow: $box-shadow;
+      z-index: 10;
+
+      .dropdown-option {
+        padding: 12px 24px;
+        color: $primary-color;
+        font-weight: bold;
+        font-size: 14px;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
     }
   }
 }
@@ -159,15 +246,6 @@
       font-weight: bold;
     }
     .m-todo-icon {
-      .m-todo-icon-arrow {
-        transition: transform 0.3s ease;
-        font-size: $icon-size-l;
-        color: white;
-      }
-
-      .m-todo-icon-arrow.rotated {
-        transform: rotate(90deg);
-      }
     }
   }
   .m-todo-desc-row {
@@ -257,5 +335,48 @@
     }
   }
   .m-task-col-right {
+  }
+}
+
+//m-achievement
+.m-achievement-normal {
+  cursor: pointer;
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+//m-progress
+.m-progress-normal {
+}
+
+//m-modal
+.m-modal-normal .ant-modal-content {
+  padding: 0 !important;
+}
+.m-modal-normal .ant-modal-body {
+  padding: 24px 48px;
+}
+
+.m-modal-normal {
+  .m-modal-header {
+    background: linear-gradient(to right, $primary-color, $fourth-color);
+    padding: 12px;
+    height: fit-content;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: $border-radius-xl;
+    border-bottom-right-radius: $border-radius-xl;
+    box-shadow: $box-shadow;
+    .title {
+      color: white;
+    }
   }
 }

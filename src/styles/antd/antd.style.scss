@@ -1,0 +1,18 @@
+// MCheckbox
+@use "../variables" as *;
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+}
+
+.ant-progress-inner {
+  height: 12px;
+}
+.ant-progress-text {
+  font-weight: bold !important;
+}
+
+.ant-progress-bg {
+  background-color: $primary-color !important;
+  height: 100% !important;
+}
