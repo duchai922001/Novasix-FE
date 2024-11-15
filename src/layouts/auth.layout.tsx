@@ -25,6 +25,10 @@ interface MenuItem {
 const AuthLayout = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState<string | null>("dashboard");
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const toggleSidebar = () => {
+    setIsCollapsed((prev) => !prev);
+  };
   const listMenu: MenuItem[] = [
     {
       key: "dashboard",
@@ -77,6 +81,7 @@ const AuthLayout = () => {
   ];
   const renderItemChildMenu = (item: MenuItem) => {
     const isActive = activeIndex === item.key;
+
     return (
       <Col span={24} key={item.key}>
         <Row
@@ -107,43 +112,85 @@ const AuthLayout = () => {
       </Col>
     );
   };
+  const renderIconMenu = (item: MenuItem) => {
+    const isActive = activeIndex === item.key;
+    return (
+      <Col
+        span={24}
+        style={{
+          background: isActive ? "white" : "none",
+          boxShadow: isActive ? "0px 0px 10px #888888" : "none",
+        }}
+        onClick={() => {
+          setActiveIndex(item.key);
+          navigate(`${item.url}`);
+        }}
+        className="icon-menu"
+      >
+        {React.cloneElement(item.icon as React.ReactElement, {
+          className: `icon-collapsed ${isActive ? "active-icon" : ""}`,
+        })}
+      </Col>
+    );
+  };
   return (
     <Row className="container-auth">
-      <Col span={4} className="col-left-auth">
-        <Row className="header">
-          <img src={logo} alt="NovaSix Logo" className="logo-auth" />
+      <Col
+        span={isCollapsed ? 1 : 4}
+        className={`col-left-auth ${isCollapsed ? "collapsed" : ""}`}
+      >
+        {/* Logo */}
+        <Row className="header" onClick={toggleSidebar}>
+          <img
+            src={logo}
+            alt="NovaSix Logo"
+            className={`logo-auth ${isCollapsed ? "collapsed-logo" : ""}`}
+          />
         </Row>
-        <Row style={{ marginTop: "20px" }}>
-          {listMenu.slice(0, 4).map((item) => {
-            return renderItemChildMenu(item);
-          })}
-        </Row>
-        <Row className="divider-auth"></Row>
-        <Row style={{ marginTop: "20px" }}>
-          {listMenu.slice(4, 8).map((item) => {
-            return renderItemChildMenu(item);
-          })}
-        </Row>
-        <Row className="card-premium">
-          <div className="icon-premium-container">
-            <MdOutlineWorkspacePremium className="icon-premium" />
-          </div>
-          <div className="text-premium">
-            <p>Need help?</p>
-            <p>Upgrade to VIP package</p>
-          </div>
-          <button
-            className="btn-premium"
-            onClick={() => {
-              navigate("/upgrade");
-              setActiveIndex("");
-            }}
-          >
-            Upgrade now
-          </button>
-        </Row>
+
+        {/* Menu Items */}
+        {!isCollapsed ? (
+          <>
+            <Row style={{ marginTop: "20px" }}>
+              {listMenu.slice(0, 4).map((item) => renderItemChildMenu(item))}
+            </Row>
+            <Row className="divider-auth"></Row>
+            <Row style={{ marginTop: "20px" }}>
+              {listMenu.slice(4, 8).map((item) => renderItemChildMenu(item))}
+            </Row>
+            <Row className="card-premium">
+              <div className="icon-premium-container">
+                <MdOutlineWorkspacePremium className="icon-premium" />
+              </div>
+              <div className="text-premium">
+                <p>Need help?</p>
+                <p>Upgrade to VIP package</p>
+              </div>
+              <button
+                className="btn-premium"
+                onClick={() => {
+                  navigate("/upgrade");
+                  setActiveIndex("");
+                }}
+              >
+                Upgrade now
+              </button>
+            </Row>
+          </>
+        ) : (
+          <>
+            {" "}
+            <Row style={{ marginTop: "20px" }}>
+              {listMenu.slice(0, 4).map((item) => renderIconMenu(item))}
+            </Row>
+            <Row className="divider-auth"></Row>
+            <Row style={{ marginTop: "20px" }}>
+              {listMenu.slice(4, 8).map((item) => renderIconMenu(item))}
+            </Row>
+          </>
+        )}
       </Col>
-      <Col span={20} className="col-right-auth">
+      <Col span={isCollapsed ? 23 : 20} className="col-right-auth">
         <Row className="header-auth" gutter={[12, 12]}>
           {activeIndex === "daily" && (
             <div className="header-auth-pomodoro">
@@ -170,6 +217,16 @@ const AuthLayout = () => {
         </Row>
       </Col>
     </Row>
+    // <Row className="container-auth">
+    //   <Col
+    //     span={4}
+    //     className={`col-left-auth ${isCollapsed ? "collapsed" : ""}`}
+    //   ></Col>
+
+    //   <Col span={20} className="col-right-auth">
+    //     right
+    //   </Col>
+    // </Row>
   );
 };
 

@@ -1,14 +1,14 @@
 @use "../variables" as *;
 
 .container-auth {
-  display: flex;
   height: 100vh;
+  width: 100%;
   overflow-x: hidden;
   .col-left-auth {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
-    width: 260px;
+    width: 100%;
     height: 100%;
     background: linear-gradient(to bottom, $primary-color, $fourth-color);
     padding: 30px 0px;
@@ -23,6 +23,7 @@
         width: 80%;
         height: auto;
         object-fit: cover;
+        cursor: pointer;
       }
 
       .title-auth {
@@ -108,11 +109,8 @@
   }
 
   .col-right-auth {
-    margin-left: 260px;
-    width: calc(100% - 260px);
+    width: 100%;
     height: 100vh;
-    // overflow-y: auto;
-    padding: 4% 8%;
 
     .header-auth {
       display: flex;
@@ -168,5 +166,44 @@
       padding: 4% 8%;
       margin-top: 5%;
     }
+  }
+
+  .col-left-auth {
+    transition: all 0.3s ease;
+    &.collapsed {
+      width: 100%;
+      .logo-auth {
+        width: 90%;
+        cursor: pointer;
+      }
+
+      .menu-child-item {
+        justify-content: center;
+
+        .menu-child-item-text {
+          display: none;
+        }
+      }
+
+      .card-premium {
+        display: none;
+      }
+    }
+  }
+  .icon-menu {
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .icon-collapsed {
+      font-size: 35px;
+      color: white;
+    }
+    .icon-collapsed.active-icon {
+      color: $primary-color;
+    }
+  }
+  .col-right-auth {
+    transition: all 0.3s ease;
   }
 }
