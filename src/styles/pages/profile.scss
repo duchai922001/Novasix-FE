@@ -8,13 +8,14 @@
   border-radius: $border-radius-l;
   .left-col {
     flex: 1;
-    padding: 2% 10%;
+    padding: 2% 0;
     .user-info {
       display: flex;
       gap: 40px;
       .avatar {
-        width: 150px;
-        height: 150px;
+        margin-left: 24px;
+        width: 80%;
+        height: 80%;
         border: 2px solid $primary-color;
         border-radius: 50%;
         padding: 6px;
@@ -29,6 +30,7 @@
         }
       }
       .info {
+        padding: 24px;
         .name {
           font-size: 28px;
           color: $primary-color;

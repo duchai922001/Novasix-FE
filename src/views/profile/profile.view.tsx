@@ -83,13 +83,13 @@ const Profile = () => {
           <Row>
             <Col span={23} className="left-col">
               <Row gutter={[0, 12]} className="user-info">
-                <Col span={5} className="avatar">
+                <Col span={8} className="avatar">
                   <img
                     src="https://inkythuatso.com/uploads/thumbnails/800/2022/03/anh-dai-dien-facebook-dep-cho-nam-51-28-16-28-03.jpg"
                     className="image"
                   />
                 </Col>
-                <Col span={17} className="info">
+                <Col span={14} className="info">
                   <Row className="name">Nguyen Van A</Row>
                   <Row className="info-parent">
                     {userInfo.map((user) => renderInfoDetail(user))}
