@@ -11,10 +11,18 @@ const Login = () => {
       <h1 className="title-primary">LOG IN</h1>
       <Row className="full-width" gutter={[12, 12]}>
         <Col span={24}>
-          <MButton title="Login Google" icon="FaGoogle" />
+          <MButton
+            title="Login Google"
+            icon="FaGoogle"
+            style={{ width: "100%" }}
+          />
         </Col>
         <Col span={24}>
-          <MButton title="Login Facebook" icon="FaFacebook" />
+          <MButton
+            title="Login Facebook"
+            icon="FaFacebook"
+            style={{ width: "100%" }}
+          />
         </Col>
       </Row>
       <Row
@@ -23,11 +31,11 @@ const Login = () => {
         style={{ marginTop: "24px" }}
       >
         <Col span={24} className="full-width">
-          <MInput title="username" placeholder="Enter your username" />
+          <MInput title="Username" placeholder="Enter your username" />
         </Col>
         <Col span={24} className="full-width">
           <MInput
-            title="password"
+            title="Password"
             type="password"
             placeholder="Enter your password"
           />
@@ -39,7 +47,12 @@ const Login = () => {
         style={{ marginTop: "24px" }}
       >
         <Col span={24}>
-          <MButton title="Login" />
+          <MButton
+            title="Login"
+            style={{ width: "100%" }}
+            type="fill"
+            onClick={() => navigate("/")}
+          />
         </Col>
       </Row>
       <Row

@@ -24,7 +24,7 @@ interface MenuItem {
 }
 const AuthLayout = () => {
   const navigate = useNavigate();
-  const [activeIndex, setActiveIndex] = useState<string | null>(null);
+  const [activeIndex, setActiveIndex] = useState<string | null>("dashboard");
   const listMenu: MenuItem[] = [
     {
       key: "dashboard",
@@ -72,6 +72,7 @@ const AuthLayout = () => {
       key: "logout",
       title: "Logout",
       icon: <TbLogout />,
+      url: "/login",
     },
   ];
   const renderItemChildMenu = (item: MenuItem) => {

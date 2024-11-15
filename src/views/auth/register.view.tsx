@@ -14,30 +14,30 @@ const Register = () => {
         style={{ marginTop: "24px" }}
       >
         <Col span={24} className="full-width">
-          <MInput title="username" placeholder="Enter your username" />
+          <MInput title="Username" placeholder="Enter your username" />
         </Col>
-        <Col span={24} className="full-width">
+        <Col span={12} className="full-width">
           <MInput
-            title="password"
+            title="Password"
             type="password"
             placeholder="Enter your password"
           />
         </Col>
-        <Col span={24} className="full-width">
+        <Col span={12} className="full-width">
           <MInput
-            title="confirm password"
+            title="Confirm password"
             type="password"
             placeholder="Confirm your password"
           />
         </Col>
-        <Col span={24} className="full-width">
-          <MInput title="name" placeholder="Enter your name" />
+        <Col span={12} className="full-width">
+          <MInput title="Name" placeholder="Enter your name" />
+        </Col>
+        <Col span={12} className="full-width">
+          <MInput title="Phone" placeholder="Enter your phone number" />
         </Col>
         <Col span={24} className="full-width">
-          <MInput title="phone" placeholder="Enter your phone number" />
-        </Col>
-        <Col span={24} className="full-width">
-          <MInput title="email" placeholder="Enter your email" />
+          <MInput title="Email" placeholder="Enter your email" />
         </Col>
       </Row>
       <Row
@@ -46,7 +46,12 @@ const Register = () => {
         style={{ marginTop: "24px" }}
       >
         <Col span={24}>
-          <MButton title="Register" />
+          <MButton
+            title="Register"
+            style={{ width: "100%" }}
+            type="fill"
+            onClick={() => navigate("/")}
+          />
         </Col>
       </Row>
       <Row

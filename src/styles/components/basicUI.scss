@@ -32,7 +32,7 @@
   font-weight: bold;
   border: 1px solid $primary-color;
   font-size: 18px;
-  box-shadow: $box-shadow;
+  box-shadow: $box-shadow-l;
 }
 //m-input
 .m-input-normal {
@@ -254,35 +254,21 @@
     transform: translateY(-20px);
     opacity: 0;
     transition: transform 0.5s ease, opacity 0.5s ease;
-
+    border: 1px solid $primary-color;
+    border-radius: $border-radius-l;
+    box-shadow: $box-shadow-l;
+    padding: 12px;
     &.open {
       transform: translateY(0);
       opacity: 1;
     }
 
-    .m-todo-desc-danger {
-      background-color: $danger-color-100;
-    }
-    .m-todo-desc-warning {
-      background-color: $warning-color-100;
-    }
-    .m-todo-desc-success {
-      background-color: $success-color-100;
-    }
-    .m-todo-desc-success-bold {
-      background-color: $success-color-100;
-    }
-
     .m-todo-desc {
       padding: 10px;
-      border-radius: 5px;
-      box-shadow: $box-shadow;
       margin-top: 10px;
       font-size: 14px;
       color: white;
-      opacity: 0;
       transition: opacity 0.3s ease;
-      animation: fadeIn 0.3s ease forwards;
     }
   }
 
