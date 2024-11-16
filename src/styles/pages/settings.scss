@@ -1,0 +1,150 @@
+@use "../variables" as *;
+.my-account-container {
+  .account-header {
+    display: flex;
+    gap: 24px;
+    .account-icon {
+      background-color: rgba($color: $primary-color, $alpha: 0.2);
+      padding: 30px;
+      border-radius: $border-radius-xxl;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .icon {
+        font-size: 60px;
+        color: $primary-color;
+      }
+    }
+    .account-header-info {
+      h1 {
+        font-size: $title-xxl-font-size;
+        font-weight: bold;
+        margin: 0;
+      }
+      p {
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+  }
+  .gender-contain {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    .gender-common {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      cursor: pointer;
+      color: $primary-color;
+      border: 1px solid $primary-color;
+      border-radius: $border-radius-l;
+      position: relative;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      .selected {
+        position: absolute;
+        top: 3%;
+        right: 3%;
+        font-size: 25px;
+        color: white;
+      }
+
+      .icon {
+        font-size: 35px;
+      }
+    }
+    .gender-selected {
+      background: $linear-gradient-right;
+      color: white;
+    }
+  }
+  .save-btn {
+    margin-top: 12px;
+  }
+}
+
+.password-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  .new-password {
+    ul {
+      padding: 0;
+      list-style: none;
+      .password-rule {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 16px;
+        .password-rule-success {
+          color: green;
+          font-weight: bold;
+        }
+        .password-rule-error {
+          color: red;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+.authentication-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  .authentication-footer {
+    border-top: 1px solid #ccc;
+    padding: 12px 0;
+    .authentication-item {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      .authentication-icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        .authentication-icon {
+          font-size: 28px;
+        }
+      }
+      .authentication-text {
+        h1 {
+          margin: 0;
+        }
+        p {
+          margin: 0;
+
+          font-size: 16px;
+        }
+      }
+      .authentication-switch-container {
+        width: 40%;
+        height: 100px;
+        margin-top: 12px;
+        border: 2px solid black;
+        border-radius: $border-radius-l;
+        padding: 12px;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        h2,
+        p {
+          margin: 0;
+        }
+        .left-switch {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 24px;
+        }
+      }
+    }
+  }
+}

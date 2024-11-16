@@ -24,6 +24,12 @@ $border-radius-xl: 16px;
 $border-radius-l: 12px;
 $h-basic: 40px;
 
+//color
+$linear-gradient-right: linear-gradient(
+  to right,
+  $primary-color,
+  $fourth-color
+);
 //size-icon
 $icon-size-xxl: 48px;
 $icon-size-xl: 32px;

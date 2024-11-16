@@ -366,3 +366,27 @@
     }
   }
 }
+
+// m-tabs
+.m-tabs-normal {
+  .ant-tabs-nav {
+    .ant-tabs-tab {
+      font-size: 16px;
+      padding: 24px;
+      font-weight: bold;
+      color: black;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    .ant-tabs-tab-active {
+      .ant-tabs-tab-btn {
+        font-weight: bold;
+        color: $primary-color;
+      }
+    }
+    .ant-tabs-ink-bar {
+      background-color: $primary-color;
+    }
+  }
+}
