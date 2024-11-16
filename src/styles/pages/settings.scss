@@ -1,5 +1,8 @@
 @use "../variables" as *;
 .my-account-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   .account-header {
     display: flex;
     gap: 24px;
