@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router-dom";
 import AuthLayout from "@/layouts/auth.layout";
 import UnAuthLayout from "@/layouts/unauth.layout";
 import Login from "@/views/auth/login.view";
@@ -10,7 +11,8 @@ import Setting from "@/views/settings/setting.view";
 import Store from "@/views/store/store.view";
 import Upgrade from "@/views/upgrade/upgrade.view";
 import Weekly from "@/views/weekly/weekly.view";
-import { Route, Routes } from "react-router-dom";
+import HomePage from "@/layouts/home.layout";
+import Body from "@/views/home/body.view";
 
 const MainRoutes = () => {
   return (
@@ -20,8 +22,11 @@ const MainRoutes = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Route>
+        <Route path="/" element={<HomePage />} >
+          <Route path="/body" element={<Body />} />
+        </Route>
         <Route element={<AuthLayout />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/daily" element={<Daily />} />
           <Route path="/weekly" element={<Weekly />} />
           <Route path="/profile" element={<Profile />} />
