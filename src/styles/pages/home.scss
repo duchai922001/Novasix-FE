@@ -1,0 +1,251 @@
+@use "../variables" as *;
+
+//header
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  margin: 30px;
+  background: $linear-gradient-header;
+  border-radius: 20px;
+
+  .logo-auth {
+    width: 100px; // Điều chỉnh kích thước logo
+    height: auto; // Giữ tỷ lệ khung hình
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+
+    .nav-link {
+        text-decoration: none;
+        color: $white-color; // Màu chữ trắng
+        font-size: 14px;
+
+        &:hover {
+            color: #f0f0f0; // Màu chữ khi di chuột qua
+            text-decoration: underline;
+        }
+    }
+}
+
+  .nav {
+      display: flex;
+      gap: 20px;
+
+      .nav-link {
+
+          color: $white-color;
+          font-size: 16px;
+          transition: font-size 0.3s ease-in-out;
+          font-weight: bold;
+
+          &:hover {
+              color: $white-color;
+              font-size: 20px;
+              font-weight: bold;
+          }
+      }
+  }
+
+  .auth-links {
+      display: flex;
+      gap: 15px;
+
+      .auth-link {
+          text-decoration: none;
+          color: #333;
+          font-size: 16px;
+
+          &:hover {
+              color: #000;
+              text-decoration: underline;
+          }
+      }
+  }
+  .join-button {
+    background-color: white; // Màu nền trắng
+    color: #003366; // Màu chữ xanh đậm
+    border: none; // Bỏ viền
+    padding: 8px 16px; // Padding để nút có kích thước vừa phải
+    font-size: 14px; // Kích thước chữ
+    border-radius: 5px; // Bo góc
+    cursor: pointer; // Hiệu ứng con trỏ khi di chuột qua
+    transition: background-color 0.3s ease, color 0.3s ease; // Hiệu ứng chuyển đổi màu
+
+    &:hover {
+        background-color: #f0f0f0; // Màu nền khi di chuột qua
+        color: #002244; // Màu chữ khi di chuột qua
+    }
+}
+}
+
+//body
+
+body.view.txs {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  text-align: center;
+  background-color: #f5fff5; // Nền sáng nhẹ
+
+  .container {
+      max-width: 900px;
+      margin: auto;
+  }
+
+  h2 {
+      font-size: 28px;
+      font-weight: bold;
+      color: #008000; // Xanh lá đậm
+      margin: 40px 0 20px;
+      position: relative;
+
+      // Thêm hiệu ứng trang trí
+      &::after {
+          content: "";
+          display: block;
+          width: 50px;
+          height: 10px;
+          background-color: #00c400;
+          border-radius: 50px;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          top: 40px;
+      }
+  }
+
+  .planning-section {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2);
+      padding: 20px;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: center;
+  }
+
+  .image-grid {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+  }
+
+  .image-grid img {
+      width: 500px;
+      height: 500px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2);
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+          transform: scale(1.1);
+      }
+  }
+}
+
+//footer
+.footer {
+    margin-top: 70%;
+    background: linear-gradient(to bottom, #18a558, #004d00);
+    padding: 2rem;
+    color: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px ;  
+    margin-left: 5%;
+    margin-right: 5%;
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      max-width: 1200px;
+      max-height: 800px;
+      margin: 0 auto;
+  
+      .footer-left {
+        
+        h3 {
+          margin-bottom: 1rem;
+          font-size: 1.2rem;
+        }
+  
+        .social-icons {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 1rem;
+  
+          a {
+            color: white;
+            font-size: 1.2rem;
+          }
+        }
+  
+        .email-signup {
+          display: flex;
+          gap: 10px;
+  
+          input {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            outline: none;
+  
+            &::placeholder {
+              color: rgba(255, 255, 255, 0.7);
+            }
+          }
+  
+          button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background: white;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+          }
+        }
+      }
+  
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+  
+        div {
+          h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+          }
+  
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+  
+            li {
+              margin-bottom: 0.3rem;
+  
+              a {
+                color: white;
+                text-decoration: none;
+                opacity: 0.8;
+                transition: opacity 0.3s;
+  
+                &:hover {
+                  opacity: 1;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
