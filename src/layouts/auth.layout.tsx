@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/auth/logo-zendo.png";
 import { RiDashboardFill } from "react-icons/ri";
 import { CiCloudSun } from "react-icons/ci";
@@ -34,7 +34,7 @@ const AuthLayout = () => {
       key: "dashboard",
       title: "Dashboard",
       icon: <RiDashboardFill />,
-      url: "/",
+      url: "/dashboard",
     },
     {
       key: "daily",
@@ -154,11 +154,13 @@ const AuthLayout = () => {
       >
         {/* Logo */}
         <Row className="header" onClick={toggleSidebar}>
-          <img
-            src={logo}
-            alt="NovaSix Logo"
-            className={`logo-auth ${isCollapsed ? "collapsed-logo" : ""}`}
-          />
+          <Link to = "/">
+            <img
+              src={logo}
+              alt="NovaSix Logo"
+              className={`logo-auth ${isCollapsed ? "collapsed-logo" : ""}`}
+            />
+          </Link>
         </Row>
 
         {/* Menu Items */}
