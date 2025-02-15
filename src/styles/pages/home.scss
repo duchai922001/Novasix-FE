@@ -1,5 +1,17 @@
 @use "../variables" as *;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
+
+//home background
+.home-layout {
+  background-size: 100% 100%; /* Trải ảnh nền ra toàn bộ phần tử */
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; /* Đảm bảo chiều cao tối thiểu là 100% viewport */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 //header
 
 .header {
@@ -85,73 +97,111 @@
 
 //body
 
-body.view.txs {
-  font-family: Arial, sans-serif;
-  margin: 20px;
+/* body.css */
+
+/* Tổng quan */
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+
+body {
+  font-family: 'Nunito', sans-serif;
   text-align: center;
-  background-color: #f5fff5; // Nền sáng nhẹ
+}
 
-  .container {
-      max-width: 900px;
-      margin: auto;
-  }
+/* Hero Section */
+.hero-section {
+  padding: 60px 20px;
+  position: relative;
+  text-align: center;
+  border-radius: 50%;
+  max-width: 80%;
+  margin: auto;
+}
 
-  h2 {
-      font-size: 28px;
-      font-weight: bold;
-      color: #008000; // Xanh lá đậm
-      margin: 40px 0 20px;
-      position: relative;
+.hero-title {
+  font-size: 100px;
+  font-weight: bold;
+  color: #0a8a0a;
+  margin-bottom: 10px;
+}
 
-      // Thêm hiệu ứng trang trí
-      &::after {
-          content: "";
-          display: block;
-          width: 50px;
-          height: 10px;
-          background-color: #00c400;
-          border-radius: 50px;
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          top: 40px;
-      }
-  }
+.hero-subtitle {
+  font-size: 20px;
+  color: #555;
+  max-width: 600px;
+  margin: 10px auto;
+}
 
-  .planning-section {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2);
-      padding: 20px;
-      margin-bottom: 40px;
-      display: flex;
-      justify-content: center;
-  }
+/* Buttons */
+.hero-buttons {
+  margin-top: 20px;
+}
 
-  .image-grid {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-  }
+.hero-button {
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-  .image-grid img {
-      width: 500px;
-      height: 500px;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2);
-      transition: transform 0.3s ease-in-out;
+.hero-button:first-child {
+  background: #0a8a0a;
+  color: white;
+}
 
-      &:hover {
-          transform: scale(1.1);
-      }
-  }
+.hero-button:last-child {
+  background: white;
+  color: #0a8a0a;
+  border: 2px solid #0a8a0a;
+}
+
+.hero-button:hover {
+  opacity: 0.8;
+}
+
+/* Planning Section */
+.container {
+  padding: 40px 20px;
+}
+
+.container h2 {
+  font-size: 28px;
+  color: #0a8a0a;
+  margin-bottom: 20px;
+}
+
+/* Image Grid */
+.image-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-grid img {
+  width: 100%;
+  max-width: 1000px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Đảm bảo hình ảnh hiển thị đúng */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 //footer
 .footer {
-    margin-top: 70%;
     background: linear-gradient(to bottom, #18a558, #004d00);
     padding: 2rem;
     color: white;

@@ -19,14 +19,21 @@ const Body: React.FC = () => {
         <h2>Daily Planning</h2>
         <div className="planning-section">
             <div className="image-grid">
-                <img src="daily1.jpg" alt="Daily 1"/>
+                <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/lotus-flower-david-posey.jpg" alt="Daily 1"/>
             </div>
         </div>
 
         <h2>Weekly Planning</h2>
         <div className="planning-section">
             <div className="image-grid">
-                <img src="weekly1.jpg" alt="Weekly 1"/>
+                <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/lotus-flower-david-posey.jpg" alt="Weekly 1"/>
+
+            </div>
+        </div>
+        <h2>Weekly Planning</h2>
+        <div className="planning-section">
+            <div className="image-grid">
+                <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/lotus-flower-david-posey.jpg" alt="Weekly 1"/>
 
             </div>
         </div>
