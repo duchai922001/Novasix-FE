@@ -1,1 +1,178 @@
 @use "../variables" as *;
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background-color: #e8f5e9;
+    background-image: cover;
+    width: 100%;
+  }
+  
+  .stats-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .stat-box {
+    flex: 1;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .focus {
+    background: #2e7d32;
+    color: white;
+  }
+  
+  .distract {
+    background: #1b5e20;
+    color: white;
+  }
+  
+  .filter-buttons {
+    display: flex;
+    justify-content: center; // Canh giữa
+    gap: 20px; // Khoảng cách giữa các nút
+    margin: 20px 0; // Tạo khoảng cách với các phần khác
+  
+    button {
+      font-size: 18px; // Làm chữ to hơn
+      padding: 24px 72px; // Tăng kích thước nút
+      border: 2px solid #4caf50; // Viền nút
+      border-radius: 10px; // Bo góc
+      background-color: white;
+      color: #4caf50;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+  
+      &:hover {
+        background-color: #4caf50;
+        color: white;
+      }
+  
+      &.active {
+        background-color: #4caf50;
+        color: white;
+        font-weight: bold;
+      }
+    }
+  }
+  
+  
+  
+  .summary-cards {
+    display: flex;
+    gap: 1rem; /* Tạo khoảng cách giữa các thẻ */
+    flex-wrap: wrap; /* Đảm bảo không bị tràn khi cửa sổ nhỏ lại */
+    margin: 1.5rem 0;
+    justify-content: space-between;
+    .card {
+      flex: 1;
+      background: white;
+      padding: 1.2rem;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      min-height: 120px;
+      font-family: "Inter", sans-serif;
+    
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+    
+      /* Thanh màu phía trên */
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+      }
+    
+      &.tasks {
+        background: #e6f4ea;
+        color: #1b5e20;
+    
+        &::before {
+          background: #4caf50;
+        }
+      }
+    
+      &.unfinished {
+        background: #fff3e0;
+        color: #e65100;
+    
+        &::before {
+          background: #ff9800;
+        }
+      }
+    
+      &.pomodoro {
+        background: #fff8e1;
+        color: #ff8f00;
+    
+        &::before {
+          background: #ffca28;
+        }
+      }
+    
+      &.time-off {
+        background: #e3f2fd;
+        color: #0d47a1;
+    
+        &::before {
+          background: #2196f3;
+        }
+      }
+    
+      h2 {
+        font-size: 1.8rem;
+        margin: 0.5rem 0;
+        font-weight: 700;
+      }
+    
+      p {
+        font-size: 1rem;
+        opacity: 0.9;
+        font-weight: 500;
+      }    
+      .change {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 0.3rem;
+      }
+    }
+  }
+  
+  
+  
+  
+  .chart-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 5%;
+  }
+  
+  .chart-card img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  
+  
