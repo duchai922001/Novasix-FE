@@ -1,44 +1,64 @@
 import React from 'react'
+import ItemLeft from '../../assets/images/unauth/item_left.png'
+import ItemRight from '../../assets/images/unauth/item_right.png'
+import Daily from '../../assets/images/unauth/daily_planning.png'
+import Weekly from '../../assets/images/unauth/weekly_planning.png'
+import Monthly from '../../assets/images/unauth/monthly_planning.png'
+import { useNavigate } from 'react-router-dom'
+interface HomeContent {
+    title: string,
+    img: string,
+}
 
 const Body: React.FC = () => {
-  return (
-    <body className="view txs">
-     <div className="hero-section">
-        <h1 className="hero-title">Stay on track <br/> Zendo’s got your back!</h1>
-        <p className="hero-subtitle">
-            Unlock your full potential with simple, effective solutions for boosting concentration 
-            and efficiency – all on just one platform!
-        </p>
-        <div className="hero-buttons">
-            <button className="hero-button">Discovery</button>
-            <p className="hero-or">Or</p>
-            <button className="hero-button">Try Now For Free !</button>
-        </div>
-    </div> 
-    <div className="container">
-        <h2>Daily Planning</h2>
-        <div className="planning-section">
-            <div className="image-grid">
-                <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/lotus-flower-david-posey.jpg" alt="Daily 1"/>
-            </div>
-        </div>
+    const ListHomeContent: HomeContent[] = [
+        {
+            title: "Daily Planning",
+            img: Daily,
+        },
+        {
+            title: "Weekly Planning",
+            img: Weekly,
+        },
+        {
+            title: "Monthly Planning",
+            img: Monthly,
+        },
+    ]
+    
+    const navigate = useNavigate();
 
-        <h2>Weekly Planning</h2>
-        <div className="planning-section">
-            <div className="image-grid">
-                <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/lotus-flower-david-posey.jpg" alt="Weekly 1"/>
+    const renderHomeContent = (Item: HomeContent) => {
+        return (
+            <div className="body-daily-planning">
+                <div className="b-content-title">
+                    <img className="b-content-title-img" src={ItemLeft} alt="item-left"/>
+                    <p className="b-content-title-p">{Item.title}</p>
+                    <img className="b-content-title-img" src={ItemRight} alt="item-right"/>
+                </div>
+                <div className="b-content-img">
+                    <img className="b-content-main-img" src={Item.img} alt="main-img" />
+                </div>
+            </div> 
+        )
+    }
 
+    return (
+    <div className="home-body-content">
+        <div className="body-top-content">
+            <p className="b-t-title">Stay on track <br/> Zendo’s got your back!</p>
+            <p className="b-t-subtitle">
+                Unlock your full potential with simple, effective solutions for boosting concentration 
+                and efficiency – all on just one platform!
+            </p>
+            <div className="b-t-btn-block">
+                <button className="b-t-btn" onClick={() => navigate("/login")}>Discovery</button>
+                <p style={{margin: "10px auto", color: "#0a8a0a"}}>Or</p>
+                <button className="b-t-btn" onClick={() => navigate("/register")}>Try Now For Free !</button>
             </div>
-        </div>
-        <h2>Weekly Planning</h2>
-        <div className="planning-section">
-            <div className="image-grid">
-                <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/lotus-flower-david-posey.jpg" alt="Weekly 1"/>
-
-            </div>
-        </div>
+        </div> 
+        {ListHomeContent.map((item)=> renderHomeContent(item))}
     </div>
-</body>
   )
 }
 
