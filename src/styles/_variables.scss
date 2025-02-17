@@ -60,3 +60,17 @@ $title-lg-line-height: 30px;
 /*box-shadow*/
 $box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
 $box-shadow-l: 0px 4px 16px rgba(0, 0, 0, 0.1);
+
+/*respoinsive*/
+$breakpoints: (
+  "desktop": 1200px,
+  "laptop": 1024px,
+  "tablet": 768px,
+  "mobile": 480px
+);
+
+@mixin responsive($size) {
+  @media (max-width: map-get($breakpoints, $size)) {
+    @content;
+  }
+}

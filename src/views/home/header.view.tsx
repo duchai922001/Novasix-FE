@@ -1,20 +1,90 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+
+interface NavLink {
+  key: string;
+  route: string;
+  text: string;
+}
+
+interface HeaderBtn {
+  key: string;
+  route: string;
+  mainText: string;
+  subText: string;
+}
 
 const Header: React.FC = () => {
+
+  const ListNavLink : NavLink[] = [
+    {
+      key: "Guideline",
+      route: "#",
+      text: "Guideline",
+    },
+    {
+      key: "AboutUs",
+      route: "#",
+      text: "About Us",
+    },
+    {
+      key: "Policies",
+      route: "#",
+      text: "Policies",
+    },
+    {
+      key: "FAQS",
+      route: "#",
+      text: "FAQs",
+    },
+  ]
+
+  const ListHeaderBtn : HeaderBtn[] = [
+    {
+      key: "login",
+      route: "/login",
+      mainText: "Login",
+      subText: "➤",
+    },
+    {
+      key: "register",
+      route: "/register",
+      mainText: "Register",
+      subText: "➤",
+    },
+  ]
+
   return (
     <header className="header">
-    <img src="/src/assets/images/auth/logo-zendo.png" alt="NovaSix Logo" className="logo-auth "/>
-    <nav className="nav">
-        <a href="#" className="nav-link">Guideline</a>
-        <a href="#" className="nav-link">About Us</a>
-        <a href="#" className="nav-link">FAQS</a>
-        <a href="#" className="nav-link">Policies & Terms</a>
-    </nav>
-    <div className="auth-links">
-    <button className="join-button">Login</button>
-        <button className="join-button">Join Us Now</button>
-    </div>
-</header>
+      <img className="h-logo" src="/src/assets/images/auth/logo-zendo.png" alt="NovaSix Logo"/>
+      
+      <nav className="h-nav">
+        {ListNavLink.map((item)=>(
+          <Link className="h-nav-link" to={item.route}>
+            {item.text}
+          </Link>
+        ))}
+      </nav>
+
+      <div className="h-bth-join-container">
+        {ListHeaderBtn.map((item)=>(
+          <Link to = {item.route} style={{textDecoration: "none"}}>
+            <button className="h-btn-join">
+              <div className="h-btn-content-1">
+                <span className="h-btn-span-1">
+                  <p className="h-btn-p-1">{item.mainText}</p>
+                </span>
+              </div>
+              <div className="h-btn-content-2">
+                <span className="h-btn-span-2">
+                  <p className="h-btn-p-2">{item.subText}</p>
+                </span>
+              </div>
+            </button>
+          </Link>
+        ))}
+      </div>
+    </header>
   )
 }
 

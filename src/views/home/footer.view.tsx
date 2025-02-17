@@ -1,105 +1,116 @@
 import React from 'react'
 import { FaFacebook, FaYoutube, FaTiktok, FaLinkedin } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 interface SocialMediaIcon {
-  key: string,
-  link: string,
+  route: string,
   icon: React.ReactNode,
 }
-interface ProductList {
-  key: string,
-  link: string,
-  icon: React.ReactNode,
+
+interface FooterRoute {
+  route: string,
+  text: string,
 }
 
 const Footer: React.FC = () => {
   const ListSocialMediaIcon: SocialMediaIcon[] = [
     {
-      key: "facenook",
-      link: "#",
+      route: "#",
       icon: <FaFacebook />,
     },
     {
-      key: "youtube",
-      link: "#",
+      route: "#",
       icon: <FaYoutube />,
     },
     {
-      key: "tiktok",
-      link: "#",
+      route: "#",
       icon: <FaTiktok />,
     },
     {
-      key: "linkedin",
-      link: "#",
+      route: "#",
       icon: <FaLinkedin />,
     },
   ]
-  const ListProduct: SocialMediaIcon[] = [
-    {
-      key: "facenook",
-      link: "#",
-      icon: <FaFacebook />,
-    },
-    {
-      key: "youtube",
-      link: "#",
-      icon: <FaYoutube />,
-    },
-    {
-      key: "tiktok",
-      link: "#",
-      icon: <FaTiktok />,
-    },
-    {
-      key: "linkedin",
-      link: "#",
-      icon: <FaLinkedin />,
-    },
-  ]
-  const renderSocialMediaIcon = (Item: SocialMediaIcon) => {
-    return (
-        <a href={Item.link}>{Item.icon}</a>
-    )
 
+  const ListProduct: FooterRoute[] = [
+    {
+      route: "#",
+      text: "Package",
+    },
+    {
+      route: "#",
+      text: "Changelog",
+    },
+    {
+      route: "#",
+      text: "Guide",
+    },
+  ]
+
+  const ListLearnMore: FooterRoute[] = [
+    {
+      route: "#",
+      text: "Blog",
+    },
+  ]
+
+  const ListCompanyRoute: FooterRoute[] = [
+    {
+      route: "#",
+      text: "Terms of Service",
+    },
+    {
+      route: "#",
+      text: "Privacy Policy",
+    },
+    {
+      route: "#",
+      text: "한국어",
+    },
+  ]
+
+  const navigate = useNavigate();
+  
+  const renderRoute = (Item: FooterRoute) => {
+    return (
+        <li 
+          className="f-route-link" onClick={() => navigate(Item.route)}>
+            {Item.text}
+        </li>
+    )
   }
+
+  const renderFooterBlock = (title: string, list: FooterRoute[]) => {
+    return (
+      <div className="f-route-block" key={title}>
+        <p className="f-route-title">{title}</p>
+        <ul className="f-route-list">
+          {list.map((item) => renderRoute(item))}
+        </ul>
+      </div>
+    )
+  }
+
   return (
-    <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-left">
-          <h3>The Collaborative Sales CRM</h3>
-          <div className="social-icons">
-            {ListSocialMediaIcon.map((item)=>renderSocialMediaIcon(item))}
-          </div>
-          <div className="email-signup">
-            <input type="email" placeholder="work@email.com" />
-            <button>Sign Up</button>
-          </div>
+    <footer className="footer">  
+      <div className="footer-connect">
+        <p className="f-connect-title">Connect With Us</p>
+        <div className="f-social-icons">
+          {ListSocialMediaIcon.map((item)=>(
+            <a className="f-social-link" href={item.route}>{item.icon}</a>
+          ))}
         </div>
-        <div className="footer-links">
-          <div>
-            <h4>Product</h4>
-            <ul>
-              <li><a href="#">Product</a></li>
-              <li><a href="#">Changelog</a></li>
-              <li><a href="#">Guide</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Learn</h4>
-            <ul>
-              <li><a href="#">Blog</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Company</h4>
-            <ul>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">한국어</a></li>
-            </ul>
-          </div>
+        <div className="footer-email-signup">
+          <input className="f-signup-input" type="email" placeholder="work@email.com" />
+          <button className="f-signup-btn">
+            <p>Sign Up</p>
+          </button>
         </div>
+      </div>
+      <div className="footer-route">
+        {renderFooterBlock("Product", ListProduct)}
+        {renderFooterBlock("Learn", ListLearnMore)}
+        {renderFooterBlock("Company", ListCompanyRoute)}
       </div>
     </footer>
   )

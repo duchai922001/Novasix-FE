@@ -1,0 +1,14 @@
+@use "../variables" as *;
+
+.home-layout {
+    background: url("/src/assets/images/unauth/bg-novasix-homepage.png");
+    // background: linear-gradient(to bottom, #50c8219f, #fcfcfc); // Màu chuyển từ trên xuống dưới
+    background-size: 100% 100%; /* Trải ảnh nền ra toàn bộ phần tử */
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; /* Đảm bảo chiều cao tối thiểu là 100% viewport */
+    height: 100%;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}
