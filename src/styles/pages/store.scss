@@ -1,0 +1,212 @@
+@use "../variables" as *;
+
+.store-conatiner{
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+    background: lightgrey;
+    box-shadow: rgba(146, 238, 158, 0.781) 0px 30px 50px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 26px -18px inset;
+    padding: 5px;
+    border: 5px solid #7FD22B;
+    font-family: "Nunito", "sans-serif";
+    .store-title-box{
+        height: 50px;
+        position: relative;
+        display: flex;
+        place-content: center;
+        place-items: center;
+        overflow: hidden;
+        border-radius: 20px;
+        justify-self: center;
+        margin-top: 30px;
+        .store-title{  
+            z-index: 1;
+            color: white;
+            font-size: 20px;
+            margin: 5px 50px;
+        }
+        &::before {
+            content: '';
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background-image: linear-gradient(180deg, #fffb00, rgb(255, 0, 255));
+            animation: rotBGimg 3s linear infinite;
+            transition: all 0.2s linear;
+        }
+        
+        &::after {
+            content: '';
+            position: absolute;
+            background: #058A1F;
+            inset: 5px;
+            border-radius: 15px;
+        }
+        @keyframes rotBGimg {
+            from {
+                transform: rotate(0deg);
+            }   
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @include responsive("desktop") {
+            width: 500px;
+            .store-title{
+                font-size: 15px;
+            }
+        }
+        @include responsive("laptop") {
+            width: 400px;
+            .store-title{
+                text-align: center;
+                font-size: 13px;
+            }
+        }
+        @include responsive("mobile") {
+            width: 300px;
+            .store-title{
+                text-align: center;
+                font-size: 10px;
+            }
+        }
+    } 
+
+    .store-space{
+        margin: 20px;
+        height: 500vh;
+        .store-card-item{
+            width: auto;
+            height: 350px;
+            position: relative;
+            .store-card-img{
+                width: 100%;
+                position: absolute;
+            }
+            .store-card-info{
+                position: absolute;
+                width: 150px;
+                background-color: #058A1F;
+                border-radius: 20px;
+                margin-top: 83%;
+                left: 25%;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                .store-card-title{
+                    color: white;
+                    font-size: 18px;
+                    font-weight: bold;
+                    text-align: center;
+                    margin: 5px auto;
+                    font-family: "Nunito", "sans-serif";
+                }
+                .store-card-price{
+                    text-align: center;
+                    color: white;
+                    padding: 0 0 0 12px;
+                    margin: 5px auto;
+                }
+                &:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+                }
+            }
+            @include responsive("desktop-1600") {
+                height: 300px;
+                .store-card-info{
+                    width: 130px;
+                    .store-card-title{
+                        font-size: 16px;
+                    }
+                    .store-card-price{
+                        font-size: 14px;
+                    }
+                }
+            }
+            @include responsive("desktop-1500") {
+                height: 260px;
+                .store-card-info{
+                    width: 115px;
+                    .store-card-title{
+                        font-size: 15px;
+                    }
+                    .store-card-price{
+                        font-size: 13px;
+                    }
+                }
+            }
+            @include responsive("desktop-1400") {
+                height: 230px;
+                .store-card-info{
+                    width: 100px;
+                    .store-card-title{
+                        font-size: 12px;
+                    }
+                    .store-card-price{
+                        font-size: 10px;
+                    }
+                }
+            }
+            @include responsive("desktop") {
+                height: 265px;
+                .store-card-info{
+                    width: 125px;
+                    .store-card-title{
+                        font-size: 15px;
+                    }
+                    .store-card-price{
+                        font-size: 13px;
+                    }
+                }
+            }
+            @include responsive("laptop") {
+                height: 230px;
+                .store-card-info{
+                    width: 100px;
+                    .store-card-title{
+                        font-size: 13px;
+                    }
+                    .store-card-price{
+                        font-size: 10px;
+                    }
+                }
+            }
+            @include responsive("tablet-900") {
+                height: 200px;
+                .store-card-info{
+                    width: 90px;
+                    .store-card-title{
+                        font-size: 10px;
+                    }
+                    .store-card-price{
+                        font-size: 9px;
+                    }
+                }
+            }
+            @include responsive("tablet") {
+                height: 250px;
+                .store-card-info{
+                    width: 110px;
+                    .store-card-title{
+                        font-size: 10px;
+                    }
+                    .store-card-price{
+                        font-size: 9px;
+                    }
+                }
+            }
+            @include responsive("mobile") {
+                height: 330px;
+                .store-card-info{
+                    width: 160px;
+                    .store-card-title{
+                        font-size: 15px;
+                    }
+                    .store-card-price{
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

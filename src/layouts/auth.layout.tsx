@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/auth/logo-zendo.png";
 import { RiDashboardFill } from "react-icons/ri";
 import { CiCloudSun } from "react-icons/ci";
@@ -154,13 +154,11 @@ const AuthLayout = () => {
       >
         {/* Logo */}
         <Row className="header" onClick={toggleSidebar}>
-          <Link to = "/">
             <img
               src={logo}
               alt="NovaSix Logo"
               className={`logo-auth ${isCollapsed ? "collapsed-logo" : ""}`}
             />
-          </Link>
         </Row>
 
         {/* Menu Items */}

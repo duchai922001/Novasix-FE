@@ -55,7 +55,7 @@ const Header: React.FC = () => {
   ]
 
   return (
-    <header className="header">
+    <header className="home-header">
       <img className="h-logo" src="/src/assets/images/auth/logo-zendo.png" alt="NovaSix Logo"/>
       
       <nav className="h-nav">

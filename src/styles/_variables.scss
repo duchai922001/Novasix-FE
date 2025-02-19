@@ -63,10 +63,14 @@ $box-shadow-l: 0px 4px 16px rgba(0, 0, 0, 0.1);
 
 /*respoinsive*/
 $breakpoints: (
+  "desktop-1600": 1600px,
+  "desktop-1500": 1500px,
+  "desktop-1400": 1400px,
   "desktop": 1200px,
   "laptop": 1024px,
+  "tablet-900": 900px,
   "tablet": 768px,
-  "mobile": 480px
+  "mobile": 575px
 );
 
 @mixin responsive($size) {
