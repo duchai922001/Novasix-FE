@@ -2,9 +2,10 @@
 
 // Common
 .m-title {
-  font-size: 16px;
+  font-size: 15px;
   color: $primary-color;
   font-weight: bold;
+  margin-bottom: 4px;
 }
 .icon-pomodoro {
   font-size: 25px;
@@ -29,9 +30,8 @@
 .m-button-normal {
   width: fit-content;
   height: $h-basic !important;
-  font-weight: bold;
   border: 1px solid $primary-color;
-  font-size: 18px;
+  font-size: 14px;
   box-shadow: $box-shadow-l;
 }
 //m-input
@@ -74,7 +74,7 @@
     .header-card-title {
       color: $white-color;
       font-weight: bold;
-      font-size: $title-xl-font-size;
+      font-size: $title-l-font-size;
     }
   }
   .content-card {
@@ -93,7 +93,7 @@
       background-color: $primary-color;
       color: $white-color;
       border-radius: 50%;
-      padding: 12px;
+      padding: 6px;
       font-size: 30px !important;
     }
   }
@@ -105,6 +105,7 @@
 }
 
 .pomodoro-row {
+  margin-top: 12px;
   display: flex;
   align-items: center;
   .pomodoro-col {
@@ -167,7 +168,13 @@
     }
   }
 }
-
+//m-select
+.m-select {
+  width: 100%;
+  height: $h-basic !important;
+  font-size: 14px;
+  border-radius: $border-radius-l;
+}
 //m-mess
 .m-mess-normal {
   .m-mess-header {
@@ -290,25 +297,62 @@
     flex-direction: column;
     align-items: start;
     gap: 12px;
-    .m-task-importance {
-      background-color: $danger-color;
+    .m-header-task {
+      display: flex;
+      gap: 12px;
+      .m-task-importance {
+        background-color: $danger-color;
+      }
+      .m-task-urgency {
+        background-color: $success-color-200;
+      }
+      .m-task-not-importance {
+        background-color: $success-color-100;
+      }
+      .m-task-not-urgency {
+        background-color: $warning-color-200;
+      }
+      .m-task-type {
+        width: fit-content;
+        padding: 4px 8px;
+        border-radius: $border-radius-xl;
+        font-weight: bold;
+        font-size: 12px;
+        color: white;
+      }
+      .m-task-status {
+        width: fit-content;
+        padding: 4px 8px;
+        border-radius: $border-radius-xl;
+        font-weight: bold;
+        font-size: 12px;
+        color: white;
+      }
+
+      .m-status-not-yet {
+        background-color: gray;
+      }
+
+      .m-status-done {
+        background-color: #1a9a23;
+      }
+
+      .m-status-doing {
+        background-color: orange;
+      }
+
+      .m-status-cancel {
+        background-color: red;
+      }
     }
-    .m-task-urgency {
-      background-color: $success-color-200;
-    }
-    .m-task-not-importance {
-      background-color: $success-color-100;
-    }
-    .m-task-status {
-      width: fit-content;
-      padding: 6px 12px;
-      border-radius: $border-radius-xl;
-      font-weight: bold;
-      font-size: $size-normal;
-      color: white;
-    }
+
     .m-task-title {
       font-size: $size-normal;
+      font-weight: bold;
+    }
+    .m-task-description {
+      font-size: 12px;
+      font-style: italic;
     }
     .m-task-pomodoro {
       font-size: $icon-size-l;
@@ -317,6 +361,10 @@
         cursor: pointer;
       }
     }
+  }
+  .m-task-col-right {
+    display: flex;
+    gap: 12px;
   }
 }
 

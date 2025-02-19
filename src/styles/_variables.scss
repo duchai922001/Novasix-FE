@@ -11,7 +11,11 @@ $warning-color: #e0b02c;
 $warning-color-100: #f0c030;
 $warning-color-200: #f8d040;
 
-$linear-gradient-header: linear-gradient(to right, $primary-color, $third-color);
+$linear-gradient-header: linear-gradient(
+  to right,
+  $primary-color,
+  $third-color
+);
 //success
 $success-color: #24c431;
 $success-color-100: #66da74;
@@ -22,8 +26,8 @@ $gray-color: #888;
 $padding-page: 12px;
 $border-radius-xxl: 24px;
 $border-radius-xl: 16px;
-$border-radius-l: 12px;
-$h-basic: 40px;
+$border-radius-l: 6px;
+$h-basic: 32px;
 
 //color
 $linear-gradient-right: linear-gradient(
@@ -59,7 +63,7 @@ $title-lg-line-height: 30px;
 
 /*box-shadow*/
 $box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
-$box-shadow-l: 0px 4px 16px rgba(0, 0, 0, 0.1);
+$box-shadow-l: 0px 2px 4px rgba(0, 0, 0, 0.1);
 
 /*respoinsive*/
 $breakpoints: (
@@ -70,7 +74,7 @@ $breakpoints: (
   "laptop": 1024px,
   "tablet-900": 900px,
   "tablet": 768px,
-  "mobile": 575px
+  "mobile": 575px,
 );
 
 @mixin responsive($size) {

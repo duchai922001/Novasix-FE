@@ -3,6 +3,7 @@ import { Col, Input, Row } from "antd";
 import React from "react";
 const { TextArea } = Input;
 interface MInputProps {
+  value?: any;
   title?: string;
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -13,8 +14,11 @@ interface MInputProps {
   placeholder?: string;
   rows?: number;
   maxLength?: number;
+  min?: number;
+  max?: number;
 }
 const MInput: React.FC<MInputProps> = ({
+  value,
   title = "Title",
   onChange,
   style,
@@ -23,6 +27,8 @@ const MInput: React.FC<MInputProps> = ({
   placeholder = "Enter text here",
   rows = 4,
   maxLength = 6,
+  min,
+  max,
 }) => {
   return (
     <Row style={{ width: "100%" }}>
@@ -37,14 +43,18 @@ const MInput: React.FC<MInputProps> = ({
             maxLength={maxLength}
             className="m-textarea"
             onChange={onChange}
+            value={value}
           />
         ) : (
           <Input
+            value={value}
             onChange={onChange}
             style={style}
             type={type}
             placeholder={placeholder}
             className={`m-input-normal ${className}`}
+            min={min}
+            max={max}
           ></Input>
         )}
       </Col>
