@@ -1,4 +1,4 @@
-import { Col, DatePicker, message, Modal, Row, Select } from "antd";
+import { Col, DatePicker, Empty, message, Modal, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import ImageSologan from "@/assets/images/auth/image-sologan.png";
 import MCard from "@/components/basicUI/m-card";
@@ -16,6 +16,7 @@ import MSelect from "@/components/basicUI/m-select";
 import { IDailyTask } from "@/types/daily.interface";
 import { TypeTask } from "@/constants/type-task.constant";
 import { StatusTask } from "@/constants/status-task.constant";
+import dayjs from "dayjs";
 
 interface IOptions {
   time: string;
@@ -82,6 +83,9 @@ const Daily = () => {
   const [dataTaskProgress, setDataTaskProgress] = useState<IDailyTask[]>([]);
   const [dataTaskDone, setDataTaskDone] = useState<IDailyTask[]>([]);
 
+  const [chooseDate, setChooseDate] = useState<string>(
+    dayjs().format("YYYY-MM-DD")
+  );
   const toggleDropdown = () => setIsOpenSelect(!isOpenSelect);
 
   const handleSelect = (value: IOptions) => {
@@ -136,16 +140,15 @@ const Daily = () => {
   };
   const asyncTaskProgress = async () => {
     try {
-      const response = await DailyService.getTaskDaily();
+      const response = await DailyService.getTaskDaily(chooseDate);
       setDataTaskProgress(response);
     } catch (error) {
       handleError(error);
     }
   };
-
   const asyncTaskDone = async () => {
     try {
-      const response = await DailyService.getTaskDoneDaily();
+      const response = await DailyService.getTaskDoneDaily(chooseDate);
       setDataTaskDone(response);
     } catch (error) {
       handleError(error);
@@ -228,10 +231,16 @@ const Daily = () => {
       },
     });
   };
+
+  const handleDateChange = (date: dayjs.Dayjs | null) => {
+    if (date) {
+      setChooseDate(date.format("YYYY-MM-DD")); // Cập nhật ngày khi chọn
+    }
+  };
   useEffect(() => {
     asyncTaskProgress();
     asyncTaskDone();
-  }, []);
+  }, [chooseDate]);
   const renderAddNewTask = () => {
     return (
       <>
@@ -355,7 +364,12 @@ const Daily = () => {
         </Col>
         <Col span={4}>
           {" "}
-          <DatePicker className="custom-datepicker" />
+          <DatePicker
+            className="custom-datepicker"
+            onChange={handleDateChange}
+            defaultValue={dayjs()}
+            format="YYYY-MM-DD"
+          />
         </Col>
       </Row>
       <Row className="card-container" gutter={[12, 12]}>
@@ -370,18 +384,28 @@ const Daily = () => {
             }}
             renderContent={() => (
               <>
-                {dataTaskProgress.map((item) => (
-                  <MTask
-                    isEdit={true}
-                    type={item.type}
-                    task={item.title}
-                    pomodoro={item.numberOfPomodoros}
-                    description={item?.description}
-                    status={item.status}
-                    handleEdit={() => handleEditTask(item._id as string)}
-                    handleDelete={() => handleDeleteTask(item._id as string)}
-                  />
-                ))}
+                {dataTaskProgress.length === 0 ? (
+                  <>
+                    {" "}
+                    <Empty
+                      style={{ marginTop: "24px" }}
+                      description="Hôm nay không có task nào"
+                    />
+                  </>
+                ) : (
+                  dataTaskProgress.map((item) => (
+                    <MTask
+                      isEdit={true}
+                      type={item.type}
+                      task={item.title}
+                      pomodoro={item.numberOfPomodoros}
+                      description={item?.description}
+                      status={item.status}
+                      handleEdit={() => handleEditTask(item._id as string)}
+                      handleDelete={() => handleDeleteTask(item._id as string)}
+                    />
+                  ))
+                )}
               </>
             )}
             action={ActionType.ADD}
@@ -397,17 +421,25 @@ const Daily = () => {
             }}
             renderContent={() => (
               <>
-                {dataTaskDone.map((item) => (
-                  <MTask
-                    isEdit={false}
-                    type={item.type}
-                    status={item.status}
-                    task={item.title}
-                    pomodoro={item.numberOfPomodoros}
-                    description={item.description}
-                    handleDelete={() => handleDeleteTask(item._id as string)}
+                {dataTaskDone.length === 0 ? (
+                  <Empty
+                    style={{ marginTop: "24px" }}
+                    description="Không có task nào hoàn thành"
                   />
-                ))}
+                ) : (
+                  dataTaskDone.map((item) => (
+                    <MTask
+                      key={item._id}
+                      isEdit={false}
+                      type={item.type}
+                      status={item.status}
+                      task={item.title}
+                      pomodoro={item.numberOfPomodoros}
+                      description={item.description}
+                      handleDelete={() => handleDeleteTask(item._id as string)}
+                    />
+                  ))
+                )}
               </>
             )}
             action={ActionType.ADD}

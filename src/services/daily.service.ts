@@ -17,12 +17,20 @@ export const DailyService = {
     const response = await axiosInstance.delete(`/daily-task/delete/${id}`);
     return response.data;
   },
-  getTaskDaily: async () => {
-    const response = await axiosInstance.get("/daily-task/progress");
+  getTaskDaily: async (date: string) => {
+    const response = await axiosInstance.get("/daily-task/progress", {
+      params: {
+        date,
+      },
+    });
     return response.data;
   },
-  getTaskDoneDaily: async () => {
-    const response = await axiosInstance.get("/daily-task/done");
+  getTaskDoneDaily: async (date: string) => {
+    const response = await axiosInstance.get("/daily-task/done", {
+      params: {
+        date,
+      },
+    });
     return response.data;
   },
 };
