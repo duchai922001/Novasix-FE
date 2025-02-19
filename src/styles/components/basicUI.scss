@@ -2,7 +2,7 @@
 
 // Common
 .m-title {
-  font-size: 18px;
+  font-size: 16px;
   color: $primary-color;
   font-weight: bold;
 }
@@ -39,7 +39,7 @@
   width: 100%;
   height: $h-basic !important;
   border: 1px solid $primary-color;
-  font-size: 16px;
+  font-size: 14px;
   border-radius: $border-radius-l;
 }
 .m-textarea {
@@ -51,7 +51,7 @@
 .m-checkbox-normal {
   width: 100%;
   .m-checkbox-title {
-    font-size: 18px;
+    font-size: 14px;
   }
 }
 
@@ -390,7 +390,7 @@
   right: 20px;
   width: 50px;
   height: 50px;
-  background-color: #1A9A23;
+  background-color: #1a9a23;
   color: white;
   border: none;
   border-radius: 50%;
@@ -404,7 +404,7 @@
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 
   &:hover {
-    background-color: darken(#1A9A23, 10%);
+    background-color: darken(#1a9a23, 10%);
     transform: scale(1.1);
   }
 

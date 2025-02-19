@@ -4,7 +4,9 @@ import React from "react";
 const { TextArea } = Input;
 interface MInputProps {
   title?: string;
-  onChange?: () => void;
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   style?: React.CSSProperties;
   type?: string;
   className?: string;
@@ -34,6 +36,7 @@ const MInput: React.FC<MInputProps> = ({
             placeholder={placeholder}
             maxLength={maxLength}
             className="m-textarea"
+            onChange={onChange}
           />
         ) : (
           <Input

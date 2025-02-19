@@ -15,6 +15,8 @@ import { AiOutlineGlobal } from "react-icons/ai";
 import { HiMiniBellAlert } from "react-icons/hi2";
 import { GiTomato } from "react-icons/gi";
 import React, { useEffect, useState } from "react";
+import { getLocalStorage } from "@/utils/localstorage";
+import { IUserData } from "@/types/user.interface";
 
 interface MenuItem {
   key: string;
@@ -26,6 +28,14 @@ const AuthLayout = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState<string | null>("dashboard");
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [userData, setUserData] = useState<IUserData>({
+    name: "username",
+  });
+
+  useEffect(() => {
+    const user = getLocalStorage("user");
+    setUserData(user);
+  }, []);
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
   };
@@ -154,11 +164,11 @@ const AuthLayout = () => {
       >
         {/* Logo */}
         <Row className="header" onClick={toggleSidebar}>
-            <img
-              src={logo}
-              alt="NovaSix Logo"
-              className={`logo-auth ${isCollapsed ? "collapsed-logo" : ""}`}
-            />
+          <img
+            src={logo}
+            alt="NovaSix Logo"
+            className={`logo-auth ${isCollapsed ? "collapsed-logo" : ""}`}
+          />
         </Row>
 
         {/* Menu Items */}
@@ -217,7 +227,7 @@ const AuthLayout = () => {
           <div className="header-auth-info">
             <Col className="col-left-header-auth">
               <MdAccountCircle className="icon-header-auth" />
-              <span>Username</span>
+              <span>{userData.name}</span>
             </Col>
             <Col className="col-right-header-auth">
               <AiOutlineGlobal className="icon-header-auth" />

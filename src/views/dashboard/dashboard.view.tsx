@@ -18,27 +18,75 @@ const Dashboard: React.FC = () => {
     switch (selectedFilter) {
       case "Day":
         return [
-          { number: 10, taskStatus: "Task completed", percentYesterday: "+10% from Yesterday" },
-          { number: 1, taskStatus: "Task unfinished", percentYesterday: "-10% from Yesterday" },
-          { number: 20, taskStatus: "Time applied Pomodoro", percentYesterday: "+10% from Yesterday" },
+          {
+            number: 10,
+            taskStatus: "Task completed",
+            percentYesterday: "+10% from Yesterday",
+          },
+          {
+            number: 1,
+            taskStatus: "Task unfinished",
+            percentYesterday: "-10% from Yesterday",
+          },
+          {
+            number: 20,
+            taskStatus: "Time applied Pomodoro",
+            percentYesterday: "+10% from Yesterday",
+          },
         ];
       case "Week":
         return [
-          { number: 65, taskStatus: "Task completed", percentLastWeek: "+15% from Last Week" },
-          { number: 5, taskStatus: "Task unfinished", percentLastWeek: "-5% from Last Week" },
-          { number: 140, taskStatus: "Time applied Pomodoro", percentLastWeek: "+20% from Last Week" },
+          {
+            number: 65,
+            taskStatus: "Task completed",
+            percentLastWeek: "+15% from Last Week",
+          },
+          {
+            number: 5,
+            taskStatus: "Task unfinished",
+            percentLastWeek: "-5% from Last Week",
+          },
+          {
+            number: 140,
+            taskStatus: "Time applied Pomodoro",
+            percentLastWeek: "+20% from Last Week",
+          },
         ];
       case "Month":
         return [
-          { number: 240, taskStatus: "Task completed", percentLastMonth: "+8% from Last Month" },
-          { number: 10, taskStatus: "Task unfinished", percentLastMonth: "-3% from Last Month" },
-          { number: 600, taskStatus: "Time applied Pomodoro", percentLastMonth: "+12% from Last Month" },
+          {
+            number: 240,
+            taskStatus: "Task completed",
+            percentLastMonth: "+8% from Last Month",
+          },
+          {
+            number: 10,
+            taskStatus: "Task unfinished",
+            percentLastMonth: "-3% from Last Month",
+          },
+          {
+            number: 600,
+            taskStatus: "Time applied Pomodoro",
+            percentLastMonth: "+12% from Last Month",
+          },
         ];
       case "Year":
         return [
-          { number: 2800, taskStatus: "Task completed", percentLastYear: "+25% from Last Year" },
-          { number: 50, taskStatus: "Task unfinished", percentLastYear: "-7% from Last Year" },
-          { number: 7500, taskStatus: "Time applied Pomodoro", percentLastYear: "+30% from Last Year" },
+          {
+            number: 2800,
+            taskStatus: "Task completed",
+            percentLastYear: "+25% from Last Year",
+          },
+          {
+            number: 50,
+            taskStatus: "Task unfinished",
+            percentLastYear: "-7% from Last Year",
+          },
+          {
+            number: 7500,
+            taskStatus: "Time applied Pomodoro",
+            percentLastYear: "+30% from Last Year",
+          },
         ];
       default:
         return [];
@@ -47,7 +95,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-
       {/* Filter Buttons */}
       <div className="filter-buttons">
         {["Day", "Week", "Month", "Year"].map((filter) => (
@@ -59,7 +106,7 @@ const Dashboard: React.FC = () => {
             {filter}
           </button>
         ))}
-      </div> 
+      </div>
 
       {/* Most Focused & Distracting Time */}
       <div className="stats-row">
