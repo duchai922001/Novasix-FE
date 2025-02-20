@@ -34,7 +34,7 @@ const Header: React.FC = () => {
     },
     {
       key: "FAQS",
-      route: "#",
+      route: "/FAQS",
       text: "FAQs",
     },
   ]
