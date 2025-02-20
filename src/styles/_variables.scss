@@ -76,11 +76,9 @@ $breakpoints: (
   "tablet": 768px,
   "mobile": 575px,
 );
-
 @mixin responsive($size) {
-  @if map-has-key($breakpoints, $size) {
-    @media (max-width: map-get($breakpoints, $size)) {
-      @content;
+  @if map.has-key($breakpoints, $size) {
+    @media (max-width: map.get($breakpoints, $size)) {
     }
   } @else {
     @warn "Breakpoint #{$size} không tồn tại trong map $breakpoints";
