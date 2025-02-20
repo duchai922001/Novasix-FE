@@ -24,12 +24,12 @@ const Header: React.FC = () => {
     },
     {
       key: "AboutUs",
-      route: "#",
+      route: "/aboutUs",
       text: "About Us",
     },
     {
       key: "Policies",
-      route: "#",
+      route: "/policies",
       text: "Policies",
     },
     {
