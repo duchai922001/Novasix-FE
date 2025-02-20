@@ -14,6 +14,7 @@ import Weekly from "@/views/weekly/weekly.view";
 import HomePage from "@/layouts/home.layout";
 import Body from "@/views/home/body.view";
 import PrivateRoute from "./private.route";
+import PomodoroPage from "@/views/pomodoroPage/pomodoroPage.view";
 import AboutUs from "@/views/aboutUs/aboutUs.view";
 import FAQS from "@/views/FAQS/FAQS.view";
 import PoliciesAterms from "@/views/policiesAterms/policiesAterms.view";
@@ -41,6 +42,7 @@ const MainRoutes = () => {
             <Route path="/store" element={<Store />} />
             <Route path="/monthly" element={<Monthly />} />
             <Route path="/upgrade" element={<Upgrade />} />
+            <Route path="/pomodoro" element={<PomodoroPage />} />
           </Route>
         </Route>
       </Routes>
