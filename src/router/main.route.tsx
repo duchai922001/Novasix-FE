@@ -15,7 +15,9 @@ import HomePage from "@/layouts/home.layout";
 import Body from "@/views/home/body.view";
 import PrivateRoute from "./private.route";
 import PomodoroPage from "@/views/pomodoroPage/pomodoroPage.view";
-
+import AboutUs from "@/views/aboutUs/aboutUs.view";
+import FAQS from "@/views/FAQS/FAQS.view";
+import PoliciesAterms from "@/views/policiesAterms/policiesAterms.view";
 const MainRoutes = () => {
   return (
     <>
@@ -26,6 +28,9 @@ const MainRoutes = () => {
         </Route>
         <Route element={<HomePage />}>
           <Route path="/" element={<Body />} />
+          <Route path="/aboutUs" element={<AboutUs />}/>
+          <Route path="/FAQS" element={<FAQS />} />
+          <Route path="/policies" element={<PoliciesAterms />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<AuthLayout />}>
