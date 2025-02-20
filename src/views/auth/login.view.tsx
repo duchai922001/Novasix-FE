@@ -16,6 +16,10 @@ const Login = () => {
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleLogin = async () => {
+    const { username, password } = formDataLogin;
+    if (!username || !password) {
+      return message.warning("Điền tên đăng nhập và mật khẩu");
+    }
     try {
       setIsLoading(true);
       const response = await AuthService.login(formDataLogin);
