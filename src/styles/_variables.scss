@@ -78,7 +78,11 @@ $breakpoints: (
 );
 
 @mixin responsive($size) {
-  @media (max-width: map-get($breakpoints, $size)) {
-    @content;
+  @if map-has-key($breakpoints, $size) {
+    @media (max-width: map-get($breakpoints, $size)) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint #{$size} không tồn tại trong map $breakpoints";
   }
 }
