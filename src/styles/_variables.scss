@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $primary-color: #058e21;
 $second-color: #ffda39;
 $third-color: #aaea2f;
@@ -79,6 +81,7 @@ $breakpoints: (
 @mixin responsive($size) {
   @if map.has-key($breakpoints, $size) {
     @media (max-width: map.get($breakpoints, $size)) {
+      @content;
     }
   } @else {
     @warn "Breakpoint #{$size} không tồn tại trong map $breakpoints";
