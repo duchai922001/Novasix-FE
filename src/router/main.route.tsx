@@ -13,6 +13,7 @@ import Upgrade from "@/views/upgrade/upgrade.view";
 import Weekly from "@/views/weekly/weekly.view";
 import HomePage from "@/layouts/home.layout";
 import Body from "@/views/home/body.view";
+import PrivateRoute from "./private.route";
 
 const MainRoutes = () => {
   return (
@@ -22,18 +23,20 @@ const MainRoutes = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Route>
-        <Route element={<HomePage />} >
+        <Route element={<HomePage />}>
           <Route path="/" element={<Body />} />
         </Route>
-        <Route element={<AuthLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/daily" element={<Daily />} />
-          <Route path="/weekly" element={<Weekly />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Setting />} />
-          <Route path="/store" element={<Store />} />
-          <Route path="/monthly" element={<Monthly />} />
-          <Route path="/upgrade" element={<Upgrade />} />
+        <Route element={<PrivateRoute />}>
+          <Route element={<AuthLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/daily" element={<Daily />} />
+            <Route path="/weekly" element={<Weekly />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Setting />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/monthly" element={<Monthly />} />
+            <Route path="/upgrade" element={<Upgrade />} />
+          </Route>
         </Route>
       </Routes>
     </>

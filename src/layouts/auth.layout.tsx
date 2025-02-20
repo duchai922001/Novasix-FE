@@ -101,6 +101,11 @@ const AuthLayout = () => {
             boxShadow: isActive ? "0px 0px 10px #888888" : "none",
           }}
           onClick={() => {
+            if (item.key === "logout") {
+              localStorage.removeItem("accessToken");
+              localStorage.removeItem("user");
+            }
+
             setActiveIndex(item.key);
             navigate(`${item.url}`);
           }}
