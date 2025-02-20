@@ -28,13 +28,13 @@ const MTask: React.FC<IMTaskProps> = ({
 }) => {
   const classTypeType = (() => {
     switch (type) {
-      case TypeTask.IMPORTANCE:
+      case TypeTask.IMPORTANCE_NOT_URGENCY:
         return "m-task-importance";
-      case TypeTask.URGENCY:
+      case TypeTask.IMPORTANCE_URGENCY:
         return "m-task-urgency";
-      case TypeTask.NOT_IMPORTANCE:
+      case TypeTask.NOT_IMPORTANCE_NOT_URGENCY:
         return "m-task-not-importance";
-      case TypeTask.NOT_URGENCY:
+      case TypeTask.NOT_IMPORTANCE_URGENCY:
         return "m-task-not-urgency";
       default:
         return "";

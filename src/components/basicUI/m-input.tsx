@@ -26,7 +26,7 @@ const MInput: React.FC<MInputProps> = ({
   className,
   placeholder = "Enter text here",
   rows = 4,
-  maxLength = 6,
+  maxLength = 3000,
   min,
   max,
 }) => {

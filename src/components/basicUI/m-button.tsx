@@ -22,7 +22,7 @@ const MButton: React.FC<MButtonProps> = ({
 }) => {
   const styleButton = {
     ...(type === "fill" ? { backgroundColor: "#058e21", color: "white" } : {}),
-    ...(border === "circle" ? { borderRadius: "24px" } : {}),
+    ...(border === "circle" ? { borderRadius: "12px" } : {}),
     ...style,
   };
   return (

@@ -1,12 +1,10 @@
-import { Col, DatePicker, Empty, message, Modal, Row, Select } from "antd";
+import { Col, DatePicker, Empty, message, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 import ImageSologan from "@/assets/images/auth/image-sologan.png";
 import MCard from "@/components/basicUI/m-card";
 import MTask from "@/components/basicUI/m-task";
 import { ActionType } from "@/constants/action.constant";
 import MButton from "@/components/basicUI/m-button";
-import { GiTomato } from "react-icons/gi";
-import { IoMdArrowDroprightCircle } from "react-icons/io";
 import MInput from "@/components/basicUI/m-input";
 import MModal from "@/components/basicUI/m-modal";
 import { handleError } from "@/utils/catch-error";
@@ -18,33 +16,24 @@ import { TypeTask } from "@/constants/type-task.constant";
 import { StatusTask } from "@/constants/status-task.constant";
 import dayjs from "dayjs";
 
-interface IOptions {
-  time: string;
-  pomodoro: number;
-}
-const options: IOptions[] = [
-  { time: "50 - 10", pomodoro: 2 },
-  { time: "25 - 5", pomodoro: 1 },
-];
 const Daily = () => {
   const MAX_POMODOROS = 5;
-  const [isOpenSelect, setIsOpenSelect] = useState(false);
   const optionTask = [
     {
-      value: TypeTask.IMPORTANCE,
-      label: "Important",
+      value: TypeTask.IMPORTANCE_NOT_URGENCY,
+      label: "Important Not Urgency",
     },
     {
-      value: TypeTask.NOT_IMPORTANCE,
-      label: "Not Important",
+      value: TypeTask.IMPORTANCE_URGENCY,
+      label: "Important Urgency",
     },
     {
-      value: TypeTask.NOT_URGENCY,
-      label: "Not Urgency",
+      value: TypeTask.NOT_IMPORTANCE_NOT_URGENCY,
+      label: "Not Important Not Urgency",
     },
     {
-      value: TypeTask.URGENCY,
-      label: "Urgency",
+      value: TypeTask.NOT_IMPORTANCE_URGENCY,
+      label: "Not Important Urgency",
     },
   ];
 
@@ -66,10 +55,7 @@ const Daily = () => {
       label: "Cancel",
     },
   ];
-  const [selected, setSelected] = useState<IOptions>({
-    time: "",
-    pomodoro: 0,
-  });
+
   const [selectedEdit, setSelectedEdit] = useState<string>("");
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [formNewTask, setFormNewTask] = useState<IDailyTask>({
@@ -86,58 +72,7 @@ const Daily = () => {
   const [chooseDate, setChooseDate] = useState<string>(
     dayjs().format("YYYY-MM-DD")
   );
-  const toggleDropdown = () => setIsOpenSelect(!isOpenSelect);
 
-  const handleSelect = (value: IOptions) => {
-    setSelected({
-      time: value.time,
-      pomodoro: value.pomodoro,
-    });
-    setIsOpenSelect(false);
-  };
-  const renderItemOption = (op: IOptions) => {
-    return (
-      <div className="item-option">
-        {Array.from({ length: op.pomodoro }, (_, index) => (
-          <span key={index}>
-            <GiTomato className="icon-pomodoro" />
-          </span>
-        ))}
-        {op.time}
-      </div>
-    );
-  };
-  const renderSelectPomodoro = () => {
-    return (
-      <div className="select-pomodoro-container">
-        <p className="select-pomodoro">Set Time of Pomodoro</p>
-
-        <div className="custom-dropdown">
-          <div className="dropdown-header" onClick={toggleDropdown}>
-            <span>{selected.time ? selected.time : "Selected an options"}</span>
-
-            <IoMdArrowDroprightCircle
-              className={`primary-color m-todo-icon-arrow ${
-                isOpenSelect ? "rotated" : ""
-              }`}
-            />
-          </div>
-          {isOpenSelect && (
-            <ul className="dropdown-list">
-              {options.map((option: IOptions) => (
-                <li
-                  className="dropdown-option"
-                  onClick={() => handleSelect(option)}
-                >
-                  {renderItemOption(option)}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-    );
-  };
   const asyncTaskProgress = async () => {
     try {
       const response = await DailyService.getTaskDaily(chooseDate);
@@ -442,7 +377,6 @@ const Daily = () => {
                 )}
               </>
             )}
-            action={ActionType.ADD}
           />
         </Col>
       </Row>

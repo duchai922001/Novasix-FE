@@ -43,7 +43,7 @@
   border-radius: $border-radius-l;
 }
 .m-textarea {
-  font-size: 18px;
+  font-size: 14px;
   border: 1px solid $primary-color;
 }
 
@@ -67,9 +67,9 @@
   .header-card {
     background: linear-gradient(to right, $primary-color, $fourth-color);
     background-color: $primary-color;
-    padding: 12px;
+    padding: 8px;
     height: fit-content;
-    border-radius: $border-radius-xl;
+    border-radius: $border-radius-l;
     box-shadow: $box-shadow;
     .header-card-title {
       color: $white-color;
@@ -242,7 +242,7 @@
     background-color: $success-color-200;
   }
   .m-todo-contain {
-    padding: 12px;
+    padding: 6px;
     border-radius: $border-radius-l;
     display: flex;
     align-items: center;
