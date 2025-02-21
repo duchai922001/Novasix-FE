@@ -13,7 +13,8 @@ const Monthly: React.FC = () => {
 
   const cuteIcons = ["🌸", "🎉", "🎈", "⭐", "❤️", "✨", "🎶", "🍀"];
 
-  const getRandomIcon = () => cuteIcons[Math.floor(Math.random() * cuteIcons.length)];
+  const getRandomIcon = () =>
+    cuteIcons[Math.floor(Math.random() * cuteIcons.length)];
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfWeek = new Date(currentYear, currentMonth, 1).getDay();
@@ -30,7 +31,7 @@ const Monthly: React.FC = () => {
 
   const handleCreateEvent = async () => {
     if (selectedDay === null) return; // Ngăn lỗi nếu chưa chọn ngày
-  
+
     try {
       const eventDate = new Date(currentYear, currentMonth, selectedDay);
       await MonthlyService.createEvent({
@@ -38,19 +39,19 @@ const Monthly: React.FC = () => {
         dateTime: eventDate.toISOString(),
       });
       message.success("Tạo sự kiện thành công");
-  
+
       setIcons((prev) => ({
         ...prev,
         [`${currentYear}-${currentMonth}-${selectedDay}`]: [getRandomIcon()], // Đảm bảo key hợp lệ
       }));
-  
+
       asyncDataEventMonthly();
       setSelectedDay(null);
     } catch (error) {
       handleError(error);
     }
   };
-  
+
   const asyncDataEventMonthly = async () => {
     try {
       const response = await MonthlyService.getEventMonth(
@@ -81,7 +82,6 @@ const Monthly: React.FC = () => {
   useEffect(() => {
     asyncDataEventMonthly();
   }, [currentMonth, currentYear]);
-
   return (
     <div className="monthly-container">
       <div className="header">
@@ -95,7 +95,9 @@ const Monthly: React.FC = () => {
 
       <div className="days-of-week">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-          <div key={day} className="day">{day}</div>
+          <div key={day} className="day">
+            {day}
+          </div>
         ))}
       </div>
 
@@ -123,12 +125,29 @@ const Monthly: React.FC = () => {
               <span>{day}</span>
               {isCurrentMonth &&
                 tasks[`${currentYear}-${currentMonth}-${day}`]?.map((t, i) => (
-                  <p key={i} className="task">{t}</p>
+                  <div style={{ display: "flex", marginTop: "12px" }}>
+                    <span></span>
+                    <p
+                      key={i}
+                      style={{
+                        fontSize: "14px",
+                        color: "green",
+                        fontWeight: "bold",
+                      }}
+                      className="task"
+                    >
+                      {t}
+                    </p>
+                  </div>
                 ))}
-              {isCurrentMonth &&
-                icons[`${currentYear}-${currentMonth}-${day}`]?.map((icon, i) => (
-                  <span key={i} className="task-icon">{icon}</span>
-                ))}
+              {currentMonth &&
+                icons[`${currentYear}-${currentMonth}-${day}`]?.map(
+                  (icon, i) => (
+                    <span key={i} className="task-icon">
+                      {icon}
+                    </span>
+                  )
+                )}
             </div>
           );
         })}
@@ -138,7 +157,9 @@ const Monthly: React.FC = () => {
         <div className="popup">
           <div className="popup-header">
             <span>Day {selectedDay}</span>
-            <button className="close-btn" onClick={() => setSelectedDay(null)}>X</button>
+            <button className="close-btn" onClick={() => setSelectedDay(null)}>
+              X
+            </button>
           </div>
           <div className="popup-content">
             <input
@@ -152,12 +173,14 @@ const Monthly: React.FC = () => {
               {tasksForDay.map((t, i) => (
                 <li key={i}>
                   {t}{" "}
-                  <button onClick={() => {
-                    setTasks((prev) => ({
-                      ...prev,
-                      [key]: prev[key].filter((_, idx) => idx !== i),
-                    }));
-                  }}>
+                  <button
+                    onClick={() => {
+                      setTasks((prev) => ({
+                        ...prev,
+                        [key]: prev[key].filter((_, idx) => idx !== i),
+                      }));
+                    }}
+                  >
                     ✏️
                   </button>
                 </li>
