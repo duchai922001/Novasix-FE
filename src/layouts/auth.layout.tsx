@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/auth/logo-zendo.png";
 import { RiDashboardFill } from "react-icons/ri";
 import { CiCloudSun } from "react-icons/ci";
@@ -17,6 +17,7 @@ import { GiTomato } from "react-icons/gi";
 import React, { useEffect, useState } from "react";
 import { getLocalStorage } from "@/utils/localstorage";
 import { IUserData } from "@/types/user.interface";
+import { PomodoroService } from "@/services/pomodoro.service";
 
 interface MenuItem {
   key: string;
@@ -25,14 +26,32 @@ interface MenuItem {
   url?: string;
 }
 const AuthLayout = () => {
+  const location = useLocation();
+
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState<string | null>("dashboard");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [userData, setUserData] = useState<IUserData>({
     name: "username",
   });
-
+  const [pomodoroUser, setPomodoroUser] = useState({
+    pomodoroTimer: 0,
+    breakTimer: 0,
+  });
+  const asyncDataPomodoroUser = async () => {
+    try {
+      const response = await PomodoroService.getPomodoroOfUser();
+      setPomodoroUser(response);
+    } catch {
+      console.log("");
+    }
+  };
   useEffect(() => {
+    const currentPath = location.pathname.split("/")[1];
+    setActiveIndex(currentPath || "dashboard");
+  }, [location.pathname]);
+  useEffect(() => {
+    asyncDataPomodoroUser();
     const user = getLocalStorage("user");
     setUserData(user);
   }, []);
@@ -225,7 +244,9 @@ const AuthLayout = () => {
               <span className="pomodoro">
                 <GiTomato />
               </span>
-              <span className="time">15 minutes</span>
+              <span className="time">
+                {pomodoroUser.pomodoroTimer} - {pomodoroUser.breakTimer} minutes
+              </span>
             </div>
           )}
 

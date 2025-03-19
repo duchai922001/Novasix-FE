@@ -1,4 +1,15 @@
-import { Col, DatePicker, Empty, message, Modal, Row, Spin } from "antd";
+import {
+  Button,
+  Col,
+  DatePicker,
+  Empty,
+  message,
+  Modal,
+  Row,
+  Spin,
+  Typography,
+} from "antd";
+import { PlayCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import ImageSologan from "@/assets/images/auth/image-sologan.png";
 import MCard from "@/components/basicUI/m-card";
@@ -15,8 +26,13 @@ import { IDailyTask } from "@/types/daily.interface";
 import { TypeTask } from "@/constants/type-task.constant";
 import { StatusTask } from "@/constants/status-task.constant";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
+import { PomodoroService } from "@/services/pomodoro.service";
+import { QuoteSerivce } from "@/services/quote.service";
 
+const { Title, Text } = Typography;
 const Daily = () => {
+  const navigate = useNavigate();
   const MAX_POMODOROS = 5;
   const optionTask = [
     {
@@ -66,9 +82,22 @@ const Daily = () => {
     type: "",
     status: StatusTask.NOT_YET,
   });
+  const [openStartTask, setOpenStartTask] = useState<boolean>(false);
   const [dataTaskProgress, setDataTaskProgress] = useState<IDailyTask[]>([]);
   const [dataTaskDone, setDataTaskDone] = useState<IDailyTask[]>([]);
-
+  const [selectTaskStart, setSelectTaskStart] = useState<IDailyTask>({
+    title: "",
+    description: "",
+    attachedFile: "",
+    numberOfPomodoros: 0,
+    type: "",
+    status: StatusTask.NOT_YET,
+  });
+  const [dataQuote, setDataQuote] = useState({
+    image: "",
+    description: "",
+    author: "",
+  });
   const [chooseDate, setChooseDate] = useState<string>(
     dayjs().format("YYYY-MM-DD")
   );
@@ -97,14 +126,14 @@ const Daily = () => {
   };
   const handleModalTask = async () => {
     const { title, description, numberOfPomodoros, type, status } = formNewTask;
-    if (!title || !numberOfPomodoros || !type) {
+    if (!title || !type) {
       return message.warning("Vui lòng nhập task");
     }
     try {
       const payloadTask = {
         title,
         description,
-        numberOfPomodoros,
+        numberOfPomodoros: numberOfPomodoros ?? 0,
         type,
         status,
       };
@@ -172,7 +201,15 @@ const Daily = () => {
       },
     });
   };
-
+  const asyncQuotes = async () => {
+    try {
+      setIsLoading(true);
+      const response = await QuoteSerivce.getRandomQuote();
+      setDataQuote(response);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const handleDateChange = (date: dayjs.Dayjs | null) => {
     if (date) {
       setChooseDate(date.format("YYYY-MM-DD")); // Cập nhật ngày khi chọn
@@ -182,6 +219,9 @@ const Daily = () => {
     asyncTaskProgress();
     asyncTaskDone();
   }, [chooseDate]);
+  useEffect(() => {
+    asyncQuotes();
+  }, []);
   const renderAddNewTask = () => {
     return (
       <>
@@ -269,14 +309,11 @@ const Daily = () => {
     return (
       <Row style={{ height: "100%" }}>
         <Col span={18} className="sologan-des">
-          <p className="title">
-            Your Personal Philophy is the greatest determing factor in how your
-            life works out
-          </p>
-          <p className="author">---Jim Rohn---</p>
+          <p className="title">{dataQuote.description}</p>
+          <p className="author">---{dataQuote.author}---</p>
         </Col>
         <Col span={6}>
-          <img src={ImageSologan} className="image-slg" />
+          <img src={dataQuote.image} className="image-slg" />
         </Col>
       </Row>
     );
@@ -294,6 +331,31 @@ const Daily = () => {
     setSelectedEdit("");
     setIsOpenModal(true);
   };
+  const handleCloseStartTask = () => {
+    setOpenStartTask(false);
+  };
+  const handleSelectTaskStart = async (id: string) => {
+    try {
+      const response = await DailyService.getTaskDailyById(id);
+      setSelectTaskStart(response);
+    } catch {
+      message.error("Lỗi hệ thống vui lòng thử lại sau");
+    }
+  };
+  const handleCompleTask = async () => {
+    try {
+      await DailyService.updateDailyTask(selectedEdit, {
+        status: StatusTask.DONE,
+      });
+      setOpenStartTask(false);
+
+      asyncTaskDone();
+      asyncTaskProgress();
+    } catch {
+      message.error("Lỗi hệ thống vui lòng thử lại sau");
+    }
+  };
+
   return (
     <Spin spinning={isLoading}>
       <div className="daily-container">
@@ -337,6 +399,11 @@ const Daily = () => {
                   ) : (
                     dataTaskProgress.map((item) => (
                       <MTask
+                        onClick={() => {
+                          setOpenStartTask(true);
+                          handleSelectTaskStart(item._id as string);
+                          setSelectedEdit(item._id as string);
+                        }}
                         isEdit={true}
                         type={item.type}
                         task={item.title}
@@ -399,6 +466,80 @@ const Daily = () => {
           renderContent={() => <>{renderAddNewTask()}</>}
         />
       </div>
+      <Modal
+        open={openStartTask}
+        title="📝 Task của bạn"
+        onCancel={handleCloseStartTask}
+        width={600}
+        footer={null}
+        centered
+        style={{ borderRadius: "12px" }}
+      >
+        <Row gutter={[12, 12]} justify="center" style={{ textAlign: "center" }}>
+          {/* Tiêu đề Task */}
+          <Col span={24}>
+            <Title level={4} style={{ color: "#1890ff", fontWeight: "bold" }}>
+              {selectTaskStart?.title || "Chưa có tiêu đề"}
+            </Title>
+          </Col>
+
+          {/* Mô tả Task */}
+          <Col span={24}>
+            <Text type="danger" style={{ fontSize: "16px" }}>
+              {selectTaskStart?.description || "Không có mô tả"}
+            </Text>
+          </Col>
+
+          {/* Nút bấm */}
+          <Col span={24}>
+            <Button
+              type={
+                selectTaskStart?.numberOfPomodoros &&
+                selectTaskStart?.numberOfPomodoros > 0
+                  ? "primary"
+                  : "default"
+              }
+              size="large"
+              icon={
+                selectTaskStart?.numberOfPomodoros &&
+                selectTaskStart?.numberOfPomodoros > 0 ? (
+                  <PlayCircleOutlined />
+                ) : (
+                  <CheckCircleOutlined />
+                )
+              }
+              style={{
+                background:
+                  selectTaskStart?.numberOfPomodoros &&
+                  selectTaskStart?.numberOfPomodoros > 0
+                    ? "#52c41a"
+                    : "#faad14",
+                borderColor: "transparent",
+                color: "#fff",
+                fontWeight: "bold",
+                borderRadius: "8px",
+                width: "200px",
+                height: "45px",
+              }}
+              onClick={() => {
+                if (
+                  selectTaskStart?.numberOfPomodoros &&
+                  selectTaskStart.numberOfPomodoros > 0
+                ) {
+                  navigate(`/pomodoro/${selectTaskStart._id}`);
+                } else {
+                  handleCompleTask();
+                }
+              }}
+            >
+              {selectTaskStart?.numberOfPomodoros &&
+              selectTaskStart?.numberOfPomodoros > 0
+                ? "Bắt đầu"
+                : "Hoàn thành"}
+            </Button>
+          </Col>
+        </Row>
+      </Modal>
     </Spin>
   );
 };

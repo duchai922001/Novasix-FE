@@ -3,7 +3,6 @@ import { TypeTask } from "@/constants/type-task.constant";
 import { Col, Row } from "antd";
 import { CiEdit } from "react-icons/ci";
 import { GiTomato } from "react-icons/gi";
-import { IoMdAddCircle } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 
 interface IMTaskProps {
@@ -15,6 +14,7 @@ interface IMTaskProps {
   handleEdit?: () => void;
   handleDelete: () => void;
   isEdit: boolean;
+  onClick?: () => void;
 }
 const MTask: React.FC<IMTaskProps> = ({
   type,
@@ -24,6 +24,7 @@ const MTask: React.FC<IMTaskProps> = ({
   pomodoro = 0,
   handleEdit,
   handleDelete,
+  onClick,
   isEdit,
 }) => {
   const classTypeType = (() => {
@@ -55,7 +56,11 @@ const MTask: React.FC<IMTaskProps> = ({
     }
   })();
   return (
-    <Row className="m-task-normal">
+    <Row
+      className="m-task-normal"
+      style={{ position: "relative", cursor: "pointer" }}
+      onClick={onClick}
+    >
       <Col span={22} className="m-task-col-left">
         <div className="m-header-task">
           <div className={`m-task-type ${classTypeType}`}>{type}</div>
@@ -79,11 +84,47 @@ const MTask: React.FC<IMTaskProps> = ({
       <Col span={2} className="m-task-col-right">
         {isEdit ? (
           <>
-            <CiEdit style={{ cursor: "pointer" }} onClick={handleEdit} />
+            <CiEdit
+              style={{
+                cursor: "pointer",
+                position: "absolute",
+                top: 10,
+                right: 60, // Lùi sang trái để tránh đè lên Delete
+                fontSize: 24,
+                color: "#007bff", // Màu xanh nổi bật
+                backgroundColor: "#fff",
+                padding: "5px",
+                borderRadius: "50%",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.2)", // Tạo hiệu ứng nổi
+              }}
+              className="m-task-icon edit-icon"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEdit?.();
+              }}
+            />
           </>
         ) : null}
 
-        <MdDeleteOutline style={{ cursor: "pointer" }} onClick={handleDelete} />
+        <MdDeleteOutline
+          className="m-task-icon delete-icon"
+          style={{
+            cursor: "pointer",
+            position: "absolute",
+            top: 10,
+            right: 10, // Giữ nguyên bên phải
+            fontSize: 24,
+            color: "#ff4d4f", // Màu đỏ nổi bật
+            backgroundColor: "#fff",
+            padding: "5px",
+            borderRadius: "50%",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.2)", // Tạo hiệu ứng nổi
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete();
+          }}
+        />
       </Col>
     </Row>
   );

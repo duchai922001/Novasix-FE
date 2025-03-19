@@ -17,6 +17,10 @@ export const DailyService = {
     const response = await axiosInstance.delete(`/daily-task/delete/${id}`);
     return response.data;
   },
+  getTaskDailyById: async (id: string) => {
+    const response = await axiosInstance.get(`/daily-task/get-task/${id}`);
+    return response.data;
+  },
   getTaskDaily: async (date: string) => {
     const response = await axiosInstance.get("/daily-task/progress", {
       params: {
