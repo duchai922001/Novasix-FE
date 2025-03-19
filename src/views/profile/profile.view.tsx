@@ -1,205 +1,123 @@
-import MCard from "@/components/basicUI/m-card";
-import MMess from "@/components/basicUI/m-mess";
-import { ActionType } from "@/constants/action.constant";
-import { Col, Row } from "antd";
-import { FaFacebookF } from "react-icons/fa";
-import { BiLogoGmail } from "react-icons/bi";
-import { FaInstagram } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { OptionValue } from "@/types/optionValue.interface";
-import MAchievement from "@/components/basicUI/m-achievement";
-import newbieCertificate from "@/assets/images/achievements/newbie-certificate.png";
-import clearMission from "@/assets/images/achievements/clear-mission.png";
-import tomatoes from "@/assets/images/achievements/tomatoes.png";
-import freemasonry from "@/assets/images/achievements/freemasonry.png";
-interface UserData {
-  email: string;
-  name: string;
-  address: string;
-  company: string;
-  education: string;
-  phone: string;
-}
-const dataUser: UserData = {
-  email: "nguyenvan@gmail.com",
-  name: "Nguyen Van A",
-  address: "Austin, TX",
-  company: "DataFlow Dynamics",
-  education: "Bachelor of Science in Computer Science",
-  phone: "123456789",
-};
+import React from "react";
+import { Card, Avatar, Button, List, Row, Col } from "antd";
+import {
+  InstagramOutlined,
+  FacebookOutlined,
+  MailOutlined,
+  YoutubeOutlined,
+  HomeOutlined,
+  PhoneOutlined,
+} from "@ant-design/icons";
 
-const dataAchievement = [
-  {
-    title: "Newbie Certificate",
-    image: newbieCertificate,
-    progress: 100,
-    titleProgress: "Completed Newbie Certificate",
-  },
-  {
-    title: "Clear Mission",
-    image: clearMission,
-    progress: 75,
-    titleProgress: "Completed 75% of Clear Mission",
-  },
-  {
-    title: "Freemasonry",
-    image: freemasonry,
-    progress: 50,
-    titleProgress: "Completed 50% of Freemasonry",
-  },
-  {
-    title: "100 Tomatoes",
-    image: tomatoes,
-    progress: 100,
-    titleProgress: "Completed 100 pomodoros in 1 month",
-  },
-];
 const Profile = () => {
-  const [userInfo, setUserInfo] = useState<OptionValue[]>([]);
-  useEffect(() => {
-    const converDataUser = Object.keys(dataUser).map((item) => {
-      return {
-        title: item,
-        value: dataUser[item as keyof UserData],
-      };
-    });
-    setUserInfo(converDataUser);
-  }, []);
-  console.log({ userInfo });
-  const renderInfoDetail = (user: OptionValue) => {
-    return (
-      <Col span={24} className="info-child">
-        <span className="info-title">{user.title}:</span>{" "}
-        <span className="info-content">{user.value}</span>
-      </Col>
-    );
-  };
+  const episodes = [
+    {
+      title: "Kỷ luật 100 ngày thử thách",
+      guest: "+100 point",
+      img: "https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Hinh-dai-dien-hai-huoc-cam-dep-duoi-ai-do.jpg?1704789789335",
+      bgColor: "linear-gradient(to right,rgb(17, 150, 203),rgb(0, 219, 37))",
+    },
+    {
+      title: "Điểm danh 30 ngày liên tục",
+      guest: "+100 point",
+      img: "https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Anh-avatar-hoat-hinh-de-thuong-xinh-xan.jpg?1704788263223",
+      bgColor: "linear-gradient(to right,rgb(0, 182, 24),rgb(3, 205, 255))",
+    },
+    {
+      title: "Điểm danh 30 ngày liên tục",
+      guest: "+100 point",
+      img: "https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Anh-avatar-hoat-hinh-de-thuong-xinh-xan.jpg?1704788263223",
+      bgColor: "linear-gradient(to right, #6a11cb, #2575fc)",
+    },
+    {
+      title: "Điểm danh 30 ngày liên tục",
+      guest: "+100 point",
+      img: "https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Anh-avatar-hoat-hinh-de-thuong-xinh-xan.jpg?1704788263223",
+      bgColor: "linear-gradient(to right, #ff7eb3, #ff758c)",
+    },
+  ];
+
+  const platforms = [
+    { name: "Instagram", icon: <InstagramOutlined />, color: "#E1306C" },
+    { name: "Facebook", icon: <FacebookOutlined />, color: "#1877F2" },
+    { name: "Email", icon: <MailOutlined />, color: "#FF5733" },
+    { name: "YouTube", icon: <YoutubeOutlined />, color: "#FF0000" },
+  ];
+
   return (
-    <>
-      <Row className="full-width">
-        <Col span={24} className="profile-user-card">
-          <Row>
-            <Col span={23} className="left-col">
-              <Row gutter={[0, 12]} className="user-info">
-                <Col span={8} className="avatar">
-                  <img
-                    src="https://inkythuatso.com/uploads/thumbnails/800/2022/03/anh-dai-dien-facebook-dep-cho-nam-51-28-16-28-03.jpg"
-                    className="image"
-                  />
-                </Col>
-                <Col span={14} className="info">
-                  <Row className="name">Nguyen Van A</Row>
-                  <Row className="info-parent">
-                    {userInfo.map((user) => renderInfoDetail(user))}
-                  </Row>
-                </Col>
-              </Row>
-            </Col>
-            <Col span={1} className="right-col">
-              <span className="right-icon">
-                <FaFacebookF />
-              </span>
-              <span className="right-icon">
-                <BiLogoGmail />
-              </span>
-              <span className="right-icon">
-                <FaInstagram />
-              </span>
-              <span className="right-icon">
-                <FaLinkedin />
-              </span>
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row gutter={[12, 12]}>
-            <Col span={12}>
-              <MCard
-                title="Personal Information"
-                action={ActionType.EDIT}
-                renderContent={() => (
-                  <Row gutter={[12, 12]}>
-                    <Col span={24}>
-                      <MMess
-                        title="March 2019 - December 2020"
-                        listContent={[
-                          "Backend Developer",
-                          "DataFlow Dynamics",
-                          "Frontend Developer",
-                        ]}
-                      />
-                    </Col>
-                    <Col span={24}>
-                      <MMess
-                        title="January 2021 - Present"
-                        listContent={[
-                          "Austin, TX",
-                          "BrightWave Solutions",
-                          "San Francisco, CA",
-                        ]}
-                      />
-                    </Col>
-                  </Row>
-                )}
+    <div className="podcast-container">
+      <Row gutter={20}>
+        {/* Cột Trái - Thông tin Podcast */}
+        <Col xs={24} md={12}>
+          <Card className="podcast-card">
+            <div className="podcast-header">
+              <Avatar
+                size={80}
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXqMv4lHXdeeMiha1KWS5a_4D8FNvG82pKXw&s"
               />
-            </Col>
-            <Col span={12}>
-              <MCard
-                title="Personal Information"
-                action={ActionType.ADD}
-                renderContent={() => (
-                  <Row gutter={[12, 12]}>
-                    <Col span={24}>
-                      <MMess
-                        title="Premium Plan"
-                        listContent={[
-                          "Expiration Date: January 15, 2025",
-                          "Next Billing Date: February 15, 2025",
-                        ]}
-                        isBorder={true}
-                      />
-                    </Col>
-                    <Col span={24}>
-                      <MMess
-                        title="Premium Plan"
-                        listContent={[
-                          "Expiration Date: January 15, 2025",
-                          "Next Billing Date: February 15, 2025",
-                        ]}
-                        isBorder={true}
-                      />
-                    </Col>
-                  </Row>
-                )}
-              />
-            </Col>
-          </Row>
+              <div className="podcast-info">
+                <span className="category">Nguyễn Văn A</span>
+                <p className="podcast-desc">Thích màu hồng ghét sự giả dối</p>
+                <div className="contact-info">
+                  <p>
+                    <MailOutlined /> nguyenvana@gmail.com
+                  </p>
+                  <p>
+                    <HomeOutlined /> 123 đường không biết, phường chưa ghi, quận
+                    đoán xem
+                  </p>
+                  <p>
+                    <PhoneOutlined /> +1 234 567 890
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Subscribe Section */}
+          <Card className="subscribe-card">
+            <h2>Thông tin liên hệ</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+            <div className="platforms">
+              {platforms.map((platform) => (
+                <Button
+                  key={platform.name}
+                  icon={platform.icon}
+                  style={{ background: platform.color }}
+                >
+                  {platform.name}
+                </Button>
+              ))}
+            </div>
+          </Card>
         </Col>
-        <Col span={24} className="user-achievement">
-          <MCard
-            title="Achievements"
-            renderContent={() => (
-              <>
-                <Row gutter={[12, 12]} className="full-width">
-                  {dataAchievement.map((item) => (
-                    <Col span={8}>
-                      <MAchievement
-                        image={item.image}
-                        title={item.title}
-                        progress={item.progress}
-                        titleProgress={item.titleProgress}
-                      />
-                    </Col>
-                  ))}
-                </Row>
-              </>
-            )}
-          />
+
+        <Col xs={24} md={12}>
+          <Card className="guests-card">
+            <h2>Thành tựu</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+            <List
+              itemLayout="horizontal"
+              dataSource={episodes}
+              renderItem={(item) => (
+                <List.Item>
+                  <Card
+                    className="guest-card"
+                    style={{ background: item.bgColor }}
+                  >
+                    <Avatar src={item.img} size={50} />
+                    <div className="guest-info">
+                      <span className="guest-name">{item.guest}</span>
+                      <h4>{item.title}</h4>
+                    </div>
+                  </Card>
+                </List.Item>
+              )}
+            />
+          </Card>
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

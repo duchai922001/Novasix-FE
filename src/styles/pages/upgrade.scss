@@ -1,94 +1,98 @@
 @use "../variables" as *;
-.upgrade-container {
+
+.pricing-container {
   width: 100%;
-  .upgrade-header {
-    color: $primary-color;
-    font-weight: bold;
-    font-size: 18px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-  }
-  .upgrade-plans {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    justify-content: center;
-    .card {
-      width: 100%;
-      background: linear-gradient(to right, $primary-color, $fourth-color);
-      padding: 24px;
-      box-shadow: $box-shadow-l;
-      text-align: center;
-      color: white;
-      border-radius: $border-radius-l;
-      position: relative;
-      overflow: hidden;
-      .card-popular {
-        background-color: white;
-        color: $primary-color;
-        transform: rotate(45deg);
-        text-align: center;
-        font-size: 18px;
-        padding: 6px;
-        position: absolute;
-        top: 20px;
-        right: -55px;
-        width: 200px;
-        font-weight: bold;
-      }
-      .card-bg-1 {
-        position: absolute;
-        right: -70px;
-        width: 100px;
-        height: 100px;
-        background-color: $third-color;
-        border-radius: 50%;
-      }
-      .card-bg-2 {
-        position: absolute;
-        bottom: -35px;
-        left: -35px;
-        width: 100px;
-        height: 100px;
-        background-color: $primary-color;
-        border-radius: 50%;
-        z-index: 1;
-      }
-      .card-header {
-        padding: 24px;
-        font-size: $title-xxl-font-size;
-        font-weight: bold;
-        border-bottom: 1px solid white;
-      }
-      .price {
-        margin: 24px;
-        display: flex;
-        flex-direction: column;
-        .amount {
-          font-weight: bold;
-          font-size: $title-xxl-font-size;
-          margin: 0;
-        }
-        .duration {
-          font-size: 18px;
-        }
-      }
-      .btn {
-        position: relative;
-        margin-top: 24px;
-        width: 100%;
-        padding: 12px;
-        font-size: 18px;
-        font-weight: bold;
-        color: $primary-color;
-        border-radius: $border-radius-l;
-        border: none;
-        z-index: 2;
-        cursor: pointer;
-      }
-    }
-  }
+  text-align: center;
+  background: rgb(189, 189, 189);
+  padding: 50px 20px;
+  color: black;
+  border-radius: 6px;
+}
+
+.pricing-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.pricing-title span {
+  color: yellow;
+}
+
+.toggle-switch {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.discount-badge {
+  background: yellow;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.pricing-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.pricing-card {
+  width: 300px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 20px;
+  transition: transform 0.3s;
+}
+
+.pricing-card:hover {
+  transform: scale(1.05);
+}
+
+.highlight {
+  border: 3px solid yellow;
+  color: white;
+}
+
+.discount {
+  background: orange;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 10px;
+}
+
+.plan-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.plan-price {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.plan-price span {
+  font-size: 14px;
+}
+
+.save-button {
+  background: white;
+  color: black;
+  margin: 10px 0;
+  border-radius: 20px;
+}
+
+.get-started-button {
+  background: #6b3fa0;
+  color: white;
+  width: 100%;
+  border-radius: 20px;
 }
