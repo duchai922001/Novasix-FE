@@ -3,7 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/auth/logo-zendo.png";
 import { RiDashboardFill } from "react-icons/ri";
 import { CiCloudSun } from "react-icons/ci";
-import { FaRegCalendarCheck, FaWallet } from "react-icons/fa";
+import { FaRegCalendarCheck, FaTasks, FaWallet } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { FaStore } from "react-icons/fa";
@@ -108,6 +108,12 @@ const AuthLayout = () => {
       url: "/wallet",
     },
     {
+      key: "mission",
+      title: "Missions",
+      icon: <FaTasks />,
+      url: "/mission",
+    },
+    {
       key: "logout",
       title: "Logout",
       icon: <TbLogout />,
@@ -209,7 +215,7 @@ const AuthLayout = () => {
             </Row>
             <Row className="divider-auth"></Row>
             <Row style={{ marginTop: "20px" }}>
-              {listMenu.slice(4, 9).map((item) => renderItemChildMenu(item))}
+              {listMenu.slice(4, 10).map((item) => renderItemChildMenu(item))}
             </Row>
             {/* <Row className="card-premium">
               <div className="icon-premium-container">
@@ -238,7 +244,7 @@ const AuthLayout = () => {
             </Row>
             <Row className="divider-auth"></Row>
             <Row style={{ marginTop: "20px" }}>
-              {listMenu.slice(4, 8).map((item) => renderIconMenu(item))}
+              {listMenu.slice(4, 10).map((item) => renderIconMenu(item))}
             </Row>
           </>
         )}

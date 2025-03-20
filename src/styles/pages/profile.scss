@@ -1,203 +1,52 @@
-.podcast-container {
+.profile-card {
   width: 100%;
-  margin: auto;
-}
-
-.podcast-card,
-.subscribe-card,
-.guests-card {
+  margin: 20px auto;
   padding: 20px;
   border-radius: 10px;
-  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
 }
 
-.podcast-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.cover-photo {
+  position: relative;
+  height: 150px;
+  background: url("https://source.unsplash.com/800x200/?nature,water") no-repeat
+    center/cover;
+  border-radius: 10px;
 }
 
-.podcast-info {
-  display: flex;
-  flex-direction: column;
+.upload-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.category {
-  color: #6b46c1;
-  font-weight: bold;
-}
-
-.podcast-title {
-  margin: 5px 0;
-}
-
-.podcast-desc {
-  color: #666;
-}
-
-.author {
-  font-weight: bold;
-}
-
-.subscribe-card {
+.avatar-container {
   text-align: center;
+  margin-top: -50px;
 }
 
-.platforms {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 15px;
+.info-section {
+  margin-top: 20px;
 }
 
-.guests-card h3 {
-  margin-bottom: 5px;
-}
-
-.guest-card {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border-radius: 8px;
-  color: white;
-  width: 100%;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.guest-info {
-  margin-left: 10px;
-}
-
-.guest-name {
-  font-size: 14px;
-  font-weight: bold;
-  opacity: 0.8;
-}
-
-.platforms button {
-  color: white;
-  border: none;
-}
-.quest-container{
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  justify-content: flex-start; 
-  width: 100%;
-  padding: 20px;
-  background: #1a0f1f;
-  border-radius: 12px;
-}
-.task-container {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  justify-content: flex-start; 
-  width: 100%;
-  padding: 20px;
-  background: #1a0f1f;
-  border-radius: 12px;
-}
-
-
-.task-group {
-  flex: 1; 
-  max-width: 280px; 
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.task-group-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.task-group-button {
-  background: #A5D6A7;
-  color: #2E7D32;
-  font-weight: bold;
-  padding: 12px;
-  border-radius: 8px;
+.info-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
-  border: none;
-  width: 100%;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
 }
 
-.task-list {
-  background: #4A3250;
-  padding: 10px;
-  border-radius: 8px;
+.info-label {
+  flex: 1;
 }
 
-.task-item {
-  margin-bottom: 8px;
+.info-input {
+  flex: 2;
 }
 
-.task-button {
-  width: 100%;
-  background: #6A4250;
-  padding: 10px;
-  border-radius: 6px;
-  color: #fff;
-  cursor: pointer;
-  text-align: left;
-
-  &:hover {
-    background: #8A5260;
-  }
+.logout-section {
+  text-align: center;
+  margin-top: 20px;
 }
-
-
-.task-details {
-  flex: 2; 
-  background: #0f0b12;
-  padding: 20px;
-  border-radius: 12px;
-  color: #fff;
-  min-height: 200px;
-  max-width: calc(100% - 320px); 
-}
-
-.task-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.task-description {
-  font-size: 1rem;
-  margin-bottom: 10px;
-}
-
-.task-reward {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #FFD700;
-}
-
-.reward-button {
-  margin-top: 10%;
-  background: #FFD700;
-  color: #000;
-  font-weight: bold;
-  padding: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: none;
-
-  &:hover {
-    background: #FFC107;
-  }
-}
-
-.task-placeholder {
-  font-size: 1rem;
-  color: #ccc;
-}
-
-

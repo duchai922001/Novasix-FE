@@ -19,6 +19,7 @@ import FAQS from "@/views/FAQS/FAQS.view";
 import PoliciesAterms from "@/views/policiesAterms/policiesAterms.view";
 import Pomodoro from "../views/pomodoroPage/pomodoroPage.view";
 import Wallet from "@/views/wallet/wallet.view";
+import Mission from "@/views/mission/mission.view";
 const MainRoutes = () => {
   return (
     <>
@@ -44,6 +45,7 @@ const MainRoutes = () => {
             <Route path="/monthly" element={<Monthly />} />
             <Route path="/upgrade" element={<Upgrade />} />
             <Route path="/wallet" element={<Wallet />} />
+            <Route path="/mission" element={<Mission />} />
           </Route>
         </Route>
         <Route path="/pomodoro/:taskId" element={<Pomodoro />} />
