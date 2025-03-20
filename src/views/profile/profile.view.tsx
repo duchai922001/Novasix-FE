@@ -1,5 +1,7 @@
 import React from "react";
+import { useState } from "react";
 import { Card, Avatar, Button, List, Row, Col } from "antd";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import {
   InstagramOutlined,
   FacebookOutlined,
@@ -8,8 +10,108 @@ import {
   HomeOutlined,
   PhoneOutlined,
 } from "@ant-design/icons";
+interface Task {
+  id: number;
+  name: string;
+  description: string;
+  rewards: string;
+}
 
-const Profile = () => {
+interface TaskGroup {
+  id: number;
+  title: string;
+  tasks: Task[];
+}
+const taskGroups: TaskGroup[] = [
+  {
+    id: 1,
+    title: "Tài khoản mới",
+    tasks: [
+      {
+        id: 101,
+        name: "Cập nhật đầy đủ thông tin cá nhân",
+        description: "Điền đầy đủ thông tin cá nhân của bạn để cá nhân hóa trải nghiệm trong ứng dụng.",
+        rewards: "Điểm kinh nghiệm +100, Huy hiệu 'Người mới'",
+      },
+      {
+        id: 102,
+        name: "Tạo một task đầu tiên",
+        description: "Thêm một task mới vào danh sách công việc của bạn.",
+        rewards: "Điểm kinh nghiệm +50",
+      },
+      {
+        id: 103,
+        name: "Tạo một Weekly đầu tiên",
+        description: "Thiết lập một mục tiêu hoặc kế hoạch cho tuần này.",
+        rewards: "Điểm kinh nghiệm +100",
+      },
+      {
+        id: 104,
+        name: "Tạo một Monthly đầu tiên",
+        description: "Đặt một mục tiêu lớn hơn mà bạn muốn đạt được trong tháng này.",
+        rewards: "Điểm kinh nghiệm +200",
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "Nhiệm vụ hằng ngày",
+    tasks: [
+      {
+        id: 201,
+        name: "Thực thi 5 task",
+        description: "Hoàn thành ít nhất 5 task trong ngày để duy trì năng suất.",
+        rewards: "Điểm kinh nghiệm +150",
+      },
+      {
+        id: 202,
+        name: "Sử dụng 3 Pomodoro",
+        description: "Dùng phương pháp Pomodoro 3 lần để tập trung làm việc hiệu quả.",
+        rewards: "Điểm kinh nghiệm +100",
+      },
+      {
+        id: 203,
+        name: "Viết một lời biết ơn",
+        description: "Ghi lại một điều bạn biết ơn trong ngày hôm nay.",
+        rewards: "Điểm kinh nghiệm +100, Cải thiện tâm trạng",
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Nhiệm vụ hằng tuần",
+    tasks: [
+      {
+        id: 301,
+        name: "Viết Weekly Reflection",
+        description: "Tóm tắt lại tuần vừa qua, những điều bạn đã làm tốt và những gì cần cải thiện.",
+        rewards: "Điểm kinh nghiệm +300, Cải thiện khả năng tự nhận thức",
+      },
+      {
+        id: 302,
+        name: "Sử dụng 14 Pomodoro",
+        description: "Dùng phương pháp Pomodoro ít nhất 14 lần trong tuần này.",
+        rewards: "Điểm kinh nghiệm +400, Cải thiện hiệu suất làm việc",
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Nhiệm vụ hằng tháng",
+    tasks: [
+      {
+        id: 401,
+        name: "Sử dụng 60 Pomodoro",
+        description: "Dùng Pomodoro ít nhất 60 lần trong tháng này để duy trì thói quen làm việc tập trung.",
+        rewards: "Điểm kinh nghiệm +1000, Huy hiệu 'Người chinh phục thời gian'",
+      },
+    ],
+  },
+];
+
+const Profile: React.FC = () => {
+  const [expandedGroup, setExpandedGroup] = useState<number | null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const episodes = [
     {
       title: "Kỷ luật 100 ngày thử thách",
@@ -72,8 +174,55 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-          </Card>
+            </Card>
+      <Card className="quest-container">
+        <div className="task-container">
+          {/* Task Groups */}
+          <div className="task-group">
+            {taskGroups.map((group, groupIndex) => (
+              <div key={groupIndex} className="task-group-item">
+                <button
+                  className="task-group-button"
+                  onClick={() =>
+                    setExpandedGroup(expandedGroup === groupIndex ? null : groupIndex)
+                  }
+                >
+                  {group.title}
+                  {expandedGroup === groupIndex ? <FaChevronUp /> : <FaChevronDown />}
+                </button>
+                {expandedGroup === groupIndex && (
+                  <ul className="task-list">
+                    {group.tasks.map((task, taskIndex) => (
+                      <li key={taskIndex} className="task-item">
+                        <button
+                          className="task-button"
+                          onClick={() => setSelectedTask(task)}
+                        >
+                          {task.name}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
 
+          {/* Task Details */}
+          <div className="task-details">
+            {selectedTask ? (
+              <div>
+                <h2 className="task-title">{selectedTask.name}</h2>
+                <p className="task-description">{selectedTask.description}</p>
+                <p className="task-reward">🎁 Phần thưởng: {selectedTask.rewards}</p>
+                <button className="reward-button">Nhận Thưởng</button>
+              </div>
+            ) : (
+              <p className="task-placeholder">Chọn một nhiệm vụ để xem chi tiết</p>
+            )}
+          </div>
+          </div>
+    </Card>
           {/* Subscribe Section */}
           <Card className="subscribe-card">
             <h2>Thông tin liên hệ</h2>
