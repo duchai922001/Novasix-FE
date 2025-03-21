@@ -18,6 +18,8 @@ import React, { useEffect, useState } from "react";
 import { getLocalStorage } from "@/utils/localstorage";
 import { IUserData } from "@/types/user.interface";
 import { PomodoroService } from "@/services/pomodoro.service";
+import { UserPackageService } from "@/services/user-package.service";
+import { handleError } from "@/utils/catch-error";
 
 interface MenuItem {
   key: string;
@@ -34,6 +36,70 @@ const AuthLayout = () => {
   const [userData, setUserData] = useState<IUserData>({
     name: "username",
   });
+    const [userPacakge, setUserPackage] = useState([])
+    const [filterMenu, setFilterMenu] = useState([])
+    const listMenu: MenuItem[] = [
+      {
+        key: "dashboard",
+        title: "Dashboard",
+        icon: <RiDashboardFill />,
+        url: "/dashboard",
+      },
+      {
+        key: "daily",
+        title: "Daily",
+        icon: <CiCloudSun />,
+        url: "/daily",
+      },
+      {
+        key: "weekly",
+        title: "Weekly",
+        icon: <FaRegCalendarCheck />,
+        url: "/weekly",
+      },
+      {
+        key: "monthly",
+        title: "Monthly",
+        icon: <IoCalendarNumber />,
+        url: "/monthly",
+      },
+      {
+        key: "profile",
+        title: "Profile",
+        icon: <CgProfile />,
+        url: "/profile",
+      },
+      {
+        key: "store",
+        title: "Store",
+        icon: <FaStore />,
+        url: "/store",
+      },
+      {
+        key: "settings",
+        title: "Settings",
+        icon: <IoSettings />,
+        url: "/settings",
+      },
+      {
+        key: "wallet",
+        title: "Wallet",
+        icon: <FaWallet />,
+        url: "/wallet",
+      },
+      {
+        key: "mission",
+        title: "Missions",
+        icon: <FaTasks />,
+        url: "/mission",
+      },
+      {
+        key: "logout",
+        title: "Logout",
+        icon: <TbLogout />,
+        url: "/login",
+      },
+    ];
   const [pomodoroUser, setPomodoroUser] = useState({
     pomodoroTimer: 0,
     breakTimer: 0,
@@ -46,6 +112,19 @@ const AuthLayout = () => {
       console.log("");
     }
   };
+      const asyncUserPackage = async () => {
+        try {
+          const response = await UserPackageService.getPackagesUser()
+          const mappedUserPackage = response.map((item) => item.packageId.typePackage)
+          mappedUserPackage.push("daily", "profile", "store", "settings", "wallet", "mission", "logout");
+          setUserPackage(mappedUserPackage)
+          const filterMenuData = listMenu.filter((item) => mappedUserPackage.includes(item.key));
+          setFilterMenu(filterMenuData)
+        } catch (error) {
+          handleError(error)
+        }
+      }
+    
   useEffect(() => {
     const currentPath = location.pathname.split("/")[1];
     setActiveIndex(currentPath || "dashboard");
@@ -54,72 +133,12 @@ const AuthLayout = () => {
     asyncDataPomodoroUser();
     const user = getLocalStorage("user");
     setUserData(user);
+    asyncUserPackage()
   }, []);
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
   };
-  const listMenu: MenuItem[] = [
-    {
-      key: "dashboard",
-      title: "Dashboard",
-      icon: <RiDashboardFill />,
-      url: "/dashboard",
-    },
-    {
-      key: "daily",
-      title: "Daily",
-      icon: <CiCloudSun />,
-      url: "/daily",
-    },
-    {
-      key: "weekly",
-      title: "Weekly",
-      icon: <FaRegCalendarCheck />,
-      url: "/weekly",
-    },
-    {
-      key: "monthly",
-      title: "Monthly",
-      icon: <IoCalendarNumber />,
-      url: "/monthly",
-    },
-    {
-      key: "profile",
-      title: "Profile",
-      icon: <CgProfile />,
-      url: "/profile",
-    },
-    {
-      key: "store",
-      title: "Store",
-      icon: <FaStore />,
-      url: "/store",
-    },
-    {
-      key: "settings",
-      title: "Settings",
-      icon: <IoSettings />,
-      url: "/settings",
-    },
-    {
-      key: "wallet",
-      title: "Wallet",
-      icon: <FaWallet />,
-      url: "/wallet",
-    },
-    {
-      key: "mission",
-      title: "Missions",
-      icon: <FaTasks />,
-      url: "/mission",
-    },
-    {
-      key: "logout",
-      title: "Logout",
-      icon: <TbLogout />,
-      url: "/login",
-    },
-  ];
+
   const renderItemChildMenu = (item: MenuItem) => {
     const isActive = activeIndex === item.key;
 
@@ -211,11 +230,11 @@ const AuthLayout = () => {
         {!isCollapsed ? (
           <>
             <Row style={{ marginTop: "20px" }}>
-              {listMenu.slice(0, 4).map((item) => renderItemChildMenu(item))}
+              {filterMenu.slice(0, 4).map((item) => renderItemChildMenu(item))}
             </Row>
             <Row className="divider-auth"></Row>
             <Row style={{ marginTop: "20px" }}>
-              {listMenu.slice(4, 10).map((item) => renderItemChildMenu(item))}
+              {filterMenu.slice(4, 10).map((item) => renderItemChildMenu(item))}
             </Row>
             {/* <Row className="card-premium">
               <div className="icon-premium-container">
@@ -240,11 +259,11 @@ const AuthLayout = () => {
           <>
             {" "}
             <Row style={{ marginTop: "20px" }}>
-              {listMenu.slice(0, 4).map((item) => renderIconMenu(item))}
+              {filterMenu.slice(0, 4).map((item) => renderIconMenu(item))}
             </Row>
             <Row className="divider-auth"></Row>
             <Row style={{ marginTop: "20px" }}>
-              {listMenu.slice(4, 10).map((item) => renderIconMenu(item))}
+              {filterMenu.slice(4, 10).map((item) => renderIconMenu(item))}
             </Row>
           </>
         )}
