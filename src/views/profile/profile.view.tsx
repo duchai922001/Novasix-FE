@@ -88,7 +88,7 @@ const Profile = () => {
         payloadImage.append("image", file.originFileObj);
       });
       const responseThumbnail = await axios.post(
-        "http://localhost:5000/upload/single",
+        "https://novasix-be.onrender.com/upload/single",
         payloadImage,
         {
           headers: {
