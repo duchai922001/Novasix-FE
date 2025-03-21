@@ -1,68 +1,75 @@
 .mission-container {
-  display: flex;
-  background: #3a240f;
-  border: 2px solid #9c7130;
-  padding: 10px;
   width: 100%;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: #f4f7fc;
+  border-radius: 10px;
 }
 
 .mission-sidebar {
-  width: 220px;
-  background: #2d1a0a;
+  width: 30%;
+  background: linear-gradient(135deg, #4a90e2, #3b5998);
+  border-radius: 10px;
   padding: 10px;
-  border-right: 2px solid #9c7130;
+  color: white;
 }
 
-.mission-collapse {
-  background: transparent !important;
+.mission-collapse .ant-collapse-item {
+  background: transparent;
+  border: none;
 }
 
 .mission-panel {
-  background: #4b2e16 !important;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .mission-item {
-  padding: 8px;
   cursor: pointer;
-  color: white;
-  background: #5d3a1f;
-  border-bottom: 1px solid #9c7130;
-  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background 0.3s ease;
 }
 
 .mission-item:hover,
 .mission-item.active {
-  background: #c7904c;
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
 }
 
 .mission-content {
-  flex: 1;
-  background: #472b13;
-  color: white;
-  padding: 15px;
+  width: 70%;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
 .mission-title {
-  color: #ffcc00;
+  color: #4a90e2;
   text-align: center;
+  margin-bottom: 15px;
 }
 
 .mission-info,
 .mission-description,
 .mission-rewards {
+  background: #f4f7fc;
+  padding: 10px;
+  border-radius: 5px;
   margin-bottom: 10px;
-  color: white !important;
-}
-
-.mission-rewards .reward-items {
-  display: flex;
-  flex-direction: column;
-  margin-top: 5px;
 }
 
 .mission-button {
+  background: #4a90e2;
+  border: none;
   width: 100%;
-  background: #ffcc00;
-  color: white;
   font-weight: bold;
+}
+
+.mission-button:disabled {
+  background: #b0bec5;
+  cursor: not-allowed;
 }

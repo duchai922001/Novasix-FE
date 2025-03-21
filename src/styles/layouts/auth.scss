@@ -134,31 +134,40 @@
         }
       }
       .header-auth-info {
-        height: fit-content;
-        width: fit-content;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .col-left-header-auth {
         display: flex;
         align-items: center;
-        justify-content: center;
-        border-radius: $border-radius-l;
-        background: linear-gradient(to right, $primary-color, $fourth-color);
-        color: white;
-        padding: 12px 24px;
-        .col-left-header-auth,
-        .col-right-header-auth {
-          span {
-            font-weight: bold;
-            font-size: 18px;
-          }
-          .icon-header-auth {
-            font-size: $icon-size-l;
-          }
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 100%;
-          gap: 4px;
-          margin-right: 12px;
-        }
+        gap: 10px;
+      }
+
+      .user-name {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .col-right-header-auth {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-left: 12px;
+      }
+
+      .icon-header-auth {
+        font-size: 24px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .icon-header-auth:hover {
+        color: #1890ff;
       }
     }
 

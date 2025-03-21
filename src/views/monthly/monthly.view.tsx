@@ -1,9 +1,11 @@
+import Loader from "@/components/loading";
 import { MonthlyService } from "@/services/monthly.service";
 import { handleError } from "@/utils/catch-error";
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
 
 const Monthly: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [tasks, setTasks] = useState<{ [key: string]: string[] }>({});
   const [task, setTask] = useState<string>("");
@@ -54,6 +56,7 @@ const Monthly: React.FC = () => {
 
   const asyncDataEventMonthly = async () => {
     try {
+      setIsLoading(true);
       const response = await MonthlyService.getEventMonth(
         String(currentMonth + 1),
         String(currentYear)
@@ -76,6 +79,8 @@ const Monthly: React.FC = () => {
       setTasks(formattedTasks);
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -83,113 +88,126 @@ const Monthly: React.FC = () => {
     asyncDataEventMonthly();
   }, [currentMonth, currentYear]);
   return (
-    <div className="monthly-container">
-      <div className="header">
-        <button onClick={() => changeMonth(-1)}>&lt;</button>
-        {new Date(currentYear, currentMonth).toLocaleString("default", {
-          month: "long",
-          year: "numeric",
-        })}
-        <button onClick={() => changeMonth(1)}>&gt;</button>
-      </div>
-
-      <div className="days-of-week">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-          <div key={day} className="day">
-            {day}
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="monthly-container">
+          <div className="header">
+            <button onClick={() => changeMonth(-1)}>&lt;</button>
+            {new Date(currentYear, currentMonth).toLocaleString("default", {
+              month: "long",
+              year: "numeric",
+            })}
+            <button onClick={() => changeMonth(1)}>&gt;</button>
           </div>
-        ))}
-      </div>
 
-      <div className="calendar-grid">
-        {[...Array(totalCells)].map((_, index) => {
-          let day,
-            isCurrentMonth = true;
+          <div className="days-of-week">
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+              <div key={day} className="day">
+                {day}
+              </div>
+            ))}
+          </div>
 
-          if (index < firstDayOfWeek) {
-            day = prevMonthDays - firstDayOfWeek + index + 1;
-            isCurrentMonth = false;
-          } else if (index - firstDayOfWeek < daysInMonth) {
-            day = index - firstDayOfWeek + 1;
-          } else {
-            day = index - firstDayOfWeek - daysInMonth + 1;
-            isCurrentMonth = false;
-          }
+          <div className="calendar-grid">
+            {[...Array(totalCells)].map((_, index) => {
+              let day,
+                isCurrentMonth = true;
 
-          return (
-            <div
-              key={index}
-              className={`calendar-day ${!isCurrentMonth ? "disabled" : ""}`}
-              onClick={() => isCurrentMonth && setSelectedDay(day)}
-            >
-              <span>{day}</span>
-              {isCurrentMonth &&
-                tasks[`${currentYear}-${currentMonth}-${day}`]?.map((t, i) => (
-                  <div style={{ display: "flex", marginTop: "12px" }}>
-                    <span></span>
-                    <p
-                      key={i}
-                      style={{
-                        fontSize: "14px",
-                        color: "green",
-                        fontWeight: "bold",
-                      }}
-                      className="task"
-                    >
-                      {t}
-                    </p>
-                  </div>
-                ))}
-              {currentMonth &&
-                icons[`${currentYear}-${currentMonth}-${day}`]?.map(
-                  (icon, i) => (
-                    <span key={i} className="task-icon">
-                      {icon}
-                    </span>
-                  )
-                )}
+              if (index < firstDayOfWeek) {
+                day = prevMonthDays - firstDayOfWeek + index + 1;
+                isCurrentMonth = false;
+              } else if (index - firstDayOfWeek < daysInMonth) {
+                day = index - firstDayOfWeek + 1;
+              } else {
+                day = index - firstDayOfWeek - daysInMonth + 1;
+                isCurrentMonth = false;
+              }
+
+              return (
+                <div
+                  key={index}
+                  className={`calendar-day ${
+                    !isCurrentMonth ? "disabled" : ""
+                  }`}
+                  onClick={() => isCurrentMonth && setSelectedDay(day)}
+                >
+                  <span>{day}</span>
+                  {isCurrentMonth &&
+                    tasks[`${currentYear}-${currentMonth}-${day}`]?.map(
+                      (t, i) => (
+                        <div style={{ display: "flex", marginTop: "12px" }}>
+                          <span></span>
+                          <p
+                            key={i}
+                            style={{
+                              fontSize: "14px",
+                              color: "green",
+                              fontWeight: "bold",
+                            }}
+                            className="task"
+                          >
+                            {t}
+                          </p>
+                        </div>
+                      )
+                    )}
+                  {currentMonth &&
+                    icons[`${currentYear}-${currentMonth}-${day}`]?.map(
+                      (icon, i) => (
+                        <span key={i} className="task-icon">
+                          {icon}
+                        </span>
+                      )
+                    )}
+                </div>
+              );
+            })}
+          </div>
+
+          {selectedDay !== null && (
+            <div className="popup">
+              <div className="popup-header">
+                <span>Day {selectedDay}</span>
+                <button
+                  className="close-btn"
+                  onClick={() => setSelectedDay(null)}
+                >
+                  X
+                </button>
+              </div>
+              <div className="popup-content">
+                <input
+                  type="text"
+                  value={task}
+                  onChange={(e) => setTask(e.target.value)}
+                  placeholder="Enter event"
+                />
+                <button onClick={handleCreateEvent}>Add Event</button>
+                <ul className="task-list">
+                  {tasksForDay.map((t, i) => (
+                    <li key={i}>
+                      {t}{" "}
+                      <button
+                        onClick={() => {
+                          setTasks((prev) => ({
+                            ...prev,
+                            [key]: prev[key].filter((_, idx) => idx !== i),
+                          }));
+                        }}
+                      >
+                        ✏️
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          );
-        })}
-      </div>
-
-      {selectedDay !== null && (
-        <div className="popup">
-          <div className="popup-header">
-            <span>Day {selectedDay}</span>
-            <button className="close-btn" onClick={() => setSelectedDay(null)}>
-              X
-            </button>
-          </div>
-          <div className="popup-content">
-            <input
-              type="text"
-              value={task}
-              onChange={(e) => setTask(e.target.value)}
-              placeholder="Enter event"
-            />
-            <button onClick={handleCreateEvent}>Add Event</button>
-            <ul className="task-list">
-              {tasksForDay.map((t, i) => (
-                <li key={i}>
-                  {t}{" "}
-                  <button
-                    onClick={() => {
-                      setTasks((prev) => ({
-                        ...prev,
-                        [key]: prev[key].filter((_, idx) => idx !== i),
-                      }));
-                    }}
-                  >
-                    ✏️
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

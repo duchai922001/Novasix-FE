@@ -29,6 +29,7 @@ import MSelect from "@/components/basicUI/m-select";
 import { IFormTaskWeek } from "@/types/weekly.interface";
 import { handleError } from "@/utils/catch-error";
 import { WeeklyService } from "@/services/week.service";
+import Loader from "@/components/loading";
 
 const { Header, Content } = Layout;
 interface IFormWeekly {
@@ -81,6 +82,7 @@ const Weekly = () => {
   const [selectedWeek, setSelectedWeek] = useState(dayjs());
   const [selectedCondition, setSelectedCondition] = useState<string[]>([]);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const formWeekly: IFormWeekly[] = [
     {
       title: "Checkin",
@@ -240,6 +242,7 @@ const Weekly = () => {
   };
   const asyncDataTasksWeek = async () => {
     try {
+      setIsLoading(true);
       const dateWeek = selectedWeek.startOf("week").format("YYYY-MM-DD");
       const response = await WeeklyService.getTasksWeek(dateWeek);
       const categorizedTasks = {
@@ -271,6 +274,8 @@ const Weekly = () => {
       setTasksWeek(categorizedTasks);
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleCheckTask = async (categoryKey: string, taskId: string) => {
@@ -301,100 +306,106 @@ const Weekly = () => {
     asyncDataTasksWeek();
   }, [selectedWeek]);
   return (
-    <Layout style={{ padding: "20px", background: "#f0f2f5" }}>
-      <Header
-        style={{
-          background: "white",
-          padding: "10px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h2 style={{ margin: 0 }}>Task Weekly - WELCOME!</h2>
-        <DatePicker
-          picker="week"
-          value={selectedWeek}
-          onChange={(date) => setSelectedWeek(date)}
-        />
-      </Header>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Layout style={{ padding: "20px", background: "#f0f2f5" }}>
+          <Header
+            style={{
+              background: "white",
+              padding: "10px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h2 style={{ margin: 0 }}>Task Weekly - WELCOME!</h2>
+            <DatePicker
+              picker="week"
+              value={selectedWeek}
+              onChange={(date) => setSelectedWeek(date)}
+            />
+          </Header>
 
-      <Content style={{ marginTop: 20 }}>
-        <Row gutter={[16, 16]} style={{ marginBottom: 12 }}>
-          {categories.map((category) => (
-            <Col xs={24} sm={12} md={6} key={category.key}>
-              <Card
-                title={
-                  <Tooltip title={category.title}>
-                    <span
-                      style={{
-                        color: category.color,
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        fontSize: "14px",
-                      }}
-                    >
-                      {category.icon}{" "}
-                      {category.title.length > 18
-                        ? `${category.title.slice(0, 15)}...`
-                        : category.title}
-                    </span>
-                  </Tooltip>
-                }
-                extra={
-                  <Button
-                    type="dashed"
-                    onClick={() => handleAddTaskWeek(category.key)}
-                    icon={<PlusOutlined />}
-                  />
-                }
-              >
-                {tasksWeek[category.index]?.map((task: any, index: any) => (
-                  <p>
-                    <span>
-                      <MCheckbox
-                        title={task.name}
-                        value={task.isChecked}
-                        onChange={() =>
-                          handleCheckTask(category.index, task._id)
-                        }
+          <Content style={{ marginTop: 20 }}>
+            <Row gutter={[16, 16]} style={{ marginBottom: 12 }}>
+              {categories.map((category) => (
+                <Col xs={24} sm={12} md={6} key={category.key}>
+                  <Card
+                    title={
+                      <Tooltip title={category.title}>
+                        <span
+                          style={{
+                            color: category.color,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {category.icon}{" "}
+                          {category.title.length > 18
+                            ? `${category.title.slice(0, 15)}...`
+                            : category.title}
+                        </span>
+                      </Tooltip>
+                    }
+                    extra={
+                      <Button
+                        type="dashed"
+                        onClick={() => handleAddTaskWeek(category.key)}
+                        icon={<PlusOutlined />}
                       />
-                    </span>
-                  </p>
-                ))}
-              </Card>
-            </Col>
-          ))}
-        </Row>
+                    }
+                  >
+                    {tasksWeek[category.index]?.map((task: any, index: any) => (
+                      <p>
+                        <span>
+                          <MCheckbox
+                            title={task.name}
+                            value={task.isChecked}
+                            onChange={() =>
+                              handleCheckTask(category.index, task._id)
+                            }
+                          />
+                        </span>
+                      </p>
+                    ))}
+                  </Card>
+                </Col>
+              ))}
+            </Row>
 
-        <MCard
-          title="Weekly reflection"
-          renderContent={() => (
-            <>{formWeekly.map((item) => renderFormWeekly(item))}</>
-          )}
-          styleContent={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-          }}
-          renderAction={() => (
-            <div style={{ display: "flex", gap: 12 }}>
-              <MButton title="Edit" />
+            <MCard
+              title="Weekly reflection"
+              renderContent={() => (
+                <>{formWeekly.map((item) => renderFormWeekly(item))}</>
+              )}
+              styleContent={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px",
+              }}
+              renderAction={() => (
+                <div style={{ display: "flex", gap: 12 }}>
+                  <MButton title="Edit" />
 
-              <MButton title="Save" type="fill" />
-            </div>
-          )}
-        />
-      </Content>
-      <MModal
-        isOpen={isOpenModal}
-        onClose={() => setIsOpenModal(false)}
-        title="New task weekly"
-        width={800}
-        renderContent={() => renderModalTaskWeek()}
-      />
-    </Layout>
+                  <MButton title="Save" type="fill" />
+                </div>
+              )}
+            />
+          </Content>
+          <MModal
+            isOpen={isOpenModal}
+            onClose={() => setIsOpenModal(false)}
+            title="New task weekly"
+            width={800}
+            renderContent={() => renderModalTaskWeek()}
+          />
+        </Layout>
+      )}
+    </>
   );
 };
 

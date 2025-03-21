@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { handleError } from "@/utils/catch-error";
 import { PackageService } from "@/services/package.service";
 import { UserPackageService } from "@/services/user-package.service";
+import { message } from "antd";
+import Loader from "@/components/loading";
 
 const Store: React.FC = () => {
-
-  const [packages, setPackage] = useState([])
-  const [userPacakge, setUserPackage] = useState([])
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [packages, setPackage] = useState([]);
+  const [userPacakge, setUserPackage] = useState([]);
   const [activeTab, setActiveTab] = useState("Khung ảnh đại diện");
 
   const tabs = ["Khung ảnh đại diện", "Template màu sắc", "Biểu tượng"];
@@ -79,57 +81,77 @@ const Store: React.FC = () => {
   ];
 
   const asyncPackage = async () => {
-      try {
-        const response = await PackageService.getPackage();
-        setPackage(response);
-      } catch (error) {
-        handleError(error);
-      }
-    };
-    const asyncUserPackage = async () => {
-      try {
-        const response = await UserPackageService.getPackagesUser()
-        const mappedUserPackage = response.map((item) => item.packageId.typePackage)
-        setUserPackage(mappedUserPackage)
-      } catch (error) {
-        handleError(error)
-      }
+    try {
+      setIsLoading(true);
+      const response = await PackageService.getPackage();
+      setPackage(response);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
     }
-    const handleBuyPackage = async (typePackage) => {
-      try {
-        const payload = {
-          typePackage
-        }
-        const response = await UserPackageService.buyPackage(payload)
-        console.log({response})
-      } catch (error) {
-        
-      }
+  };
+  const asyncUserPackage = async () => {
+    try {
+      setIsLoading(true);
+      const response = await UserPackageService.getPackagesUser();
+      const mappedUserPackage = response.map(
+        (item: any) => item.packageId.typePackage
+      );
+      setUserPackage(mappedUserPackage);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+  const handleBuyPackage = async (typePackage: string) => {
+    try {
+      const payload = {
+        typePackage,
+      };
+      await UserPackageService.buyPackage(payload);
+      message.success("Bạn đã đăng ký gói thành công");
+      window.location.reload();
+    } catch (error) {
+      handleError(error);
+    }
+  };
   useEffect(() => {
-      asyncPackage();
-      asyncUserPackage()
-    }, []);
+    asyncPackage();
+    asyncUserPackage();
+  }, []);
 
   return (
     <>
-      <div className="package-container">
-        {packages.map((item, index) => (
-          <div key={index} className="card">
-            <div className="card-details">
-              <p className="text-title">{item.name}</p>
-              <p className="text-body">{item.price} token</p>
-              {/* <p className="text-body"></p> */}
-              <p className="text-body">{item.timeExp} thang</p>
-              <p className="text-body">
-               {item.description}
-              </p>
-            </div>
-            <button  className={userPacakge.includes(item.typePackage) ? "card-button card-button-disable" : "card-button"} onClick={() => handleBuyPackage(item.typePackage)}>Mua Ngay</button>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="package-container">
+            {packages.map((item, index) => (
+              <div key={index} className="card">
+                <div className="card-details">
+                  <p className="text-title">{item.name}</p>
+                  <p className="text-body">{item.price} token</p>
+                  {/* <p className="text-body"></p> */}
+                  <p className="text-body">{item.timeExp} thang</p>
+                  <p className="text-body">{item.description}</p>
+                </div>
+                <button
+                  className={
+                    userPacakge.includes(item.typePackage)
+                      ? "card-button card-button-disable"
+                      : "card-button"
+                  }
+                  onClick={() => handleBuyPackage(item.typePackage)}
+                >
+                  Mua Ngay
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      {/* <div className="shop-container">
+          {/* <div className="shop-container">
         <nav className="nav-bar">
           {tabs.map((tab) => (
             <button
@@ -148,7 +170,9 @@ const Store: React.FC = () => {
               className={`card ${pack.highlight ? "highlight" : ""}`}
             >
               {pack.bonus && <div className="badge">{pack.bonus}</div>}
-              {pack.popular && <div className="popular-badge">Most Popular</div>}
+              {pack.popular && (
+                <div className="popular-badge">Most Popular</div>
+              )}
               {pack.best && <div className="best-badge">Best Price</div>}
               <img src={pack.img} alt="gem" className="icon" />
               <h3 className="card-title">{pack.label}</h3>
@@ -169,8 +193,9 @@ const Store: React.FC = () => {
 
         <button className="back-btn">⬅ Back</button>
       </div> */}
+        </>
+      )}
     </>
-    
   );
 };
 

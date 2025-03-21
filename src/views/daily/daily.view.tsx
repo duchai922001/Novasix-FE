@@ -29,6 +29,8 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { PomodoroService } from "@/services/pomodoro.service";
 import { QuoteSerivce } from "@/services/quote.service";
+import Loader from "@/components/loading";
+import { TaskUsageService } from "@/services/task-usage.service";
 
 const { Title, Text } = Typography;
 const Daily = () => {
@@ -71,6 +73,10 @@ const Daily = () => {
       label: "Cancel",
     },
   ];
+  const [pomodoroUser, setPomodoroUser] = useState({
+    pomodoroTimer: 0,
+    breakTimer: 0,
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedEdit, setSelectedEdit] = useState<string>("");
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -201,6 +207,15 @@ const Daily = () => {
       },
     });
   };
+  const asyncDataPomodoroUser = async () => {
+    try {
+      setIsLoading(true);
+      const response = await PomodoroService.getPomodoroOfUser();
+      setPomodoroUser(response);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const asyncQuotes = async () => {
     try {
       setIsLoading(true);
@@ -221,6 +236,7 @@ const Daily = () => {
   }, [chooseDate]);
   useEffect(() => {
     asyncQuotes();
+    asyncDataPomodoroUser();
   }, []);
   const renderAddNewTask = () => {
     return (
@@ -356,191 +372,225 @@ const Daily = () => {
     }
   };
 
+  const handleLogTimeTask = async () => {
+    try {
+      const startTime = new Date();
+      const endTime = new Date(
+        startTime.getTime() +
+          (pomodoroUser.breakTimer + pomodoroUser.pomodoroTimer) *
+            (selectTaskStart.numberOfPomodoros ?? 1) *
+            60000
+      );
+      const payload = {
+        startTime,
+        endTime,
+      };
+      await TaskUsageService.logTimeTask(payload);
+    } catch (error) {
+      handleError(error);
+    }
+  };
   return (
-    <Spin spinning={isLoading}>
-      <div className="daily-container">
-        <Row className="daily-header" gutter={[12, 12]}>
-          <Col span={20} className="daily-header-left">
-            <div className="daily-sologan">{renderSologan()}</div>
-            <div className="daily-title">
-              Today I am grateful for .............
-            </div>
-          </Col>
-          <Col span={4}>
-            {" "}
-            <DatePicker
-              className="custom-datepicker"
-              onChange={handleDateChange}
-              defaultValue={dayjs()}
-              format="YYYY-MM-DD"
-            />
-          </Col>
-        </Row>
-        <Row className="card-container" gutter={[12, 12]}>
-          <Col span={12}>
-            <MCard
-              title="Task"
-              onClickAction={handleAddNewTask}
-              styleContent={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "12px",
-              }}
-              renderContent={() => (
-                <>
-                  {dataTaskProgress.length === 0 ? (
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="daily-container">
+            <Row className="daily-header" gutter={[12, 12]}>
+              <Col span={20} className="daily-header-left">
+                <div className="daily-sologan">{renderSologan()}</div>
+                <div className="daily-title">
+                  Today I am grateful for .............
+                </div>
+              </Col>
+              <Col span={4}>
+                {" "}
+                <DatePicker
+                  className="custom-datepicker"
+                  onChange={handleDateChange}
+                  defaultValue={dayjs()}
+                  format="YYYY-MM-DD"
+                />
+              </Col>
+            </Row>
+            <Row className="card-container" gutter={[12, 12]}>
+              <Col span={12}>
+                <MCard
+                  title="Task"
+                  onClickAction={handleAddNewTask}
+                  styleContent={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                  }}
+                  renderContent={() => (
                     <>
-                      {" "}
-                      <Empty
-                        style={{ marginTop: "24px" }}
-                        description="Hôm nay không có task nào"
-                      />
+                      {dataTaskProgress.length === 0 ? (
+                        <>
+                          {" "}
+                          <Empty
+                            style={{ marginTop: "24px" }}
+                            description="Hôm nay không có task nào"
+                          />
+                        </>
+                      ) : (
+                        dataTaskProgress.map((item) => (
+                          <MTask
+                            onClick={() => {
+                              setOpenStartTask(true);
+                              handleSelectTaskStart(item._id as string);
+                              setSelectedEdit(item._id as string);
+                            }}
+                            isEdit={true}
+                            type={item.type}
+                            task={item.title}
+                            pomodoro={item.numberOfPomodoros}
+                            description={item?.description}
+                            status={item.status}
+                            handleEdit={() =>
+                              handleEditTask(item._id as string)
+                            }
+                            handleDelete={() =>
+                              handleDeleteTask(item._id as string)
+                            }
+                          />
+                        ))
+                      )}
                     </>
-                  ) : (
-                    dataTaskProgress.map((item) => (
-                      <MTask
-                        onClick={() => {
-                          setOpenStartTask(true);
-                          handleSelectTaskStart(item._id as string);
-                          setSelectedEdit(item._id as string);
-                        }}
-                        isEdit={true}
-                        type={item.type}
-                        task={item.title}
-                        pomodoro={item.numberOfPomodoros}
-                        description={item?.description}
-                        status={item.status}
-                        handleEdit={() => handleEditTask(item._id as string)}
-                        handleDelete={() =>
-                          handleDeleteTask(item._id as string)
-                        }
-                      />
-                    ))
                   )}
-                </>
-              )}
-              action={ActionType.ADD}
-            />
-          </Col>
-          <Col span={12}>
-            <MCard
-              title="Done"
-              styleContent={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "12px",
-              }}
-              renderContent={() => (
-                <>
-                  {dataTaskDone.length === 0 ? (
-                    <Empty
-                      style={{ marginTop: "24px" }}
-                      description="Không có task nào hoàn thành"
-                    />
-                  ) : (
-                    dataTaskDone.map((item) => (
-                      <MTask
-                        key={item._id}
-                        isEdit={false}
-                        type={item.type}
-                        status={item.status}
-                        task={item.title}
-                        pomodoro={item.numberOfPomodoros}
-                        description={item.description}
-                        handleDelete={() =>
-                          handleDeleteTask(item._id as string)
-                        }
-                      />
-                    ))
+                  action={ActionType.ADD}
+                />
+              </Col>
+              <Col span={12}>
+                <MCard
+                  title="Done"
+                  styleContent={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                  }}
+                  renderContent={() => (
+                    <>
+                      {dataTaskDone.length === 0 ? (
+                        <Empty
+                          style={{ marginTop: "24px" }}
+                          description="Không có task nào hoàn thành"
+                        />
+                      ) : (
+                        dataTaskDone.map((item) => (
+                          <MTask
+                            key={item._id}
+                            isEdit={false}
+                            type={item.type}
+                            status={item.status}
+                            task={item.title}
+                            pomodoro={item.numberOfPomodoros}
+                            description={item.description}
+                            handleDelete={() =>
+                              handleDeleteTask(item._id as string)
+                            }
+                          />
+                        ))
+                      )}
+                    </>
                   )}
-                </>
-              )}
+                />
+              </Col>
+            </Row>
+            <MModal
+              width={800}
+              isOpen={isOpenModal}
+              onClose={() => setIsOpenModal(false)}
+              title={selectedEdit === "" ? "New Task" : "Edit Task"}
+              renderContent={() => <>{renderAddNewTask()}</>}
             />
-          </Col>
-        </Row>
-        <MModal
-          width={800}
-          isOpen={isOpenModal}
-          onClose={() => setIsOpenModal(false)}
-          title={selectedEdit === "" ? "New Task" : "Edit Task"}
-          renderContent={() => <>{renderAddNewTask()}</>}
-        />
-      </div>
-      <Modal
-        open={openStartTask}
-        title="📝 Task của bạn"
-        onCancel={handleCloseStartTask}
-        width={600}
-        footer={null}
-        centered
-        style={{ borderRadius: "12px" }}
-      >
-        <Row gutter={[12, 12]} justify="center" style={{ textAlign: "center" }}>
-          {/* Tiêu đề Task */}
-          <Col span={24}>
-            <Title level={4} style={{ color: "#1890ff", fontWeight: "bold" }}>
-              {selectTaskStart?.title || "Chưa có tiêu đề"}
-            </Title>
-          </Col>
-
-          {/* Mô tả Task */}
-          <Col span={24}>
-            <Text type="danger" style={{ fontSize: "16px" }}>
-              {selectTaskStart?.description || "Không có mô tả"}
-            </Text>
-          </Col>
-
-          {/* Nút bấm */}
-          <Col span={24}>
-            <Button
-              type={
-                selectTaskStart?.numberOfPomodoros &&
-                selectTaskStart?.numberOfPomodoros > 0
-                  ? "primary"
-                  : "default"
-              }
-              size="large"
-              icon={
-                selectTaskStart?.numberOfPomodoros &&
-                selectTaskStart?.numberOfPomodoros > 0 ? (
-                  <PlayCircleOutlined />
-                ) : (
-                  <CheckCircleOutlined />
-                )
-              }
-              style={{
-                background:
-                  selectTaskStart?.numberOfPomodoros &&
-                  selectTaskStart?.numberOfPomodoros > 0
-                    ? "#52c41a"
-                    : "#faad14",
-                borderColor: "transparent",
-                color: "#fff",
-                fontWeight: "bold",
-                borderRadius: "8px",
-                width: "200px",
-                height: "45px",
-              }}
-              onClick={() => {
-                if (
-                  selectTaskStart?.numberOfPomodoros &&
-                  selectTaskStart.numberOfPomodoros > 0
-                ) {
-                  navigate(`/pomodoro/${selectTaskStart._id}`);
-                } else {
-                  handleCompleTask();
-                }
-              }}
+          </div>
+          <Modal
+            open={openStartTask}
+            title="📝 Task của bạn"
+            onCancel={handleCloseStartTask}
+            width={600}
+            footer={null}
+            centered
+            style={{ borderRadius: "12px" }}
+          >
+            <Row
+              gutter={[12, 12]}
+              justify="center"
+              style={{ textAlign: "center" }}
             >
-              {selectTaskStart?.numberOfPomodoros &&
-              selectTaskStart?.numberOfPomodoros > 0
-                ? "Bắt đầu"
-                : "Hoàn thành"}
-            </Button>
-          </Col>
-        </Row>
-      </Modal>
-    </Spin>
+              {/* Tiêu đề Task */}
+              <Col span={24}>
+                <Title
+                  level={4}
+                  style={{ color: "#1890ff", fontWeight: "bold" }}
+                >
+                  {selectTaskStart?.title || "Chưa có tiêu đề"}
+                </Title>
+              </Col>
+
+              {/* Mô tả Task */}
+              <Col span={24}>
+                <Text type="danger" style={{ fontSize: "16px" }}>
+                  {selectTaskStart?.description || "Không có mô tả"}
+                </Text>
+              </Col>
+
+              {/* Nút bấm */}
+              <Col span={24}>
+                <Button
+                  type={
+                    selectTaskStart?.numberOfPomodoros &&
+                    selectTaskStart?.numberOfPomodoros > 0
+                      ? "primary"
+                      : "default"
+                  }
+                  size="large"
+                  icon={
+                    selectTaskStart?.numberOfPomodoros &&
+                    selectTaskStart?.numberOfPomodoros > 0 ? (
+                      <PlayCircleOutlined />
+                    ) : (
+                      <CheckCircleOutlined />
+                    )
+                  }
+                  style={{
+                    background:
+                      selectTaskStart?.numberOfPomodoros &&
+                      selectTaskStart?.numberOfPomodoros > 0
+                        ? "#52c41a"
+                        : "#faad14",
+                    borderColor: "transparent",
+                    color: "#fff",
+                    fontWeight: "bold",
+                    borderRadius: "8px",
+                    width: "200px",
+                    height: "45px",
+                  }}
+                  onClick={() => {
+                    if (
+                      selectTaskStart?.numberOfPomodoros &&
+                      selectTaskStart.numberOfPomodoros > 0
+                    ) {
+                      handleLogTimeTask();
+                      navigate(`/pomodoro/${selectTaskStart._id}`);
+                    } else {
+                      handleCompleTask();
+                    }
+                  }}
+                >
+                  {selectTaskStart?.numberOfPomodoros &&
+                  selectTaskStart?.numberOfPomodoros > 0
+                    ? "Bắt đầu"
+                    : "Hoàn thành"}
+                </Button>
+              </Col>
+            </Row>
+          </Modal>
+        </>
+      )}
+    </>
   );
 };
 

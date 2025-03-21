@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Avatar, Badge, Col, Row } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/auth/logo-zendo.png";
 import { RiDashboardFill } from "react-icons/ri";
@@ -20,6 +20,7 @@ import { IUserData } from "@/types/user.interface";
 import { PomodoroService } from "@/services/pomodoro.service";
 import { UserPackageService } from "@/services/user-package.service";
 import { handleError } from "@/utils/catch-error";
+import { UserService } from "@/services/user.service";
 
 interface MenuItem {
   key: string;
@@ -36,70 +37,70 @@ const AuthLayout = () => {
   const [userData, setUserData] = useState<IUserData>({
     name: "username",
   });
-    const [userPacakge, setUserPackage] = useState([])
-    const [filterMenu, setFilterMenu] = useState([])
-    const listMenu: MenuItem[] = [
-      {
-        key: "dashboard",
-        title: "Dashboard",
-        icon: <RiDashboardFill />,
-        url: "/dashboard",
-      },
-      {
-        key: "daily",
-        title: "Daily",
-        icon: <CiCloudSun />,
-        url: "/daily",
-      },
-      {
-        key: "weekly",
-        title: "Weekly",
-        icon: <FaRegCalendarCheck />,
-        url: "/weekly",
-      },
-      {
-        key: "monthly",
-        title: "Monthly",
-        icon: <IoCalendarNumber />,
-        url: "/monthly",
-      },
-      {
-        key: "profile",
-        title: "Profile",
-        icon: <CgProfile />,
-        url: "/profile",
-      },
-      {
-        key: "store",
-        title: "Store",
-        icon: <FaStore />,
-        url: "/store",
-      },
-      {
-        key: "settings",
-        title: "Settings",
-        icon: <IoSettings />,
-        url: "/settings",
-      },
-      {
-        key: "wallet",
-        title: "Wallet",
-        icon: <FaWallet />,
-        url: "/wallet",
-      },
-      {
-        key: "mission",
-        title: "Missions",
-        icon: <FaTasks />,
-        url: "/mission",
-      },
-      {
-        key: "logout",
-        title: "Logout",
-        icon: <TbLogout />,
-        url: "/login",
-      },
-    ];
+  const [userPacakge, setUserPackage] = useState([]);
+  const [filterMenu, setFilterMenu] = useState([]);
+  const listMenu: MenuItem[] = [
+    {
+      key: "dashboard",
+      title: "Dashboard",
+      icon: <RiDashboardFill />,
+      url: "/dashboard",
+    },
+    {
+      key: "daily",
+      title: "Daily",
+      icon: <CiCloudSun />,
+      url: "/daily",
+    },
+    {
+      key: "weekly",
+      title: "Weekly",
+      icon: <FaRegCalendarCheck />,
+      url: "/weekly",
+    },
+    {
+      key: "monthly",
+      title: "Monthly",
+      icon: <IoCalendarNumber />,
+      url: "/monthly",
+    },
+    {
+      key: "profile",
+      title: "Profile",
+      icon: <CgProfile />,
+      url: "/profile",
+    },
+    {
+      key: "store",
+      title: "Store",
+      icon: <FaStore />,
+      url: "/store",
+    },
+    {
+      key: "settings",
+      title: "Settings",
+      icon: <IoSettings />,
+      url: "/settings",
+    },
+    {
+      key: "wallet",
+      title: "Wallet",
+      icon: <FaWallet />,
+      url: "/wallet",
+    },
+    {
+      key: "mission",
+      title: "Missions",
+      icon: <FaTasks />,
+      url: "/mission",
+    },
+    {
+      key: "logout",
+      title: "Logout",
+      icon: <TbLogout />,
+      url: "/login",
+    },
+  ];
   const [pomodoroUser, setPomodoroUser] = useState({
     pomodoroTimer: 0,
     breakTimer: 0,
@@ -112,28 +113,46 @@ const AuthLayout = () => {
       console.log("");
     }
   };
-      const asyncUserPackage = async () => {
-        try {
-          const response = await UserPackageService.getPackagesUser()
-          const mappedUserPackage = response.map((item) => item.packageId.typePackage)
-          mappedUserPackage.push("daily", "profile", "store", "settings", "wallet", "mission", "logout");
-          setUserPackage(mappedUserPackage)
-          const filterMenuData = listMenu.filter((item) => mappedUserPackage.includes(item.key));
-          setFilterMenu(filterMenuData)
-        } catch (error) {
-          handleError(error)
-        }
-      }
-    
+  const asyncUserPackage = async () => {
+    try {
+      const response = await UserPackageService.getPackagesUser();
+      const mappedUserPackage = response.map(
+        (item) => item.packageId.typePackage
+      );
+      mappedUserPackage.push(
+        "daily",
+        "profile",
+        "store",
+        "settings",
+        "wallet",
+        "mission",
+        "logout"
+      );
+      setUserPackage(mappedUserPackage);
+      const filterMenuData = listMenu.filter((item) =>
+        mappedUserPackage.includes(item.key)
+      );
+      setFilterMenu(filterMenuData);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  const asyncUserCurrent = async () => {
+    try {
+      const response = await UserService.getUserCurrent();
+      setUserData(response);
+    } catch (error) {
+      handleError(error);
+    }
+  };
   useEffect(() => {
     const currentPath = location.pathname.split("/")[1];
     setActiveIndex(currentPath || "dashboard");
   }, [location.pathname]);
   useEffect(() => {
     asyncDataPomodoroUser();
-    const user = getLocalStorage("user");
-    setUserData(user);
-    asyncUserPackage()
+    asyncUserCurrent();
+    asyncUserPackage();
   }, []);
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
@@ -282,14 +301,16 @@ const AuthLayout = () => {
           )}
 
           <div className="header-auth-info">
-            <Col className="col-left-header-auth">
-              <MdAccountCircle className="icon-header-auth" />
-              <span>{userData.name}</span>
-            </Col>
-            <Col className="col-right-header-auth">
+            <div className="col-left-header-auth">
+              <Avatar src={userData.avatar} size={40} alt={userData.name} />
+              <span className="user-name">{userData.name}</span>
+            </div>
+            <div className="col-right-header-auth">
               <AiOutlineGlobal className="icon-header-auth" />
-              <HiMiniBellAlert className="icon-header-auth" />
-            </Col>
+              <Badge count={5}>
+                <HiMiniBellAlert className="icon-header-auth" />
+              </Badge>
+            </div>
           </div>
         </Row>
         <Row className="content-auth">

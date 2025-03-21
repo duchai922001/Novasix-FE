@@ -5,61 +5,11 @@ import { PaymentService } from "@/services/payment.service";
 import { handleError } from "@/utils/catch-error";
 import { WalletService } from "@/services/wallet.service";
 import { OrderService } from "@/services/order.service";
-import dayjs, { Dayjs } from "dayjs";
-
-const data = [
-  {
-    key: "1",
-    id: "IO-BN-124",
-    date: "04 Mar 2018",
-    amount: 1044,
-    status: "Paid",
-  },
-  {
-    key: "2",
-    id: "IO-BN-127",
-    date: "03 Dec 2018",
-    amount: 994.2,
-    status: "Paid",
-  },
-  {
-    key: "3",
-    id: "IO-BN-167",
-    date: "10 Dec 2018",
-    amount: 6904,
-    status: "Paid",
-  },
-  {
-    key: "4",
-    id: "IO-BN-172",
-    date: "16 May 2018",
-    amount: 3400,
-    status: "Pending",
-  },
-  {
-    key: "5",
-    id: "IO-BN-178",
-    date: "04 Mar 2018",
-    amount: 480,
-    status: "Pending",
-  },
-  {
-    key: "6",
-    id: "IO-BN-196",
-    date: "08 Mar 2018",
-    amount: 994,
-    status: "Pending",
-  },
-  {
-    key: "7",
-    id: "IO-BN-215",
-    date: "17 Oct 2018",
-    amount: 9000,
-    status: "Cancelled",
-  },
-];
+import dayjs from "dayjs";
+import Loader from "@/components/loading";
 
 const Wallet = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [user, setUser] = useState({
     _id: "",
   });
@@ -87,7 +37,7 @@ const Wallet = () => {
       dataIndex: "status",
       key: "status",
       render: (status: string) => {
-        let color =
+        const color =
           status === "success"
             ? "green"
             : status === "pending"
@@ -99,18 +49,25 @@ const Wallet = () => {
   ];
   const asyncOrderUser = async () => {
     try {
+      setIsLoading(true);
       const response = await OrderService.getOrderOfUser();
       setDataOrder(response);
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   const asyncWalletUser = async () => {
     try {
+      setIsLoading(true);
       const response = await WalletService.getWalletOfUser();
       setTokenUser(response);
     } catch (error) {
       handleError(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -136,38 +93,48 @@ const Wallet = () => {
     }
   };
   return (
-    <Row gutter={[12, 12]} style={{ width: "100%" }}>
-      <Col span={16}>
-        <Card title="Giao dịch">
-          <Table columns={columns} dataSource={dataOrder} pagination={false} />
-        </Card>
-      </Col>
-      <Col span={8}>
-        <Card title="Nạp Token">
-          <Row gutter={[12, 12]}>
-            <Input
-              type="number"
-              min={0}
-              defaultValue={numberToken}
-              onChange={(e) => setNumberToken(Number(e.target.value))}
-            />
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={handleDeposite}
-            >
-              Nạp
-            </Button>
-          </Row>
-          <Typography.Text italic>
-            10,000 vnd tương ứng với 100 token
-          </Typography.Text>
-        </Card>
-        <Card title="Ví bạn" style={{ marginTop: 16 }}>
-          <h2>💰 {tokenUser}</h2>
-        </Card>
-      </Col>
-    </Row>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Row gutter={[12, 12]} style={{ width: "100%" }}>
+          <Col span={16}>
+            <Card title="Giao dịch">
+              <Table
+                columns={columns}
+                dataSource={dataOrder}
+                pagination={false}
+              />
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title="Nạp Token">
+              <Row gutter={[12, 12]}>
+                <Input
+                  type="number"
+                  min={0}
+                  defaultValue={numberToken}
+                  onChange={(e) => setNumberToken(Number(e.target.value))}
+                />
+                <Button
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  onClick={handleDeposite}
+                >
+                  Nạp
+                </Button>
+              </Row>
+              <Typography.Text italic>
+                10,000 vnd tương ứng với 100 token
+              </Typography.Text>
+            </Card>
+            <Card title="Ví bạn" style={{ marginTop: 16 }}>
+              <h2>💰 {tokenUser}</h2>
+            </Card>
+          </Col>
+        </Row>
+      )}
+    </>
   );
 };
 
