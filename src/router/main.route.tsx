@@ -18,6 +18,9 @@ import AboutUs from "@/views/aboutUs/aboutUs.view";
 import FAQS from "@/views/FAQS/FAQS.view";
 import PoliciesAterms from "@/views/policiesAterms/policiesAterms.view";
 import Pomodoro from "../views/pomodoroPage/pomodoroPage.view";
+import AdminRoute from "../layouts/admin.layout";
+import AdminPomodoro from "../views/admin/managePomodoro.view";
+import AdminDashboard from "../views/admin/adminDashboard.view";
 const MainRoutes = () => {
   return (
     <>
@@ -43,6 +46,10 @@ const MainRoutes = () => {
             <Route path="/monthly" element={<Monthly />} />
             <Route path="/upgrade" element={<Upgrade />} />
           </Route>
+        </Route>
+        <Route element={<AdminRoute />}>
+          <Route path="/AdminPomodoro" element={<AdminPomodoro />} />
+          <Route path="/AdminDashboard" element={<AdminDashboard />} />
         </Route>
         <Route path="/pomodoro/:taskId" element={<Pomodoro />} />
       </Routes>
