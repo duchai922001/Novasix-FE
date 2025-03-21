@@ -2,24 +2,17 @@ import { Col, Row } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/auth/logo-zendo.png";
 import { RiDashboardFill } from "react-icons/ri";
-import { CiCloudSun } from "react-icons/ci";
-import { FaRegCalendarCheck, FaTasks, FaWallet } from "react-icons/fa";
-import { IoCalendarNumber } from "react-icons/io5";
+import { GiTomato } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
-import { FaStore } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { TbLogout } from "react-icons/tb";
-import { MdOutlineWorkspacePremium } from "react-icons/md";
 import { MdAccountCircle } from "react-icons/md";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { HiMiniBellAlert } from "react-icons/hi2";
-import { GiTomato } from "react-icons/gi";
 import React, { useEffect, useState } from "react";
 import { getLocalStorage } from "@/utils/localstorage";
 import { IUserData } from "@/types/user.interface";
 import { PomodoroService } from "@/services/pomodoro.service";
-import { UserPackageService } from "@/services/user-package.service";
-import { handleError } from "@/utils/catch-error";
 
 interface MenuItem {
   key: string;
@@ -27,7 +20,7 @@ interface MenuItem {
   icon: React.ReactNode;
   url?: string;
 }
-const AuthLayout = () => {
+const AdminLayout = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -36,70 +29,6 @@ const AuthLayout = () => {
   const [userData, setUserData] = useState<IUserData>({
     name: "username",
   });
-    const [userPacakge, setUserPackage] = useState([])
-    const [filterMenu, setFilterMenu] = useState([])
-    const listMenu: MenuItem[] = [
-      {
-        key: "dashboard",
-        title: "Dashboard",
-        icon: <RiDashboardFill />,
-        url: "/dashboard",
-      },
-      {
-        key: "daily",
-        title: "Daily",
-        icon: <CiCloudSun />,
-        url: "/daily",
-      },
-      {
-        key: "weekly",
-        title: "Weekly",
-        icon: <FaRegCalendarCheck />,
-        url: "/weekly",
-      },
-      {
-        key: "monthly",
-        title: "Monthly",
-        icon: <IoCalendarNumber />,
-        url: "/monthly",
-      },
-      {
-        key: "profile",
-        title: "Profile",
-        icon: <CgProfile />,
-        url: "/profile",
-      },
-      {
-        key: "store",
-        title: "Store",
-        icon: <FaStore />,
-        url: "/store",
-      },
-      {
-        key: "settings",
-        title: "Settings",
-        icon: <IoSettings />,
-        url: "/settings",
-      },
-      {
-        key: "wallet",
-        title: "Wallet",
-        icon: <FaWallet />,
-        url: "/wallet",
-      },
-      {
-        key: "mission",
-        title: "Missions",
-        icon: <FaTasks />,
-        url: "/mission",
-      },
-      {
-        key: "logout",
-        title: "Logout",
-        icon: <TbLogout />,
-        url: "/login",
-      },
-    ];
   const [pomodoroUser, setPomodoroUser] = useState({
     pomodoroTimer: 0,
     breakTimer: 0,
@@ -112,19 +41,6 @@ const AuthLayout = () => {
       console.log("");
     }
   };
-      const asyncUserPackage = async () => {
-        try {
-          const response = await UserPackageService.getPackagesUser()
-          const mappedUserPackage = response.map((item) => item.packageId.typePackage)
-          mappedUserPackage.push("daily", "profile", "store", "settings", "wallet", "mission", "logout");
-          setUserPackage(mappedUserPackage)
-          const filterMenuData = listMenu.filter((item) => mappedUserPackage.includes(item.key));
-          setFilterMenu(filterMenuData)
-        } catch (error) {
-          handleError(error)
-        }
-      }
-    
   useEffect(() => {
     const currentPath = location.pathname.split("/")[1];
     setActiveIndex(currentPath || "dashboard");
@@ -133,12 +49,42 @@ const AuthLayout = () => {
     asyncDataPomodoroUser();
     const user = getLocalStorage("user");
     setUserData(user);
-    asyncUserPackage()
   }, []);
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
   };
-
+  const listMenu: MenuItem[] = [
+    {
+      key: "dashboard",
+      title: "Dashboard",
+      icon: <RiDashboardFill />,
+      url: "/dashboard",
+    },
+    {
+      key: "pomodoro",
+      title: "Pomodoro",
+      icon: <GiTomato />,
+      url: "/manage_pomodoro",
+    },
+    {
+      key: "profile",
+      title: "Profile",
+      icon: <CgProfile />,
+      url: "/profile",
+    },
+    {
+      key: "settings",
+      title: "Settings",
+      icon: <IoSettings />,
+      url: "/settings",
+    },
+    {
+      key: "logout",
+      title: "Logout",
+      icon: <TbLogout />,
+      url: "/login",
+    },
+  ];
   const renderItemChildMenu = (item: MenuItem) => {
     const isActive = activeIndex === item.key;
 
@@ -230,40 +176,14 @@ const AuthLayout = () => {
         {!isCollapsed ? (
           <>
             <Row style={{ marginTop: "20px" }}>
-              {filterMenu.slice(0, 4).map((item) => renderItemChildMenu(item))}
+              {listMenu.map((item) => renderItemChildMenu(item))}
             </Row>
-            <Row className="divider-auth"></Row>
-            <Row style={{ marginTop: "20px" }}>
-              {filterMenu.slice(4, 10).map((item) => renderItemChildMenu(item))}
-            </Row>
-            {/* <Row className="card-premium">
-              <div className="icon-premium-container">
-                <MdOutlineWorkspacePremium className="icon-premium" />
-              </div>
-              <div className="text-premium">
-                <p>Need help?</p>
-                <p>Upgrade to VIP package</p>
-              </div>
-              <button
-                className="btn-premium"
-                onClick={() => {
-                  navigate("/upgrade");
-                  setActiveIndex("");
-                }}
-              >
-                Upgrade now
-              </button>
-            </Row> */}
           </>
         ) : (
           <>
             {" "}
             <Row style={{ marginTop: "20px" }}>
-              {filterMenu.slice(0, 4).map((item) => renderIconMenu(item))}
-            </Row>
-            <Row className="divider-auth"></Row>
-            <Row style={{ marginTop: "20px" }}>
-              {filterMenu.slice(4, 10).map((item) => renderIconMenu(item))}
+              {listMenu.map((item) => renderIconMenu(item))}
             </Row>
           </>
         )}
@@ -297,17 +217,7 @@ const AuthLayout = () => {
         </Row>
       </Col>
     </Row>
-    // <Row className="container-auth">
-    //   <Col
-    //     span={4}
-    //     className={`col-left-auth ${isCollapsed ? "collapsed" : ""}`}
-    //   ></Col>
-
-    //   <Col span={20} className="col-right-auth">
-    //     right
-    //   </Col>
-    // </Row>
   );
 };
 
-export default AuthLayout;
+export default AdminLayout;
