@@ -20,6 +20,9 @@ import PoliciesAterms from "@/views/policiesAterms/policiesAterms.view";
 import Pomodoro from "../views/pomodoroPage/pomodoroPage.view";
 import Wallet from "@/views/wallet/wallet.view";
 import Mission from "@/views/mission/mission.view";
+import AdminRoute from "../layouts/admin.layout";
+import AdminPomodoro from "../views/admin/managePomodoro.view";
+import AdminDashboard from "../views/admin/adminDashboard.view";
 const MainRoutes = () => {
   return (
     <>
@@ -47,6 +50,10 @@ const MainRoutes = () => {
             <Route path="/wallet" element={<Wallet />} />
             <Route path="/mission" element={<Mission />} />
           </Route>
+        </Route>
+        <Route element={<AdminRoute />}>
+          <Route path="/AdminPomodoro" element={<AdminPomodoro />} />
+          <Route path="/AdminDashboard" element={<AdminDashboard />} />
         </Route>
         <Route path="/pomodoro/:taskId" element={<Pomodoro />} />
       </Routes>
