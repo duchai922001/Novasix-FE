@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { getLocalStorage } from "@/utils/localstorage";
 import { IUserData } from "@/types/user.interface";
 import { PomodoroService } from "@/services/pomodoro.service";
+import { MdOutlineManageAccounts } from "react-icons/md";
 
 interface MenuItem {
   key: string;
@@ -64,6 +65,12 @@ const AdminLayout = () => {
       key: "pomodoro",
       title: "Pomodoro",
       icon: <GiTomato />,
+      url: "/manage_pomodoro",
+    },
+    {
+      key: "account",
+      title: "Account",
+      icon: <MdOutlineManageAccounts />,
       url: "/manage_pomodoro",
     },
     {

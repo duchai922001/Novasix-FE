@@ -1,9 +1,117 @@
-import React from 'react'
+import React from "react";
+import { Layout, Card, Row, Col, Typography, Table, Button } from "antd";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, BarChart, Bar, Legend } from "recharts";
+
+const { Content } = Layout;
+const { Text } = Typography;
+
+const stats = [
+  { title: "Total Users", value: "1,250" },
+  { title: "Total Package Active", value: "345" },
+  { title: "Total Package Price", value: "150" },
+  { title: "New Signups Today", value: "78" }
+];
+
+const chartData = [
+  { name: "Total Users", value: 1250 },
+  { name: "Total Package Active", value: 345 },
+  { name: "Total Package Price", value: 150 },
+  { name: "New Signups Today", value: 78 }
+];
+
+const lineChartData = [
+  { name: "Jan", users: 400, signups: 120 },
+  { name: "Feb", users: 600, signups: 150 },
+  { name: "Mar", users: 800, signups: 200 },
+  { name: "Apr", users: 1000, signups: 250 },
+];
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+const sortedChartData = [...chartData].sort((a, b) => b.value - a.value);
+
+const columns = [
+  { title: "Rank", dataIndex: "rank", key: "rank" },
+  { title: "Name", dataIndex: "name", key: "name" },
+  { title: "Value", dataIndex: "value", key: "value" }
+];
+
+const dataSource = sortedChartData.map((item, index) => ({
+  key: index,
+  rank: index + 1,
+  name: item.name,
+  value: item.value
+}));
 
 const AdminDashboard: React.FC = () => {
   return (
-    <div>dashboard.view</div>
-  )
-}
+    <Layout style={{ minHeight: "100vh" }}>
+      <Layout>
+        <Button>User Statistics</Button>
+        <Content style={{ margin: "20px" }}>
+          <Row gutter={[16, 16]}>
+            {stats.map((stat, index) => (
+              <Col span={6} key={index}>
+                <Card title={stat.title} bordered={false}>
+                  <Text strong style={{ fontSize: "24px" }}>{stat.value}</Text>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+          
+          <Row gutter={[16, 16]}>
+            <Col span={12}>
+              <Card title="User Statistics" style={{ marginTop: "20px" }}>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie data={chartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
+                      {chartData.map((_, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </Card>
+            </Col>
 
-export default AdminDashboard
+            <Col span={12}>
+              <Card title="User Growth" style={{ marginTop: "20px" }}>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={lineChartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="users" stroke="#8884d8" strokeWidth={2} />
+                    <Line type="monotone" dataKey="signups" stroke="#82ca9d" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </Card>
+            </Col>
+          </Row>
+
+          <Card title="Monthly Signups" style={{ marginTop: "20px" }}>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={lineChartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="signups" fill="#FF8042" />
+              </BarChart>
+            </ResponsiveContainer>
+          </Card>
+
+          <Card title="Ranking by Value" style={{ marginTop: "20px" }}>
+            <Table columns={columns} dataSource={dataSource} pagination={false} />
+          </Card>
+        </Content>
+      </Layout>
+    </Layout>
+  );
+};
+
+export default AdminDashboard;
