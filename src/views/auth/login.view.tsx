@@ -25,8 +25,14 @@ const Login = () => {
       const response = await AuthService.login(formDataLogin);
       setLocalStorage("accessToken", response.access_token);
       setLocalStorage("user", response);
-      message.success("Đăng nhập thành công");
-      navigate("/dashboard");
+      if (response.role === "customer") {
+        message.success("Đăng nhập thành công");
+        navigate("/dashboard");
+      }
+      if (response.role === "admin") {
+        message.success("Đăng nhập quyền admin");
+        navigate("/admin");
+      }
     } catch (error) {
       handleError(error);
     } finally {

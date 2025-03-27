@@ -1,229 +1,163 @@
-import { Col, Row } from "antd";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Layout,
+  Menu,
+  Space,
+  theme,
+  Typography,
+} from "antd";
+import { useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import logo from "@/assets/images/auth/logo-zendo.png";
-import { RiDashboardFill } from "react-icons/ri";
 import { GiTomato } from "react-icons/gi";
-import { CgProfile } from "react-icons/cg";
-import { IoSettings } from "react-icons/io5";
-import { TbLogout } from "react-icons/tb";
-import { MdAccountCircle } from "react-icons/md";
-import { AiOutlineGlobal } from "react-icons/ai";
-import { HiMiniBellAlert } from "react-icons/hi2";
-import React, { useEffect, useState } from "react";
-import { getLocalStorage } from "@/utils/localstorage";
-import { IUserData } from "@/types/user.interface";
-import { PomodoroService } from "@/services/pomodoro.service";
-import { MdOutlineManageAccounts } from "react-icons/md";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { SiVorondesign } from "react-icons/si";
+import { FaStore, FaUserCog } from "react-icons/fa";
+import { AiFillDashboard } from "react-icons/ai";
+import { MdSell } from "react-icons/md";
 
-interface MenuItem {
-  key: string;
-  title: string;
-  icon: React.ReactNode;
-  url?: string;
-}
-const AdminLayout = () => {
-  const location = useLocation();
+const { Header, Sider, Content } = Layout;
+const { Text } = Typography;
 
+const AdminLayout: React.FC = () => {
+  const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
-  const [activeIndex, setActiveIndex] = useState<string | null>("dashboard");
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [userData, setUserData] = useState<IUserData>({
-    name: "username",
-  });
-  const [pomodoroUser, setPomodoroUser] = useState({
-    pomodoroTimer: 0,
-    breakTimer: 0,
-  });
-  const asyncDataPomodoroUser = async () => {
-    try {
-      const response = await PomodoroService.getPomodoroOfUser();
-      setPomodoroUser(response);
-    } catch {
-      console.log("");
-    }
-  };
-  useEffect(() => {
-    const currentPath = location.pathname.split("/")[1];
-    setActiveIndex(currentPath || "dashboard");
-  }, [location.pathname]);
-  useEffect(() => {
-    asyncDataPomodoroUser();
-    const user = getLocalStorage("user");
-    setUserData(user);
-  }, []);
-  const toggleSidebar = () => {
-    setIsCollapsed((prev) => !prev);
-  };
-  const listMenu: MenuItem[] = [
-    {
-      key: "dashboard",
-      title: "Dashboard",
-      icon: <RiDashboardFill />,
-      url: "/dashboard",
-    },
-    {
-      key: "pomodoro",
-      title: "Pomodoro",
-      icon: <GiTomato />,
-      url: "/manage_pomodoro",
-    },
-    {
-      key: "account",
-      title: "Account",
-      icon: <MdOutlineManageAccounts />,
-      url: "/manage_pomodoro",
-    },
-    {
-      key: "profile",
-      title: "Profile",
-      icon: <CgProfile />,
-      url: "/profile",
-    },
-    {
-      key: "settings",
-      title: "Settings",
-      icon: <IoSettings />,
-      url: "/settings",
-    },
-    {
-      key: "logout",
-      title: "Logout",
-      icon: <TbLogout />,
-      url: "/login",
-    },
-  ];
-  const renderItemChildMenu = (item: MenuItem) => {
-    const isActive = activeIndex === item.key;
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
 
-    return (
-      <Col span={24} key={item.key}>
-        <Row
-          className={"menu-child-item"}
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  const userData = localStorage.getItem("user");
+  const user = userData ? JSON.parse(userData) : null;
+  const username = user?.name || "Admin";
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="profile" icon={<SettingOutlined />}>
+        Hồ sơ
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout}>
+        Đăng xuất
+      </Menu.Item>
+    </Menu>
+  );
+
+  return (
+    <Layout>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div
+          style={{ display: "flex", justifyContent: "center", padding: "6px" }}
+        >
+          <img src={logo} alt="NovaSix Logo" style={{ width: "80%" }} />
+        </div>
+        <Menu
+          style={{ height: "100vh" }}
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          items={[
+            {
+              key: "1",
+              icon: <AiFillDashboard />,
+              label: "Dashboard",
+              onClick: () => navigate("/admin"),
+            },
+            {
+              key: "2",
+              icon: <FaUserCog />,
+              label: "Quản lý người dùng",
+              onClick: () => navigate("/manage-user"),
+            },
+
+            {
+              key: "3",
+              icon: <FaStore />,
+              label: "Quản lý cửa hàng",
+              onClick: () => navigate("/manage-store"),
+            },
+            {
+              key: "4",
+              icon: <GiTomato />,
+              label: "Quản lý pomodoro",
+              onClick: () => navigate("/manage-pomodoro"),
+            },
+            {
+              key: "5",
+              icon: <FaMoneyBillTransfer />,
+              label: "Quản lý giao dịch",
+              onClick: () => navigate("/manage-transaction"),
+            },
+            {
+              key: "6",
+              icon: <MdSell />,
+              label: "Chương trình khuyến mãi",
+              onClick: () => navigate("/manage-promotion"),
+            },
+            {
+              key: "7",
+              icon: <SiVorondesign />,
+              label: "Thiết kế website",
+              onClick: () => navigate("/design-website"),
+            },
+          ]}
+        />
+      </Sider>
+      <Layout>
+        <Header
           style={{
-            background: isActive ? "white" : "none",
-            boxShadow: isActive ? "0px 0px 10px #888888" : "none",
-          }}
-          onClick={() => {
-            if (item.key === "logout") {
-              localStorage.removeItem("accessToken");
-              localStorage.removeItem("user");
-            }
-
-            setActiveIndex(item.key);
-            navigate(`${item.url}`);
+            padding: "0 16px",
+            background: colorBgContainer,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <Col span={5}>
-            {React.cloneElement(item.icon as React.ReactElement, {
-              className: `menu-child-item-icon ${
-                isActive ? "active-icon" : ""
-              }`,
-            })}
-          </Col>
-          <Col
-            span={19}
-            className={`menu-child-item-text ${isActive ? "active-text" : ""}`}
-          >
-            {item.title}
-          </Col>
-        </Row>
-      </Col>
-    );
-  };
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === "b") {
-        event.preventDefault();
-        setIsCollapsed((prev) => !prev);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-  const renderIconMenu = (item: MenuItem) => {
-    const isActive = activeIndex === item.key;
-    return (
-      <Col
-        span={24}
-        style={{
-          background: isActive ? "white" : "none",
-          boxShadow: isActive ? "0px 0px 10px #888888" : "none",
-        }}
-        onClick={() => {
-          setActiveIndex(item.key);
-          navigate(`${item.url}`);
-        }}
-        className="icon-menu"
-      >
-        {React.cloneElement(item.icon as React.ReactElement, {
-          className: `icon-collapsed ${isActive ? "active-icon" : ""}`,
-        })}
-      </Col>
-    );
-  };
-  return (
-    <Row className="container-auth">
-      <Col
-        span={isCollapsed ? 1 : 4}
-        className={`col-left-auth ${isCollapsed ? "collapsed" : ""}`}
-      >
-        {/* Logo */}
-        <Row className="header" onClick={toggleSidebar}>
-          <img
-            src={logo}
-            alt="NovaSix Logo"
-            className={`logo-auth ${isCollapsed ? "collapsed-logo" : ""}`}
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: "16px",
+              width: 64,
+              height: 64,
+            }}
           />
-        </Row>
-
-        {/* Menu Items */}
-        {!isCollapsed ? (
-          <>
-            <Row style={{ marginTop: "20px" }}>
-              {listMenu.map((item) => renderItemChildMenu(item))}
-            </Row>
-          </>
-        ) : (
-          <>
-            {" "}
-            <Row style={{ marginTop: "20px" }}>
-              {listMenu.map((item) => renderIconMenu(item))}
-            </Row>
-          </>
-        )}
-      </Col>
-      <Col span={isCollapsed ? 23 : 20} className="col-right-auth">
-        <Row className="header-auth" gutter={[12, 12]}>
-          {activeIndex === "daily" && (
-            <div className="header-auth-pomodoro">
-              <span className="pomodoro">
-                <GiTomato />
-              </span>
-              <span className="time">
-                {pomodoroUser.pomodoroTimer} - {pomodoroUser.breakTimer} minutes
-              </span>
-            </div>
-          )}
-
-          <div className="header-auth-info">
-            <Col className="col-left-header-auth">
-              <MdAccountCircle className="icon-header-auth" />
-              <span>{userData.name}</span>
-            </Col>
-            <Col className="col-right-header-auth">
-              <AiOutlineGlobal className="icon-header-auth" />
-              <HiMiniBellAlert className="icon-header-auth" />
-            </Col>
-          </div>
-        </Row>
-        <Row className="content-auth">
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <Space style={{ cursor: "pointer" }}>
+              <Avatar size="large" icon={<UserOutlined />} />
+              <Text>{username}</Text>
+            </Space>
+          </Dropdown>
+        </Header>
+        <Content
+          style={{
+            margin: "24px 16px",
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        >
           <Outlet />
-        </Row>
-      </Col>
-    </Row>
+        </Content>
+      </Layout>
+    </Layout>
   );
 };
 

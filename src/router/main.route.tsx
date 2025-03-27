@@ -21,8 +21,14 @@ import Pomodoro from "../views/pomodoroPage/pomodoroPage.view";
 import Wallet from "@/views/wallet/wallet.view";
 import Mission from "@/views/mission/mission.view";
 import AdminRoute from "../layouts/admin.layout";
-import AdminPomodoro from "../views/admin/managePomodoro.view";
-import AdminDashboard from "../views/admin/adminDashboard.view";
+import AdminDashboard from "../views/admin/admin-dashboard.view";
+import PrivateAdminRoute from "./private-admin.route";
+import UserManagement from "@/views/admin/user-manage.view";
+import TransactionManagement from "@/views/admin/transaction.view";
+import StoreManagement from "@/views/admin/store-manage.view";
+import PomodoroManagement from "@/views/admin/manage-pomodoro.view";
+import WebsiteCustomization from "@/views/admin/website-design.view";
+import PromotionManagement from "@/views/admin/promotion-manage.view";
 const MainRoutes = () => {
   return (
     <>
@@ -51,10 +57,21 @@ const MainRoutes = () => {
             <Route path="/mission" element={<Mission />} />
           </Route>
         </Route>
-        <Route element={<AdminRoute />}>
-          <Route path="/AdminPomodoro" element={<AdminPomodoro />} />
-          <Route path="/AdminDashboard" element={<AdminDashboard />} />
+        <Route element={<PrivateAdminRoute />}>
+          <Route element={<AdminRoute />}>
+            <Route path="/manage-pomodoro" element={<PomodoroManagement />} />
+            <Route path="/design-website" element={<WebsiteCustomization />} />
+            <Route path="/manage-user" element={<UserManagement />} />
+            <Route path="/manage-store" element={<StoreManagement />} />
+            <Route path="/manage-promotion" element={<PromotionManagement />} />
+            <Route
+              path="/manage-transaction"
+              element={<TransactionManagement />}
+            />
+            <Route path="/admin" element={<AdminDashboard />} />
+          </Route>
         </Route>
+
         <Route path="/pomodoro/:taskId" element={<Pomodoro />} />
       </Routes>
     </>

@@ -9,4 +9,12 @@ export const UserService = {
     const response = await axiosInstance.put("/user/update", formData);
     return response.data;
   },
+  getAllUser: async () => {
+    const response = await axiosInstance.get("/user/get-all");
+    return response.data;
+  },
+  actionIsActiveUser: async (userId: string) => {
+    const response = await axiosInstance.put(`/user/action-active/${userId}`);
+    return response;
+  },
 };
