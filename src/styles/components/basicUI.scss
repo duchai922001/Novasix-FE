@@ -1,5 +1,7 @@
 @use "../variables" as *;
 
+$hover-darken-percentage: 10%;
+
 // Common
 .m-title {
   font-size: 15px;
@@ -500,7 +502,7 @@
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 
   &:hover {
-    background-color: darken(#1a9a23, 10%);
+    background-color: darken(#1a9a23, $hover-darken-percentage);
     transform: scale(1.1);
   }
 

@@ -131,7 +131,18 @@
   background-color: $second-color;
 }
 
-
+.package-title {
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 20px auto 0px;
+  text-align: center;
+  text-transform: uppercase;
+  background: linear-gradient(to bottom, #ff7e5f, #feb47b); /* Changed direction to vertical */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 //card package 
 .package-container{
   width: 100%;
@@ -139,16 +150,15 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  background-color: #4CAF50;
   padding: 40px;
   border-radius: 10px;
   .card {
-    width: 200px;
+    width: 180px;
     height: 300px;
     border-radius: 20px;
     background: #f5f5f5;
     position: relative;
-    border: 2px solid #c3c6ce;
+    border: 6px solid #c3c6ce;
     transition: 0.5s ease-out;
     overflow: visible;
    }
@@ -182,20 +192,50 @@
     background-color: #ccc;
    }
    
+   .card-button-isPaid {
+    border: 6px solid #54C51C;
+   }
+   
    .text-body {
+    margin-top: 10px;
     color: rgb(134, 134, 134);
    }
    
-   /*Text*/
+   .text-verifi{
+    font-size: 30px;
+    color: #54C51C;
+    position: absolute;
+    right: 10px;
+   }
+
+   .text-icon{
+    font-size: 50px;
+    color: #4CAF50;
+   } 
+
    .text-title {
     font-size: 1.5em;
     font-weight: bold;
    }
    
+   .text-price{
+    text-align: center;
+    font-weight: bold;
+    color: #4CAF50;
+   }
+
+   .text-price-span{
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #4CAF50;
+   }
+
    /*Hover*/
    .card:hover {
     border-color: #008bf8;
-    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 18px 0 rgba(255, 126, 95, 0.5), 
+                0 6px 20px 0 rgba(134, 168, 231, 0.5);
    }
    
    .card:hover .card-button {
