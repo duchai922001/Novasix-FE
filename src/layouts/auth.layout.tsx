@@ -1,4 +1,4 @@
-import { Avatar, Badge, Col, Row } from "antd";
+import { Avatar, Badge, Col, Dropdown, Menu, Row } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/auth/logo-zendo.png";
 import { RiDashboardFill } from "react-icons/ri";
@@ -19,7 +19,11 @@ import { UserPackageService } from "@/services/user-package.service";
 import { handleError } from "@/utils/catch-error";
 import { UserService } from "@/services/user.service";
 import { AuthService } from "@/services/auth.service";
+import { io } from "socket.io-client";
+import { NotificationService } from "@/services/notification.service";
+import dayjs from "dayjs";
 
+const socket = io("http://localhost:5000");
 interface MenuItem {
   key: string;
   title: string;
@@ -30,6 +34,8 @@ const AuthLayout = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
+  const [notifications, setNotifications] = useState<string[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
   const [activeIndex, setActiveIndex] = useState<string | null>("dashboard");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [userData, setUserData] = useState<IUserData>({
@@ -143,6 +149,35 @@ const AuthLayout = () => {
       handleError(error);
     }
   };
+  const fetchNotifications = async () => {
+    try {
+      const response = await NotificationService.getNotification();
+      setNotifications(response.notifications);
+      setUnreadCount(response.unreadCount);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  const markAllAsRead = async () => {
+    try {
+      await NotificationService.markNotification();
+      setUnreadCount(0);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  useEffect(() => {
+    fetchNotifications();
+    socket.on("newNotification", (data) => {
+      setNotifications((prev) => [{ message: data.message }, ...prev]);
+      setUnreadCount((prev) => prev + 1);
+    });
+
+    return () => {
+      socket.off("newNotification");
+    };
+  }, []);
+
   useEffect(() => {
     const currentPath = location.pathname.split("/")[1];
     setActiveIndex(currentPath || "dashboard");
@@ -229,6 +264,25 @@ const AuthLayout = () => {
       </Col>
     );
   };
+  const menu = (
+    <Menu>
+      {notifications.length === 0 ? (
+        <Menu.Item key="empty">Không có thông báo</Menu.Item>
+      ) : (
+        notifications.map((notif, index) => (
+          <Menu.Item key={index}>
+            <div>
+              <strong>{notif.message}</strong>
+              <br />
+              <small style={{ color: "gray" }}>
+                {dayjs(notif.createdAt).format("DD/MM/YY HH:mm")}
+              </small>
+            </div>
+          </Menu.Item>
+        ))
+      )}
+    </Menu>
+  );
   return (
     <Row className="container-auth">
       <Col
@@ -254,24 +308,6 @@ const AuthLayout = () => {
             <Row style={{ marginTop: "20px" }}>
               {filterMenu.slice(4, 10).map((item) => renderItemChildMenu(item))}
             </Row>
-            {/* <Row className="card-premium">
-              <div className="icon-premium-container">
-                <MdOutlineWorkspacePremium className="icon-premium" />
-              </div>
-              <div className="text-premium">
-                <p>Need help?</p>
-                <p>Upgrade to VIP package</p>
-              </div>
-              <button
-                className="btn-premium"
-                onClick={() => {
-                  navigate("/upgrade");
-                  setActiveIndex("");
-                }}
-              >
-                Upgrade now
-              </button>
-            </Row> */}
           </>
         ) : (
           <>
@@ -306,9 +342,18 @@ const AuthLayout = () => {
             </div>
             <div className="col-right-header-auth">
               <AiOutlineGlobal className="icon-header-auth" />
-              <Badge count={5}>
-                <HiMiniBellAlert className="icon-header-auth" />
-              </Badge>
+              <Dropdown
+                overlay={menu}
+                trigger={["click"]}
+                onOpenChange={markAllAsRead}
+              >
+                <Badge count={unreadCount}>
+                  <HiMiniBellAlert
+                    className="icon-header-auth"
+                    style={{ cursor: "pointer" }}
+                  />
+                </Badge>
+              </Dropdown>
             </div>
           </div>
         </Row>

@@ -117,6 +117,12 @@ const AdminLayout: React.FC = () => {
               label: "Thiết kế website",
               onClick: () => navigate("/design-website"),
             },
+            {
+              key: "8",
+              icon: <SiVorondesign />,
+              label: "Gửi thông báo",
+              onClick: () => navigate("/send-notification"),
+            },
           ]}
         />
       </Sider>
