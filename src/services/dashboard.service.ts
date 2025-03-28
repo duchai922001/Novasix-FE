@@ -17,4 +17,8 @@ export const DashboardService = {
     const response = await axiosInstance.get("/dashboard/yearly");
     return response.data;
   },
+  getDashboardAdmin: async () => {
+    const response = await axiosInstance.get("/dashboard/admin");
+    return response.data;
+  },
 };

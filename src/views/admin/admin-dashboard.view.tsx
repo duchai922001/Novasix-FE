@@ -1,5 +1,5 @@
-import React from "react";
-import { Layout, Card, Row, Col, Typography, Table, Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { Layout, Card, Row, Col, Typography, Table } from "antd";
 import {
   PieChart,
   Pie,
@@ -11,20 +11,13 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  BarChart,
-  Bar,
   Legend,
 } from "recharts";
+import { DashboardService } from "@/services/dashboard.service";
+import Loader from "@/components/loading";
 
 const { Content } = Layout;
 const { Text } = Typography;
-
-const stats = [
-  { title: "Total Users", value: "1,250" },
-  { title: "Total Package Active", value: "345" },
-  { title: "Total Package Price", value: "150" },
-  { title: "New Signups Today", value: "78" },
-];
 
 const chartData = [
   { name: "Total Users", value: 1250 },
@@ -42,125 +35,169 @@ const lineChartData = [
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-const sortedChartData = [...chartData].sort((a, b) => b.value - a.value);
-
 const columns = [
-  { title: "Rank", dataIndex: "rank", key: "rank" },
-  { title: "Name", dataIndex: "name", key: "name" },
-  { title: "Value", dataIndex: "value", key: "value" },
+  { title: "Tên gói", dataIndex: "name", key: "name" },
+  {
+    title: "Số lượng gói bán được",
+    dataIndex: "countBuyPackage",
+    key: "countBuyPackage",
+  },
+  { title: "Token", dataIndex: "sumAmountPackage", key: "sumAmountPackage" },
 ];
 
-const dataSource = sortedChartData.map((item, index) => ({
-  key: index,
-  rank: index + 1,
-  name: item.name,
-  value: item.value,
-}));
-
 const AdminDashboard: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [dataDashboard, setDataDashboard] = useState({
+    totalUser: 0,
+    userRegisterPackage: 0,
+    totalRevenue: [],
+    analysisPackageAmount: [],
+    analysisPackageTotal: [],
+    tablePackage: [],
+  });
+  const asyncDataDashboard = async () => {
+    try {
+      setIsLoading(true);
+      const response = await DashboardService.getDashboardAdmin();
+      setDataDashboard(response);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    asyncDataDashboard();
+  }, []);
+
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Layout>
-        <Content style={{ margin: "20px" }}>
-          <Row gutter={[16, 16]}>
-            <Col span={6}>
-              <Card title={"Người dùng"} bordered={false}>
-                <Text strong style={{ fontSize: "24px" }}>
-                  123
-                </Text>
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card title={"Người dùng mới hằng tuần"} bordered={false}>
-                <Text strong style={{ fontSize: "24px" }}>
-                  123
-                </Text>
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card title={"Doanh thu bán ra"} bordered={false}>
-                <Text strong style={{ fontSize: "24px" }}>
-                  1234
-                </Text>
-              </Card>
-            </Col>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Layout style={{ minHeight: "100vh" }}>
+          <Layout>
+            <Content style={{ margin: "20px" }}>
+              <Row gutter={[16, 16]}>
+                <Col span={8}>
+                  <Card title={"Người dùng"} bordered={false}>
+                    <Text strong style={{ fontSize: "24px" }}>
+                      {dataDashboard.totalUser}
+                    </Text>
+                  </Card>
+                </Col>
+                <Col span={8}>
+                  <Card title={"Người dung đăng ký gói"} bordered={false}>
+                    <Text strong style={{ fontSize: "24px" }}>
+                      {dataDashboard.userRegisterPackage}
+                    </Text>
+                  </Card>
+                </Col>
+                <Col span={8}>
+                  <Card title={"Doanh thu"} bordered={false}>
+                    <Text strong style={{ fontSize: "24px" }}>
+                      {dataDashboard.totalRevenue.toLocaleString()} đ
+                    </Text>
+                  </Card>
+                </Col>
+              </Row>
 
-            <Col span={6}>
-              <Card title={"Sử dụng cài đặt pomodoro"} bordered={false}>
-                <Text strong style={{ fontSize: "24px" }}>
-                  123
-                </Text>
-              </Card>
-            </Col>
-          </Row>
-
-          <Row gutter={[16, 16]}>
-            <Col span={12}>
-              <Card title="Doanh thu tháng này" style={{ marginTop: "20px" }}>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={chartData}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      label
-                    >
-                      {chartData.map((_, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
+              <Row gutter={[16, 16]}>
+                <Col span={12}>
+                  <Card
+                    title="Thống kê số lượng gói bán ra"
+                    style={{ marginTop: "20px" }}
+                  >
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Pie
+                          data={dataDashboard.analysisPackageTotal}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={100}
+                          label
+                        >
+                          {chartData.map((_, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </Card>
+                </Col>
+                <Col span={12}>
+                  <Card
+                    title="Thống kê số tiền bán ra của các gói"
+                    style={{ marginTop: "20px" }}
+                  >
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Pie
+                          data={dataDashboard.analysisPackageAmount}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={100}
+                          label
+                        >
+                          {chartData.map((_, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <Card title="Phân tích dữ liệu" style={{ marginTop: "20px" }}>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <LineChart data={lineChartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line
+                          type="monotone"
+                          dataKey="users"
+                          stroke="#8884d8"
+                          strokeWidth={2}
                         />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </Card>
-            </Col>
+                        <Line
+                          type="monotone"
+                          dataKey="signups"
+                          stroke="#82ca9d"
+                          strokeWidth={2}
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </Card>
+                </Col>
+              </Row>
 
-            <Col span={12}>
-              <Card title="Phân tích dữ liệu" style={{ marginTop: "20px" }}>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={lineChartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line
-                      type="monotone"
-                      dataKey="users"
-                      stroke="#8884d8"
-                      strokeWidth={2}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="signups"
-                      stroke="#82ca9d"
-                      strokeWidth={2}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+              <Card title="Bảng xếp hàng các gói" style={{ marginTop: "20px" }}>
+                <Table
+                  columns={columns}
+                  dataSource={dataDashboard.tablePackage}
+                  pagination={false}
+                />
               </Card>
-            </Col>
-          </Row>
-
-          <Card
-            title="Top người dùng sử dụng nhiều nhất"
-            style={{ marginTop: "20px" }}
-          >
-            <Table
-              columns={columns}
-              dataSource={dataSource}
-              pagination={false}
-            />
-          </Card>
-        </Content>
-      </Layout>
-    </Layout>
+            </Content>
+          </Layout>
+        </Layout>
+      )}
+    </>
   );
 };
 
