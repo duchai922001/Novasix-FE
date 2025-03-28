@@ -4,7 +4,12 @@ import { PackageService } from "@/services/package.service";
 import { UserPackageService } from "@/services/user-package.service";
 import { message } from "antd";
 import Loader from "@/components/loading";
-import { MdOutlineDashboardCustomize, MdVerified, MdCalendarMonth, MdOutlineWorkspacePremium} from "react-icons/md";
+import {
+  MdOutlineDashboardCustomize,
+  MdVerified,
+  MdCalendarMonth,
+  MdOutlineWorkspacePremium,
+} from "react-icons/md";
 import { FaCalendarWeek } from "react-icons/fa6";
 import { AiFillHeart } from "react-icons/ai";
 
@@ -12,9 +17,6 @@ const Store: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [packages, setPackage] = useState([]);
   const [userPacakge, setUserPackage] = useState([]);
-  const [activeTab, setActiveTab] = useState("Khung ảnh đại diện");
-
-  const tabs = ["Khung ảnh đại diện", "Template màu sắc", "Biểu tượng"]; 
 
   const getPackageIcon = (name: string) => {
     switch (name) {
@@ -30,7 +32,7 @@ const Store: React.FC = () => {
         return <AiFillHeart />;
     }
   };
-  
+
   const asyncPackage = async () => {
     try {
       setIsLoading(true);
@@ -46,10 +48,10 @@ const Store: React.FC = () => {
     try {
       setIsLoading(true);
       const response = await UserPackageService.getPackagesUser();
-      const mappedUserPackage = response.map(
-        (item: any) => item.packageId.typePackage
-      );
-      setUserPackage(mappedUserPackage);
+      // const mappedUserPackage = response.map(
+      //   (item: any) => item.packageId.typePackage
+      // );
+      setUserPackage(response);
     } catch (error) {
       handleError(error);
     } finally {
@@ -79,23 +81,33 @@ const Store: React.FC = () => {
         <Loader />
       ) : (
         <>
-          <div className="package-title">Enjoy your moment with your package</div>
+          <div className="package-title">
+            Enjoy your moment with your package
+          </div>
           <div className="package-container">
             {packages.map((item, index) => (
-              <div key={index} className={
-                userPacakge.includes(item.typePackage)
-                      ? "card card-button-isPaid"
-                      : "card"
-              }>
+              <div
+                key={index}
+                className={
+                  userPacakge.includes(item.typePackage)
+                    ? "card card-button-isPaid"
+                    : "card"
+                }
+              >
                 <div className="card-details">
-                  {
-                    userPacakge.includes(item.typePackage) 
-                    ?  <p className="text-verifi"><MdVerified /></p> 
-                    : null
-                  }
-                  <p className="text-icon">{getPackageIcon(item.name)}</p> 
+                  {userPacakge.includes(item.typePackage) ? (
+                    <p className="text-verifi">
+                      <MdVerified />
+                    </p>
+                  ) : null}
+                  <p className="text-icon">{getPackageIcon(item.name)}</p>
                   <p className="text-title">{item.name}</p>
-                  <p className="text-price">{item.price}💰 / <span className="text-price-span">{item.timeExp} tháng</span></p>
+                  <p className="text-price">
+                    {item.price}💰 /{" "}
+                    <span className="text-price-span">
+                      {item.timeExp} tháng
+                    </span>
+                  </p>
                   <p className="text-body">{item.description}</p>
                 </div>
                 <button

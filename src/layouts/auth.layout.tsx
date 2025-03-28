@@ -120,10 +120,10 @@ const AuthLayout = () => {
   const asyncUserPackage = async () => {
     try {
       const response = await UserPackageService.getPackagesUser();
-      const mappedUserPackage = response.map(
-        (item) => item.packageId.typePackage
-      );
-      mappedUserPackage.push(
+      // const mappedUserPackage = response.map(
+      //   (item) => item.packageId.typePackage
+      // );
+      response.push(
         "daily",
         "profile",
         "store",
@@ -132,9 +132,9 @@ const AuthLayout = () => {
         "mission",
         "logout"
       );
-      setUserPackage(mappedUserPackage);
+      setUserPackage(response);
       const filterMenuData = listMenu.filter((item) =>
-        mappedUserPackage.includes(item.key)
+        response.includes(item.key)
       );
       setFilterMenu(filterMenuData);
     } catch (error) {
