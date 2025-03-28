@@ -4,6 +4,9 @@ import { PackageService } from "@/services/package.service";
 import { UserPackageService } from "@/services/user-package.service";
 import { message } from "antd";
 import Loader from "@/components/loading";
+import { MdOutlineDashboardCustomize, MdVerified, MdCalendarMonth, MdOutlineWorkspacePremium} from "react-icons/md";
+import { FaCalendarWeek } from "react-icons/fa6";
+import { AiFillHeart } from "react-icons/ai";
 
 const Store: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -11,75 +14,23 @@ const Store: React.FC = () => {
   const [userPacakge, setUserPackage] = useState([]);
   const [activeTab, setActiveTab] = useState("Khung ảnh đại diện");
 
-  const tabs = ["Khung ảnh đại diện", "Template màu sắc", "Biểu tượng"];
-  const gemPacks = [
-    {
-      id: 1,
-      label: "DISABLES ADS",
-      price: "$2.99",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2-Ztv85gR3wX_SjiNIazlGynQwo_GzZs6jg&s",
-      highlight: true,
-    },
-    {
-      id: 2,
-      label: "550",
-      price: "$4.99",
-      bonus: "10% FREE",
-      img: "https://img.lovepik.com/png/20231103/Dinosaur-twibbon-border-cute-pink-avatar-frame-Child-dinosaur-anime_473504_wh1200.png",
-    },
-    {
-      id: 3,
-      label: "1200",
-      price: "$9.99",
-      bonus: "20% FREE",
-      img: "https://png.pngtree.com/png-clipart/20220714/ourmid/pngtree-dinosaur-twibbon-border-cute-green-avatar-frame-png-image_5953331.png",
-    },
-    {
-      id: 4,
-      label: "2500",
-      price: "$19.99",
-      bonus: "25% FREE",
-      img: "https://png.pngtree.com/png-clipart/20220621/ourmid/pngtree-orange-cat-animal-frame-cute-cartoon-avatar-social-media-border-png-image_5221239.png",
-    },
-    {
-      id: 5,
-      label: "6500",
-      price: "$49.99",
-      bonus: "30% FREE",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr_Ds-ixeo0F6WuL5vXWtDoKt0kABROaGldA&s",
-      popular: true,
-    },
-    {
-      id: 6,
-      label: "15000",
-      price: "$99.99",
-      bonus: "50% FREE",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTOOefA3jbMmTTGjK20jDWh1UzKCVR8lS4rA&s",
-      best: true,
-    },
-  ];
+  const tabs = ["Khung ảnh đại diện", "Template màu sắc", "Biểu tượng"]; 
 
-  const cashPacks = [
-    {
-      id: 1,
-      amount: "10,000",
-      price: "100",
-      img: "https://png.pngtree.com/png-clipart/20210310/original/pngtree-new-year-festive-avatar-frame-png-image_5932506.jpg",
-    },
-    {
-      id: 2,
-      amount: "20,000",
-      price: "200",
-      img: "https://thiep.softvn.com/data/cards/40960314/40960314_637971024258269450.png",
-    },
-    {
-      id: 3,
-      amount: "150,000",
-      price: "1000",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6Fk_LR29c8msFRAOxOXrrqKmJ8eSpYSc1o8Qtk1htMA574GRoElvB-gFM0ATanEhg0fM&usqp=CAU",
-    },
-  ];
-
+  const getPackageIcon = (name: string) => {
+    switch (name) {
+      case "Dashboard":
+        return <MdOutlineDashboardCustomize />;
+      case "Weekly":
+        return <FaCalendarWeek />;
+      case "Monthly":
+        return <MdCalendarMonth />;
+      case "Premium":
+        return <MdOutlineWorkspacePremium />;
+      default:
+        return <AiFillHeart />;
+    }
+  };
+  
   const asyncPackage = async () => {
     try {
       setIsLoading(true);
@@ -128,14 +79,23 @@ const Store: React.FC = () => {
         <Loader />
       ) : (
         <>
+          <div className="package-title">Enjoy your moment with your package</div>
           <div className="package-container">
             {packages.map((item, index) => (
-              <div key={index} className="card">
+              <div key={index} className={
+                userPacakge.includes(item.typePackage)
+                      ? "card card-button-isPaid"
+                      : "card"
+              }>
                 <div className="card-details">
+                  {
+                    userPacakge.includes(item.typePackage) 
+                    ?  <p className="text-verifi"><MdVerified /></p> 
+                    : null
+                  }
+                  <p className="text-icon">{getPackageIcon(item.name)}</p> 
                   <p className="text-title">{item.name}</p>
-                  <p className="text-body">{item.price} token</p>
-                  {/* <p className="text-body"></p> */}
-                  <p className="text-body">{item.timeExp} thang</p>
+                  <p className="text-price">{item.price}💰 / <span className="text-price-span">{item.timeExp} tháng</span></p>
                   <p className="text-body">{item.description}</p>
                 </div>
                 <button
