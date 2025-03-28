@@ -1,0 +1,28 @@
+.notification-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.notification-card {
+  width: 400px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: white;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.input {
+  margin-bottom: 12px;
+}
+
+.send-button {
+  width: 100%;
+}

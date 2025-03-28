@@ -36,7 +36,7 @@ const Header: React.FC = () => {
     <header className="home-header">
       <img
         className="h-logo"
-        src="/src/assets/images/auth/logo-zendo.png"
+        src="https://res.cloudinary.com/didb3lzdt/image/upload/v1743155958/WEBBLUETOOTH/s3wxl3iw8przscbh5bmy.png"
         alt="NovaSix Logo"
       />
 
