@@ -23,7 +23,7 @@ import { io } from "socket.io-client";
 import { NotificationService } from "@/services/notification.service";
 import dayjs from "dayjs";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://novasix-be.onrender.com");
 interface MenuItem {
   key: string;
   title: string;
