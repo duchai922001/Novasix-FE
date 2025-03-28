@@ -25,6 +25,7 @@ import { SiVorondesign } from "react-icons/si";
 import { FaStore, FaUserCog } from "react-icons/fa";
 import { AiFillDashboard } from "react-icons/ai";
 import { MdSell } from "react-icons/md";
+import { AuthService } from "@/services/auth.service";
 
 const { Header, Sider, Content } = Layout;
 const { Text } = Typography;
@@ -36,7 +37,8 @@ const AdminLayout: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await AuthService.logout();
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
     navigate("/login");

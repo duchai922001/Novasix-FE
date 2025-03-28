@@ -18,6 +18,7 @@ import { PomodoroService } from "@/services/pomodoro.service";
 import { UserPackageService } from "@/services/user-package.service";
 import { handleError } from "@/utils/catch-error";
 import { UserService } from "@/services/user.service";
+import { AuthService } from "@/services/auth.service";
 
 interface MenuItem {
   key: string;
@@ -166,8 +167,9 @@ const AuthLayout = () => {
             background: isActive ? "white" : "none",
             boxShadow: isActive ? "0px 0px 10px #888888" : "none",
           }}
-          onClick={() => {
+          onClick={async () => {
             if (item.key === "logout") {
+              await AuthService.logout();
               localStorage.removeItem("accessToken");
               localStorage.removeItem("user");
             }

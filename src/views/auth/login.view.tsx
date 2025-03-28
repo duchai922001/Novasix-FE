@@ -14,6 +14,7 @@ const Login = () => {
   const [formDataLogin, setFormDataLogin] = useState<IFormDataLogin>({
     username: "",
     password: "",
+    deviceId: "",
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleLogin = async () => {
@@ -23,7 +24,11 @@ const Login = () => {
     }
     try {
       setIsLoading(true);
-      const response = await AuthService.login(formDataLogin);
+      const response = await AuthService.login({
+        username: formDataLogin.username,
+        password: formDataLogin.password,
+        deviceId: crypto.randomUUID(),
+      });
       setLocalStorage("accessToken", response.access_token);
       setLocalStorage("user", response);
       if (response.role === "customer") {
