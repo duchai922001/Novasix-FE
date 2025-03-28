@@ -51,9 +51,9 @@ const Header: React.FC = () => {
       <div className="h-bth-join-container">
         <Link
           to={
-            user.role === "customer"
+            user?.role === "customer"
               ? "/dashboard"
-              : user.role === "admin"
+              : user?.role === "admin"
               ? "/admin"
               : "/login"
           }
