@@ -1,16 +1,36 @@
 @use "../variables" as *;
 .auth-container {
-  width: 500px;
+  width: 50%;
   height: auto;
   background: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  padding: 20px 100px;
+  padding: 20px 50px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: auto;
+  .auth-form-login{
+    width: 100%;
+    .img-logo-content{
+      justify-items: center;
+      width: 100%;
+      .img-logo{
+        width: 100%;
+        align-items: flex-end;
+      }
+    }
+  }
+  .welcome-container{
+    height: auto;
+    width: 100%;
+    text-align: center;
+    color: green;
+    padding-left: 20px;
+    .welcome-gif{
+      width: 45%;
+    }
+  }
   .footer-auth {
     text-align: center;
     .forgot-password {
@@ -22,5 +42,30 @@
       font-weight: bold;
       cursor: pointer;
     }
+  }
+  .auth-image {
+    flex: 0.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #9be15d, #00e3ae);
+    color: white;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .auth-image img {
+    width: 80%;
+    max-width: 400px;
+  }
+  
+  .auth-image h2 {
+    font-size: 22px;
+    margin-top: 20px;
+  }
+  
+  .auth-image p {
+    font-size: 16px;
   }
 }

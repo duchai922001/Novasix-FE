@@ -19,7 +19,7 @@ const Header: React.FC = () => {
   const ListNavLink : NavLink[] = [
     {
       key: "Guideline",
-      route: "#",
+      route: "/guideline",
       text: "Guideline",
     },
     {

@@ -1,0 +1,77 @@
+@use "../variables" as *;
+.guideline-container {
+    font-family: 'Times New Roman', Times, serif;
+    max-width: fit-content;
+    margin: auto;
+    text-align: center;
+    padding: 50px 20px;
+    border-radius: 20px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .guideline-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    animation: slideInDown 1s ease-in-out;
+  }
+  
+  .guideline-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  
+  .guideline-item {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    max-width: 40%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 1s ease-in-out;
+  }
+  
+  .guideline-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .guideline-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    animation: zoomIn 1s ease-in-out;
+  }
+  
+  .guideline-item p {
+    font-size: 1.2rem;
+    color: #34495e;
+    margin-top: 15px;
+    font-weight: 500;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideInDown {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes fadeInUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes zoomIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
