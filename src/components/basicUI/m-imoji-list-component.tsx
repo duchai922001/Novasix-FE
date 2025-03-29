@@ -14,7 +14,7 @@ const MImojiListComponent:React.FC = () => {
             ])
             .flat()
             .map((emoji, index) => (
-              <button key={index}>{emoji}</button>
+              <button className="button-emoji" key={index}>{emoji}</button>
             ))}
         </div>
       </div>

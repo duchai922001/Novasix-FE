@@ -33,6 +33,7 @@ import Loader from "@/components/loading";
 import { TaskUsageService } from "@/services/task-usage.service";
 import  MImojiListComponent from "@/components/basicUI/m-imoji-list-component";
 import LoginItem from "@/assets/images/unauth/LoginItem.gif";
+import MWeather from "@/components/basicUI/m-weather";
 
 const { Title, Text } = Typography;
 const Daily = () => {
@@ -418,6 +419,7 @@ const Daily = () => {
               </Col>
               <Col span={10}>
                 <MImojiListComponent />
+                <MWeather />
               </Col>
             </Row>
             <Row className="card-container" gutter={[12, 12]}>
