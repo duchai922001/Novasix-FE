@@ -29,6 +29,7 @@ import StoreManagement from "@/views/admin/store-manage.view";
 import PomodoroManagement from "@/views/admin/manage-pomodoro.view";
 import WebsiteCustomization from "@/views/admin/website-design.view";
 import PromotionManagement from "@/views/admin/promotion-manage.view";
+import Guideline from "@/views/guideline/Guideline.view";
 import SendNotification from "@/views/admin/send-notification.view";
 const MainRoutes = () => {
   return (
@@ -43,6 +44,7 @@ const MainRoutes = () => {
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/FAQS" element={<FAQS />} />
           <Route path="/policies" element={<PoliciesAterms />} />
+          <Route path="/guideline" element={<Guideline />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<AuthLayout />}>
