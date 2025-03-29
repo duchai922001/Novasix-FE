@@ -1,6 +1,7 @@
 export interface IFormDataLogin {
   username: string;
   password: string;
+  deviceId: string;
 }
 
 export interface IFormDataRegister {

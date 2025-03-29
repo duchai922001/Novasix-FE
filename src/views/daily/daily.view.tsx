@@ -31,6 +31,9 @@ import { PomodoroService } from "@/services/pomodoro.service";
 import { QuoteSerivce } from "@/services/quote.service";
 import Loader from "@/components/loading";
 import { TaskUsageService } from "@/services/task-usage.service";
+import  MImojiListComponent from "@/components/basicUI/m-imoji-list-component";
+import LoginItem from "@/assets/images/unauth/LoginItem.gif";
+import MWeather from "@/components/basicUI/m-weather";
 
 const { Title, Text } = Typography;
 const Daily = () => {
@@ -398,7 +401,7 @@ const Daily = () => {
         <>
           <div className="daily-container">
             <Row className="daily-header" gutter={[12, 12]}>
-              <Col span={20} className="daily-header-left">
+              <Col span={10} className="daily-header-left">
                 <div className="daily-sologan">{renderSologan()}</div>
                 <div className="daily-title">
                   Today I am grateful for .............
@@ -412,6 +415,11 @@ const Daily = () => {
                   defaultValue={dayjs()}
                   format="YYYY-MM-DD"
                 />
+                <img className="custom-gif" src={LoginItem} alt="gif"/>
+              </Col>
+              <Col span={10}>
+                <MImojiListComponent />
+                <MWeather />
               </Col>
             </Row>
             <Row className="card-container" gutter={[12, 12]}>
