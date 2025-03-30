@@ -34,7 +34,7 @@ const Login = () => {
       setLocalStorage("user", response);
       if (response.role === "customer") {
         message.success("Đăng nhập thành công");
-        navigate("/dashboard");
+        navigate("/daily");
       }
       if (response.role === "admin") {
         message.success("Đăng nhập quyền admin");
