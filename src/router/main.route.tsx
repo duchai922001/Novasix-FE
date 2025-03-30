@@ -30,6 +30,7 @@ import PomodoroManagement from "@/views/admin/manage-pomodoro.view";
 import WebsiteCustomization from "@/views/admin/website-design.view";
 import PromotionManagement from "@/views/admin/promotion-manage.view";
 import Guideline from "@/views/guideline/Guideline.view";
+import SendNotification from "@/views/admin/send-notification.view";
 const MainRoutes = () => {
   return (
     <>
@@ -66,6 +67,7 @@ const MainRoutes = () => {
             <Route path="/manage-user" element={<UserManagement />} />
             <Route path="/manage-store" element={<StoreManagement />} />
             <Route path="/manage-promotion" element={<PromotionManagement />} />
+            <Route path="/send-notification" element={<SendNotification />} />
             <Route
               path="/manage-transaction"
               element={<TransactionManagement />}

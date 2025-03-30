@@ -10,4 +10,8 @@ export const AuthService = {
     const response = await axiosInstance.post("/register", formData);
     return response.data;
   },
+  logout: async () => {
+    const response = await axiosInstance.post("/logout");
+    return response.data;
+  },
 };

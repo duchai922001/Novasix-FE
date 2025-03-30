@@ -1,5 +1,7 @@
 @use "../variables" as *;
 
+$hover-darken-percentage: 10%;
+
 // Common
 .m-title {
   font-size: 15px;
@@ -500,7 +502,7 @@
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 
   &:hover {
-    background-color: darken(#1a9a23, 10%);
+    background-color: darken(#1a9a23, $hover-darken-percentage);
     transform: scale(1.1);
   }
 
@@ -594,4 +596,405 @@
   position: absolute;
   top: calc(50% - 1.25em);
   left: calc(50% - 1.25em);
+}
+
+
+//card-emojis
+.card-emojis {
+  width: 97%;
+  background: rgba(41, 41, 41, 0.07);
+  white-space: nowrap;
+  overflow: hidden;
+  border-radius: 50px;
+  box-shadow: -10px 0px 13px -7px #0000003a,
+    10px 0px 13px -7px #0000003a, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.emoji-wrapper {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.emojis {
+  display: flex;
+  animation: sliding 5s linear infinite;
+  min-width: 200%;
+}
+
+.button-emoji {
+  font-size: 20px;
+  margin: 0 5px;
+  border: none;
+  background-color: transparent;
+  cursor: grab;
+}
+
+.button-emoji:hover {
+  transform: scale(1.1);
+  transition: 0.3s ease;
+}
+
+/* Hiệu ứng trượt */
+@keyframes sliding {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+//letter-container
+.letter-container{
+  .letter-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+  }
+  
+  .letter-animated-mail {
+    position: absolute;
+    height: 150px;
+    width: 200px;
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    transition: 0.4s;
+  
+    .letter-body {
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 0 100px 200px;
+      border-color: transparent transparent #e95f55 transparent;
+      z-index: 2;
+    }
+  
+    .letter-top-fold {
+      position: absolute;
+      top: 50px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 50px 100px 0 100px;
+      -webkit-transform-origin: 50% 0%;
+      -webkit-transition: transform 0.4s 0.4s, z-index 0.2s 0.4s;
+      -moz-transform-origin: 50% 0%;
+      -moz-transition: transform 0.4s 0.4s, z-index 0.2s 0.4s;
+      transform-origin: 50% 0%;
+      transition: transform 0.4s 0.4s, z-index 0.2s 0.4s;
+      border-color: #cf4a43 transparent transparent transparent;
+      z-index: 2;
+    }
+  
+    .letter-back-fold {
+      position: absolute;
+      bottom: 0;
+      width: 200px;
+      height: 100px;
+      background: #cf4a43;
+      z-index: 0;
+    }
+  
+    .letter-left-fold {
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 50px 0 50px 100px;
+      border-color: transparent transparent transparent #e15349;
+      z-index: 2;
+    }
+  
+    .letter {
+      left: 20px;
+      bottom: 0px;
+      position: absolute;
+      width: 160px;
+      height: 60px;
+      background: white;
+      z-index: 1;
+      overflow: hidden;
+      -webkit-transition: 0.4s 0.2s;
+      -moz-transition: 0.4s 0.2s;
+      transition: 0.4s 0.2s;
+  
+      .letter-border {
+        height: 10px;
+        width: 100%;
+        background: repeating-linear-gradient(
+          -45deg,
+          #cb5a5e,
+          #cb5a5e 8px,
+          transparent 8px,
+          transparent 18px
+        );
+      }
+  
+      .letter-title {
+        margin-top: 10px;
+        margin-left: 5px;
+        height: 10px;
+        width: 40%;
+        background: #cb5a5e;
+      }
+      .letter-context {
+        margin-top: 10px;
+        margin-left: 5px;
+        height: 10px;
+        width: 20%;
+        background: #cb5a5e;
+      }
+  
+      .letter-stamp {
+        margin-top: 30px;
+        margin-left: 120px;
+        border-radius: 100%;
+        height: 30px;
+        width: 30px;
+        background: #cb5a5e;
+        opacity: 0.3;
+      }
+    }
+  }
+  
+  .letter-shadow {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    width: 400px;
+    height: 30px;
+    transition: 0.4s;
+    transform: translateX(-50%);
+    -webkit-transition: 0.4s;
+    -webkit-transform: translateX(-50%);
+    -moz-transition: 0.4s;
+    -moz-transform: translateX(-50%);
+  
+    border-radius: 100%;
+    background: radial-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0)
+    );
+  }
+  
+  .letter-image:hover {
+    .letter-animated-mail {
+      transform: translateY(50px);
+      -webkit-transform: translateY(50px);
+      -moz-transform: translateY(50px);
+    }
+  
+    .letter-animated-mail .letter-top-fold {
+      transition: transform 0.4s, z-index 0.2s;
+      transform: rotateX(180deg);
+      -webkit-transition: transform 0.4s, z-index 0.2s;
+      -webkit-transform: rotateX(180deg);
+      -moz-transition: transform 0.4s, z-index 0.2s;
+      -moz-transform: rotateX(180deg);
+      z-index: 0;
+    }
+  
+    .letter-animated-mail .letter {
+      height: 180px;
+    }
+  
+    .letter-shadow {
+      width: 250px;
+    }
+  }
+}
+
+//m-weather
+.card-weather{
+  margin-top: 20px;
+  width: 88%;
+  height: 200px;
+  position: relative;
+  padding: 25px;
+  background: radial-gradient(178.94% 106.41% at 26.42% 106.41%, #FFF7B1 0%, rgba(255, 255, 255, 0) 71.88%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
+  
+  border-radius: 10px;
+  transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+  cursor: pointer;
+}
+
+.card-weather:hover {
+  transform: scale(1.05);
+}
+
+.container-weather {
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  right: 65px;
+  top: -10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.7);
+}
+
+.cloud {
+  width: 400px;
+}
+
+.front-weather {
+  padding-top: 45px;
+  margin-left: 30px;
+  display: inline;
+  position: absolute;
+  z-index: 11;
+  animation: clouds 8s infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.back-weather {
+  margin-top: -30px;
+  margin-left: 150px;
+  z-index: 12;
+  animation: clouds 12s infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.right-front-weather {
+  width: 70px;
+  height: 45px;
+  border-radius: 50% 50% 50% 0%;
+  background-color: #4c9beb;
+  display: inline-block;
+  margin-left: -25px;
+  z-index: 5;
+}
+
+.left-front-weather {
+  width: 65px;
+  height: 65px;
+  border-radius: 50% 50% 0% 50%;
+  background-color: #4c9beb;
+  display: inline-block;
+  z-index: 5;
+}
+
+.right-back-weather {
+  width: 50px;
+  height: 50px;
+  border-radius: 50% 50% 50% 0%;
+  background-color: #4c9beb;
+  display: inline-block;
+  margin-left: -20px;
+  z-index: 5;
+}
+
+.left-back-weather {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 0% 50%;
+  background-color: #4c9beb;
+  display: inline-block;
+  z-index: 5;
+}
+
+.sun {
+  width: 250px;
+  height: 250px;
+  background: -webkit-linear-gradient(to right, #fcbb04, #fffc00);
+  background: linear-gradient(to right, #fcbb04, #fffc00);
+  border-radius: 150px;
+  display: inline;
+  position: absolute;
+}
+
+.sunshine {
+  animation: sunshines 2s infinite;
+}
+
+@keyframes sunshines {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes clouds {
+  0% {
+    transform: translateX(15px);
+  }
+
+  50% {
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(15px);
+  }
+}
+
+.card-header-weather {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-header-weather span:first-child {
+  word-break: break-all;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 135%;
+  color: rgba(87, 77, 51, 0.66);
+}
+
+.card-header-weather span:last-child {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 135%;
+  color: rgba(87, 77, 51, 0.33);
+}
+
+.temp {
+  position: absolute;
+  left: 25px;
+  bottom: 12px;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 77px;
+  color: rgba(87, 77, 51, 1);
+}
+
+.temp-scale {
+  width: 80px;
+  height: 36px;
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 9px;
+}
+
+.temp-scale span {
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 134.49%;
+  color: rgba(87, 77, 51, 0.66);
 }
