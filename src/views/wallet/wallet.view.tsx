@@ -9,6 +9,10 @@ import dayjs from "dayjs";
 import Loader from "@/components/loading";
 
 const Wallet = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const status = urlParams.get("status");
+  const cancel = urlParams.get("cancel");
+  const orderCode = urlParams.get("orderCode");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [user, setUser] = useState({
     _id: "",
@@ -16,6 +20,33 @@ const Wallet = () => {
   const [tokenUser, setTokenUser] = useState<number>(0);
   const [numberToken, setNumberToken] = useState<number>(200);
   const [dataOrder, setDataOrder] = useState([]);
+  const updateOrderStatus = async (data: {
+    transId: string;
+    status: string;
+  }) => {
+    try {
+      await OrderService.updateStatusOrder(data);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  useEffect(() => {
+    if (status && orderCode) {
+      if (cancel === "false") {
+        const payload = {
+          transId: orderCode ?? "",
+          status: "success",
+        };
+        updateOrderStatus(payload);
+      } else {
+        const payload = {
+          transId: orderCode ?? "",
+          status: "failed",
+        };
+        updateOrderStatus(payload);
+      }
+    }
+  }, []);
   const columns = [
     { title: "Mã order", dataIndex: "transId", key: "transId" },
     {
@@ -85,8 +116,8 @@ const Wallet = () => {
         amount: numberToken * 100,
         userId: user._id,
       });
-      if (response && response.order_url) {
-        window.location.href = response.order_url;
+      if (response && response.url) {
+        window.location.href = response.url;
       }
     } catch (error) {
       handleError(error);

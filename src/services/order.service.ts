@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import axiosInstance from "./main.service";
 
 export const OrderService = {
@@ -14,6 +13,10 @@ export const OrderService = {
         status,
       },
     });
+    return response.data;
+  },
+  updateStatusOrder: async (data: { transId: string; status: string }) => {
+    const response = await axiosInstance.put("/order/update-status", data);
     return response.data;
   },
 };
