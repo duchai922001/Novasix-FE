@@ -22,7 +22,6 @@ import MButton from "@/components/basicUI/m-button";
 import MCheckbox from "@/components/basicUI/m-checkbox";
 import { InputTypes } from "@/constants/inputTypes.constant";
 import MInput from "@/components/basicUI/m-input";
-import { CheckboxChangeEvent } from "antd/es/checkbox";
 import MModal from "@/components/basicUI/m-modal";
 import { TypeTask } from "@/constants/type-task.constant";
 import MSelect from "@/components/basicUI/m-select";
@@ -30,9 +29,11 @@ import { IFormTaskWeek } from "@/types/weekly.interface";
 import { handleError } from "@/utils/catch-error";
 import { WeeklyService } from "@/services/week.service";
 import Loader from "@/components/loading";
+import { WeeklyReflectionService } from "@/services/weekly-reflection.service";
 
 const { Header, Content } = Layout;
 interface IFormWeekly {
+  name: string;
   title: string;
   type: InputTypes;
   placeholder?: string;
@@ -69,6 +70,14 @@ const categories = [
 ];
 
 const Weekly = () => {
+  const [formWeeklyReflection, setFormWeeklyReflection] = useState({
+    checkin: "",
+    success: "",
+    lesson: "",
+    future: "",
+    noteMore: "",
+    isSured: false,
+  });
   const [formTaskWeek, setFormTaskWeek] = useState<IFormTaskWeek>({
     name: "",
     type: "",
@@ -80,7 +89,6 @@ const Weekly = () => {
     not_important_not_urgent: [],
   });
   const [selectedWeek, setSelectedWeek] = useState(dayjs());
-  const [selectedCondition, setSelectedCondition] = useState<string[]>([]);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const formWeekly: IFormWeekly[] = [
@@ -88,30 +96,36 @@ const Weekly = () => {
       title: "Checkin",
       type: InputTypes.TEXT,
       placeholder: "How did  I feel this week?",
+      name: "checkin",
     },
     {
       title: "Success",
       type: InputTypes.TEXT,
       placeholder: "What am I proud of?",
+      name: "success",
     },
     {
       title: "Lesson",
       type: InputTypes.TEXT,
       placeholder: "What did I learn?",
+      name: "lesson",
     },
     {
       title: "Future",
       type: InputTypes.TEXT,
       placeholder: "How can I improve next week?",
+      name: "future",
     },
     {
       title: "Space for more reflection",
       type: InputTypes.TEXTAREA,
       placeholder: "Highlight of the week...",
+      name: "noteMore",
     },
     {
       title: "Make sure to check this week's Weekly Planning!",
       type: InputTypes.CHECKBOX,
+      name: "isSured",
     },
   ];
   const optionTask = [
@@ -139,40 +153,51 @@ const Weekly = () => {
     }));
     setIsOpenModal(true);
   };
-  const onChangeCondition = (e: CheckboxChangeEvent, value: string) => {
-    setSelectedCondition((prev) => {
-      if (prev.includes(value)) {
-        return prev.filter((item) => item !== value);
-      } else {
-        return [...prev, value];
-      }
-    });
-  };
+
   const renderFormWeekly = (item: IFormWeekly) => {
     switch (item.type) {
       case InputTypes.TEXT:
         return (
           <MInput
+            value={formWeeklyReflection[item.name]}
             title={item.title}
             type={InputTypes.TEXT}
             placeholder={item.placeholder}
+            onChange={(e) =>
+              setFormWeeklyReflection((prev) => ({
+                ...prev,
+                [item.name]: e.target.value,
+              }))
+            }
           />
         );
 
       case InputTypes.TEXTAREA:
         return (
           <MInput
+            value={formWeeklyReflection[item.name]}
             title={item.title}
             type={InputTypes.TEXTAREA}
             placeholder={item.placeholder}
+            onChange={(e) =>
+              setFormWeeklyReflection((prev) => ({
+                ...prev,
+                [item.name]: e.target.value,
+              }))
+            }
           />
         );
       case InputTypes.CHECKBOX:
         return (
           <MCheckbox
             title={item.title}
-            value={selectedCondition.includes(item.title)}
-            onChange={onChangeCondition}
+            value={formWeeklyReflection.isSured}
+            onChange={(e) =>
+              setFormWeeklyReflection((prev) => ({
+                ...prev,
+                isSured: e.target.checked,
+              }))
+            }
           />
         );
     }
@@ -278,6 +303,28 @@ const Weekly = () => {
       setIsLoading(false);
     }
   };
+  const asyncDataWeekReflection = async () => {
+    try {
+      setIsLoading(true);
+      const dateWeek = selectedWeek.startOf("week").format("YYYY-MM-DD");
+      const response = await WeeklyReflectionService.getWeekReflection(
+        dateWeek
+      );
+
+      setFormWeeklyReflection({
+        checkin: response?.checkin,
+        success: response?.success,
+        lesson: response?.lesson,
+        future: response?.future,
+        noteMore: response?.noteMore,
+        isSured: response?.isSured,
+      });
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const handleCheckTask = async (categoryKey: string, taskId: string) => {
     try {
       setTasksWeek((prevTasks) => ({
@@ -302,8 +349,25 @@ const Weekly = () => {
       handleError(error);
     }
   };
+  const handleSave = async () => {
+    const { checkin, success, lesson, future, noteMore, isSured } =
+      formWeeklyReflection;
+    try {
+      if (!checkin && !success && !lesson && !future && !noteMore) {
+        return message.warning("Vui lòng điền thông tin");
+      }
+      if (!isSured) {
+        return message.warning("Vui lòng check weekly planning");
+      }
+      await WeeklyReflectionService.create(formWeeklyReflection);
+      return message.success("Ghi chú thành công");
+    } catch (error) {
+      handleError(error);
+    }
+  };
   useEffect(() => {
     asyncDataTasksWeek();
+    asyncDataWeekReflection();
   }, [selectedWeek]);
   return (
     <>
@@ -391,7 +455,11 @@ const Weekly = () => {
                 <div style={{ display: "flex", gap: 12 }}>
                   <MButton title="Edit" />
 
-                  <MButton title="Save" type="fill" />
+                  <MButton
+                    title="Save"
+                    type="fill"
+                    onClick={() => handleSave()}
+                  />
                 </div>
               )}
             />
