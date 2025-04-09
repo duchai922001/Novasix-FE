@@ -14,7 +14,7 @@ import { FaSadTear } from "react-icons/fa";
 const Pomodoro = () => {
   const { width, height } = useWindowSize();
   const navigate = useNavigate();
-  const NUMBER_TIMER = 1;
+  const NUMBER_TIMER = 60;
   const { taskId } = useParams();
   const [secondsRemaining, setSecondsRemaining] = useState(25 * NUMBER_TIMER);
   const [isRunning, setIsRunning] = useState<boolean>(true);
